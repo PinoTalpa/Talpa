@@ -5,6 +5,10 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talpa", "Talpa\Talpa.csproj", "{9812F59D-C152-415A-9C83-D7BB92B39B17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talpa_BLL", "Talpa_BLL\Talpa_BLL.csproj", "{C91EEDEB-AEC5-4D13-B42B-9F67130A175C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talpa_DAL", "Talpa_DAL\Talpa_DAL.csproj", "{AC4FB5CE-8031-4E7A-A0BC-A866B236F97E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{9812F59D-C152-415A-9C83-D7BB92B39B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9812F59D-C152-415A-9C83-D7BB92B39B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9812F59D-C152-415A-9C83-D7BB92B39B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91EEDEB-AEC5-4D13-B42B-9F67130A175C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91EEDEB-AEC5-4D13-B42B-9F67130A175C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91EEDEB-AEC5-4D13-B42B-9F67130A175C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91EEDEB-AEC5-4D13-B42B-9F67130A175C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4FB5CE-8031-4E7A-A0BC-A866B236F97E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4FB5CE-8031-4E7A-A0BC-A866B236F97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4FB5CE-8031-4E7A-A0BC-A866B236F97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4FB5CE-8031-4E7A-A0BC-A866B236F97E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
