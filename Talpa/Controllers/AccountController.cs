@@ -7,15 +7,25 @@ using SampleMvcApp.ViewModels;
 using System.Linq;
 using System.Security.Claims;
 using Auth0.AspNetCore.Authentication;
+using Talpa_DAL.Entities;
+using Talpa_BLL.Interfaces;
+using System.Net.Mail;
 
 namespace Talpa.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IUserService _userService;
+
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public async Task Login(string returnUrl = "/")
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
-                .WithRedirectUri(returnUrl)
+                .WithRedirectUri(Url.Action("StoreUser", "Account"))
                 .Build();
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
@@ -35,14 +45,29 @@ namespace Talpa.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<ActionResult> Profile()
         {
+            string name = User.Identity.Name;
+            string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
             return View(new UserProfileViewModel()
             {
                 Name = User.Identity.Name,
-                EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                EmailAddress = emailAddress,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
             });
+        }
+
+        [Authorize]
+        public async Task<ActionResult> StoreUser()
+        {
+            string name = User.Identity.Name;
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            await _userService.Login(userId, name, emailAddress);
+
+            return RedirectToAction("Index", "Home");
         }
 
 

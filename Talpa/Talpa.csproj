@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Talpa_BLL\Talpa_BLL.csproj" />
     <ProjectReference Include="..\Talpa_DAL\Talpa_DAL.csproj" />
   </ItemGroup>
 

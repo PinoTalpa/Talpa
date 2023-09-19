@@ -10,7 +10,7 @@ namespace Talpa_DAL.Entities
     [Keyless]
     public class UserActivityDate
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public int ActivityDateId { get; set; }
