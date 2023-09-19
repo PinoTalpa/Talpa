@@ -4,43 +4,113 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Talpa</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+@*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Talpa.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Talpa.styles.css" asp-append-version="true" />*@
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="flex flex-col">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Talpa</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <nav class="bg-black border-b border-white px-2 sm:px-4 py-2 fixed w-full z-50">
+            <div class="container lg:px-8 flex flex-wrap items-center justify-between mx-auto">
+                <div class="flex justify-between w-full">
+                    <div class="flex flex-col md:flex-row justify-between w-full">
+                        <div class="flex justify-between">
+                            <a href="/" class="h-16 w-50 flex-none">
+                                <p class="h-16 w-48 mr-8 min-w-48 flex text-white flex-col justify-center text-3xl font-bold">Talpa</p>
+                            </a>
+                            <div class="flex md:order-2 block md:hidden">
+                                <button data-collapse-toggle="navbar-default" type="button" class="inline-flex pt-5 p-2 ml-3 text-sm rounded-lg md:hidden" aria-controls="navbar-default" aria-expanded="false">
+                                    <span class="sr-only">Open main menu</span>
+                                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between w-full lg:pl-6">
+
+                            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-0" id="navbar-default">
+                                <div class="relative mt-3 md:hidden">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input type="text" id="search-navbar" class="block w-full p-2 pl-10 bg-gray-50 border border-gray-500 rounded-sm focus:border-[#E95783] focus:ring-[#E95783]" placeholder="Search...">
+                                </div>
+                                <ul class="flex flex-col mt-4 bg-black p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+                                    <li>
+                                        <a href="/" class="hover:text-[#1CADE4] block py-2 pl-3 text-white pr-4 text-lg rounded md:bg-transparent md:p-0">Home</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Home" asp-action="Index" class="hover:text-[#1CADE4] block py-2 pl-3 text-white pr-4 text-lg rounded md:p-0">Activities</a>
+                                    </li>
+
+                                    <li class="block md:hidden flex pt-5 text-[#1CADE4]">
+                                        <a class="block py-2 pl-3 pr-4 text-[#1CADE4] text-lg rounded md:p-0">Account</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="hidden md:block">
+                                <div class="flex mt-4">
+                                    <div class="block xl:hidden">
+                                        <button class="h-11">
+                                            <svg class="h-7 w-7 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="ml-7 xl:ml-10 flex gap-10 pt-1">
+                                        <div class="lg:text-sm lg:font-medium">
+@*                                            <partial name="_LoginPartial" />*@
+                                        </div>
+
+                                        @await Html.PartialAsync("_SelectLanguagePartial")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <div class="pt-28">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Talpa - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-black shadow mt-20 px-20">
+        <div class="w-full max-w-screen-2xl mx-auto md:py-8">
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <a href="" class="flex items-center mb-4 sm:mb-0">
+                    <p class="h-16 w-48 mr-8 min-w-48 flex flex-col justify-center text-3xl font-bold text-white">Talpa</p>
+                </a>
+                <ul class="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0 text-white">
+                    <li>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="my-6 border-white sm:mx-auto lg:my-8" />
+            <span class="block text-sm sm:text-center text-white">© 2023 <a href="" class="hover:underline">Talpa</a>. All Rights Reserved.</span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

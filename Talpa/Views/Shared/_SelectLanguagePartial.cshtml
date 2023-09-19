@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var supportedCultures = new List<RequestCulture>
+    {
+        new RequestCulture("en-US", "en-US"),
+        new RequestCulture("nl-NL", "nl-NL")
+    };
+
+    var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white flex gap-2 mt-1.5" type="button">
+    <img src="@Url.Content("~/img/main/languages/" + currentCulture.Name + ".png")" class="w-6 h-6" />
+    @currentCulture.Name
+    <span class="material-symbols-outlined text-white">
+        keyboard_arrow_down
+    </span>
+</button>
+
+<div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow">
+            <div class="flex items-start justify-between p-4 rounded-t">
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-modal-hide="defaultModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div id="language-switcher" class="mt-[6px] w-full">
+                <div id="culture-dropdown">
+                    @foreach (var culture in supportedCultures)
+                    {
+                        <div class="px-10">
+                            @if (culture.UICulture.Name == currentCulture.Name)
+                            {
+                                <div class="culture-option cursor-pointer shadow-xl mb-10 px-10 rounded-lg bg-[#00C2FF] flex justify-center p-3 gap-4 transition ease-in-out hover:scale-105 transform" data-value="@culture.UICulture.Name">
+                                    <img src="@Url.Content("~/img/main/languages/" + culture.UICulture.Name + ".png")" class="w-10 h-10" />
+                                    <p class="text-4xl">@culture.UICulture.Name</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="culture-option cursor-pointer shadow-xl mb-10 px-10 rounded-lg bg-gray-100 flex justify-center p-3 gap-4 transition ease-in-out hover:scale-105 transform" data-value="@culture.UICulture.Name">
+                                    <img src="@Url.Content("~/img/main/languages/" + culture.UICulture.Name + ".png")" class="w-10 h-10" />
+                                    <p class="text-4xl">@culture.UICulture.Name</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="pt-4"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.culture-option').click(function () {
+            var selectedCulture = $(this).data('value');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SetCulture", "Home")',
+                data: { culture: selectedCulture },
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
