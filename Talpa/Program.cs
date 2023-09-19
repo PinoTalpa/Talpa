@@ -1,6 +1,8 @@
+using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Talpa.Support;
 using Talpa_DAL.Data;
 
 namespace Talpa
@@ -26,9 +28,17 @@ namespace Talpa
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAuth0WebAppAuthentication(options =>
+            {
+                options.Domain = builder.Configuration["Auth0:Domain"];
+                options.ClientId = builder.Configuration["Auth0:ClientId"];
+            });
+
+
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             builder.Services.AddRazorPages().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
+            builder.Services.ConfigureSameSiteNoneCookies();
             var app = builder.Build();
 
             var supportedCultures = new[] { "en-US", "nl-NL" };
