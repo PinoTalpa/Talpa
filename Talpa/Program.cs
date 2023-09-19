@@ -1,7 +1,13 @@
+using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Talpa.Support;
+using Talpa_BLL.Interfaces;
+using Talpa_BLL.Services;
 using Talpa_DAL.Data;
+using Talpa_DAL.Interfaces;
+using Talpa_DAL.Repositories;
 
 namespace Talpa
 {
@@ -23,8 +29,20 @@ namespace Talpa
 
             builder.Services.AddScoped<ApplicationDbContext>();
 
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAuth0WebAppAuthentication(options =>
+            {
+                options.Domain = builder.Configuration["Auth0:Domain"];
+                options.ClientId = builder.Configuration["Auth0:ClientId"];
+            });
+
+            // Configure the HTTP request pipeline.
+            builder.Services.ConfigureSameSiteNoneCookies();
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             builder.Services.AddRazorPages().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
@@ -48,9 +66,11 @@ namespace Talpa
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
