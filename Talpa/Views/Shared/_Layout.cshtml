@@ -68,7 +68,17 @@
 
                                     <div class="ml-7 xl:ml-10 flex gap-10 pt-1">
                                         <div class="lg:text-sm lg:font-medium">
-@*                                            <partial name="_LoginPartial" />*@
+                                            <ul class="nav navbar-nav navbar-right text-white">
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <li><a asp-controller="Account" asp-action="Profile">Hello @User.Identity.Name!</a></li>
+                                                    <li><a id="qsLogoutBtn" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a id="qsLoginBtn" asp-controller="Account" asp-action="Login">Login</a></li>
+                                                }
+                                            </ul>
                                         </div>
 
                                         @await Html.PartialAsync("_SelectLanguagePartial")
@@ -81,6 +91,8 @@
             </div>
         </nav>
     </header>
+
+    <partial name="_CookieConsentPartial" />
 
     <div class="pt-28">
         <main role="main">
