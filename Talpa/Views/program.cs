@@ -1,4 +1,4 @@
-using Auth0.AspNetCore.Authentication;
+﻿using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;

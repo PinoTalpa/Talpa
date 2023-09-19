@@ -1,1 +1,3 @@
 # Talpa
+
+Teams hebben budget om elk kwartaal een uitje te organiseren. Denk hierbij aan bijv. een avondje bowlen, een barbecue of een whisky proeverij. Managers van teams vinden het vaak lastig om zo’n uitje te organiseren omdat er met allerlei zaken rekening gehouden moet worden (denk bijv. aan dieetwensen). Bovendien vinden medewerkers het vaak leuk om eens iets anders te doen dan een standaard activiteit als bowlen. Na overleg is ervoor gekozen om een onlineapplicatie te maken die het mogelijk maakt om suggesties te doen voor een uitje en deze te plannen. Deze applicatie zal ook op smartphones handig in het gebruik moeten zijn.
