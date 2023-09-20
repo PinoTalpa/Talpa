@@ -50,7 +50,21 @@ namespace Talpa.Controllers
         [Authorize]
         public async Task<ActionResult> Profile()
         {
-/*            string accessToken = "";
+            string name = User.Identity.Name;
+            string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            return View(new UserProfileViewModel()
+            {
+                Name = User.Identity.Name,
+                EmailAddress = emailAddress,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
+            });
+        }
+
+        [Authorize]
+        public async Task<ActionResult> StoreUser()
+        {
+            string accessToken = "";
             string apiUrl = "https://dev-qevf6pmo3qts8fwh.us.auth0.com/oauth/token";
             string requestBody = "grant_type=client_credentials&client_id=gcoE23abbXpG17MYNiiHSZsVirA7dCwB&client_secret=TP37t2k2r-cue7kdQmIBIq3JI_NxTQte46g6g-dCdqiAP2pQL6uYG21yQIcmb3h-&audience=https://dev-qevf6pmo3qts8fwh.us.auth0.com/api/v2/";
 
@@ -71,14 +85,14 @@ namespace Talpa.Controllers
                 {
                     Console.WriteLine($"HTTP Error: {response.StatusCode}");
                 }
-            }*/
+            }
 
-/*            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             string apiUrl2 = $"https://dev-qevf6pmo3qts8fwh.us.auth0.com/api/v2/users/{userId}/roles";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("authorization", $"Bearer {accessToken}");
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
                 try
                 {
@@ -87,7 +101,13 @@ namespace Talpa.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine(responseBody);
+
+
+
+                        var userClaims = (User.Identity as ClaimsIdentity);
+                        userClaims.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(userClaims));
                     }
                     else
                     {
@@ -98,27 +118,9 @@ namespace Talpa.Controllers
                 {
                     Console.WriteLine($"HTTP Request Exception: {ex.Message}");
                 }
-            }*/
+            }
 
             string name = User.Identity.Name;
-            string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
-            return View(new UserProfileViewModel()
-            {
-                Name = User.Identity.Name,
-                EmailAddress = emailAddress,
-                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
-            });
-        }
-
-        [Authorize]
-        public async Task<ActionResult> StoreUser()
-        {
-           
-
-
-            string name = User.Identity.Name;
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
             await _userService.Login(userId, name, emailAddress);

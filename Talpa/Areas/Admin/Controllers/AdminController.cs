@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TKDprogress.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "ReadAccess")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         [HttpGet]
