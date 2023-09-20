@@ -1,0 +1,57 @@
+﻿@{
+    var currentPage = Context.Request.Path;
+}
+
+<aside id="default-sidebar" class="w-full h-full" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-black">
+@*        <img src="@Url.Content("~/Images/Main/TKDPLogo.png")" class="w-32 h-32" />*@
+        <ul class="space-y-2 font-medium">
+            <li>
+                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        dashboard
+                    </span>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+            </li>
+            @*<li>
+                <a asp-area="Admin" asp-controller="Terminology" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        menu_book
+                    </span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Terminologies</span>
+                </a>
+            </li>
+            <li>
+                <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        category
+                    </span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Categories</span>
+                </a>
+            </li>
+            <li>
+                <a asp-area="Admin" asp-controller="Tul" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        lists
+                    </span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Tuls</span>
+                </a>
+            </li>
+            <li>
+                <a asp-area="Admin" asp-controller="Movement" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        blur_short
+                    </span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Movements</span>
+                </a>
+            </li>*@
+        </ul>
+    </div>
+</aside>
+
+<script>
+    function navigateToPage(url) {
+        window.location.href = url;
+    }
+</script>
