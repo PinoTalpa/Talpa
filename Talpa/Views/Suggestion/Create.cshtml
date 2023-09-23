@@ -1,0 +1,87 @@
+﻿@model CreateSuggestionViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="h-screen">
+    <div class="md:px-20">
+
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <section class="bg-white pt-28 xl:pt-0 pl-0 md:pl-20">
+            <div class="px-4 mx-auto max-w-2xl">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="text-danger">
+                        @* Validation summary goes here *@
+                    </div>
+
+                    <div class="mb-4 w-full">
+                        <h1 class="text-3xl font-medium text-center">Wat is de titel van de suggestie?</h1>
+                        <h2 class="text-xl text-gray-400 font-medium text-center pt-2">Maak hieronder een suggestie aan</h2>
+                    </div>
+
+                    <div class="mb-4 w-full">
+                        <div class="input-group relative w-full">
+                            <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
+                            <label for="Name" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Titel</label>
+                        </div>
+                        <span asp-validation-for="Name" class="text-red-700"></span>
+                    </div>
+
+                    <div class="mb-4 w-full">
+                        <div class="input-group relative w-full">
+                            <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500" style="min-height: 100px;"></textarea>
+                            <label for="Description" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Description</label>
+                        </div>
+                        <span asp-validation-for="Description" class="text-red-700"></span>
+                    </div>
+
+                    <div class="px-10 flex gap-4">
+                        <div class="w-full flex justify-end">
+                            <a asp-action="Index" class="bg-white border border-blue-500 w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-blue-500">Annuleren</a>
+                        </div>
+                        <div class="w-full flex justify-end">
+                            <input type="submit" value="Aanmaken" class="cursor-pointer bg-blue-500 w-full hover:bg-blue-600 text-white font-bold py-2 rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <style>
+        .custom-input:focus,
+        .custom-input:valid {
+            outline: none;
+            border: 1.5px solid #1a73e8;
+        }
+
+        .custom-input:focus ~ .custom-label,
+        .custom-input:valid ~ .custom-label {
+            transform: translateY(-50%) scale(0.8);
+            background-color: white;
+            padding: 0 .2em;
+            color: #2196f3;
+        }
+    </style>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

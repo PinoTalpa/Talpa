@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Talpa.Models;
+using Talpa.Models.CreateModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
 
@@ -50,25 +52,39 @@ namespace Talpa.Controllers
             return View();
         }
 
-        // GET: SuggestionController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: SuggestionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateSuggestionViewModel suggestionViewModel, IFormCollection collection)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(suggestionViewModel);
             }
-            catch
+
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Suggestion suggestion = new()
             {
-                return View();
+                UserId = userId,
+                Name = suggestionViewModel.Name,
+                Description = suggestionViewModel.Description
+            };
+
+            suggestion = await _suggestionService.CreateSuggestionAsync(suggestion);
+
+            if (suggestion.ErrorMessage != null)
+            {
+                TempData["ErrorMessage"] = suggestion.ErrorMessage;
+                return View(suggestionViewModel);
             }
+
+            TempData["StatusMessage"] = "The category was successfully created!";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: SuggestionController/Edit/5

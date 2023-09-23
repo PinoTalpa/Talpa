@@ -11,5 +11,6 @@ namespace Talpa_DAL.Interfaces
     public interface ISuggestionRepository
     {
         Task<List<SuggestionDto>> GetSuggestionsAsync(string searchString);
+        Task<bool> CreateSuggestionAsync(SuggestionDto suggestion);
     }
 }

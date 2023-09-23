@@ -10,5 +10,6 @@ namespace Talpa_BLL.Interfaces
     public interface ISuggestionService
     {
         Task<List<Suggestion>> GetSuggestionsAsync(string searchString);
+        Task<Suggestion> CreateSuggestionAsync(Suggestion suggestion);
     }
 }

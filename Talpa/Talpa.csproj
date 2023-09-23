@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\CreateModels\" />
     <Folder Include="Models\UpdateModels\" />
   </ItemGroup>
 

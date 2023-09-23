@@ -37,9 +37,21 @@ namespace Talpa_DAL.Repositories
             }
 
             return await query.ToListAsync();
-/*
+        }
 
-            return await _dbContext.Suggestions.ToListAsync();*/
+        public async Task<bool> CreateSuggestionAsync(SuggestionDto suggestion)
+        {
+            try
+            {
+                _dbContext.Suggestions.Add(suggestion);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

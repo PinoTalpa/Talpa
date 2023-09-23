@@ -5,17 +5,27 @@
 }
 
 <div class="h-screen">
-    <div class="px-2 md:px-20 pt-10">
-        <div class="pb-2 px-10 w-full flex justify-end">
-            <a asp-action="Create" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Create New</a>
-        </div>
-
-        @if (TempData["ErrorMessage"] != null)
+    <div class="md:px-20">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
-            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full">
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
                 @TempData["ErrorMessage"]
             </div>
         }
+    </div>
+
+    <div class="px-2 md:px-20 pt-10">
+
+        <div class="pb-2 px-10 w-full flex justify-end">
+            <a asp-action="Create" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Create New</a>
+        </div>
 
         <div>
             @using (Html.BeginForm("Index", "Suggestion", FormMethod.Get))
@@ -41,17 +51,16 @@
                         <div class="w-full h-40 transition ease-in-out hover:scale-105 transform shadow hover:shadow-xl rounded-lg rounded-tr-xl">
                             <div class="flex w-full bg-gray-200 rounded-lg rounded-tr-xl">
                                 <div class="flex flex-1 h-40 flex-col justify-center">
-                                    <h1 class="text-blue-900 text-4xl pl-20">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
+                                    <h1 class="text-blue-700 text-4xl pl-20">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
                                 </div>
                                 <div class="flex gap-20">
-                                    <h2 class="text-blue-900 text-4xl flex flex-1 h-40 flex-col justify-center">@Html.DisplayFor(modelItem => suggestion.Description)</h2>
-
-                                    <div class="rounded-tr-lg rounded-bl-lg"
-                                         style="width: 50px; height: 50px;
-                                        @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "background-color: red;" :
-                                        (int)suggestion.ActivityState == (int)ActivityState.Pending ? "background-color: yellow;" :
-                                        (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "background-color: green;" :
-                                        "background-color: gray;")">
+                                    <div class="flex flex-col justify-center pr-20">
+                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;">
+                                            @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                                                "")
+                                        </span>
                                     </div>
                                 </div>
                             </div>
