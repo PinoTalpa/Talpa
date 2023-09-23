@@ -39,6 +39,13 @@ namespace Talpa_DAL.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<SuggestionDto?> GetSuggestionByIdAsync(int id)
+        {
+            SuggestionDto? suggestionDto = await _dbContext.Suggestions.FindAsync(id);
+
+            return suggestionDto;
+        }
+
         public async Task<bool> CreateSuggestionAsync(SuggestionDto suggestion)
         {
             try

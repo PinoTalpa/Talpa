@@ -35,6 +35,32 @@ namespace Talpa_BLL.Services
             return suggestions;
         }
 
+        public async Task<Suggestion> GetSuggestionByIdAsync(int id)
+        {
+            if (id <= 0)
+            {
+                return new Suggestion { ErrorMessage = "Invalid suggestion." };
+            }
+
+            SuggestionDto? suggestionDto = await _suggestionRepository.GetSuggestionByIdAsync(id);
+
+            if (suggestionDto == null)
+            {
+                return new Suggestion { ErrorMessage = "Suggestion not found." };
+            }
+
+            Suggestion suggestion = new()
+            {
+                Id = suggestionDto.Id, 
+                Name = suggestionDto.Name, 
+                Description = suggestionDto.Description,
+                Date = (DateTime?)suggestionDto.Date,
+                ActivityState = (Talpa_DAL.Enums.ActivityState)suggestionDto.ActivityState,
+            };
+
+            return suggestion;
+        }
+
         public async Task<Suggestion> CreateSuggestionAsync(Suggestion suggestion)
         {
             if (string.IsNullOrEmpty(suggestion.Name) || string.IsNullOrEmpty(suggestion.Description))

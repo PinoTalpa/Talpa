@@ -46,7 +46,7 @@
         <div class="w-full pt-10 flex flex-col h-[88vh] overflow-y-auto transform scroll">
             @foreach (SuggestionViewModel suggestion in Model)
             {
-                <a asp-controller="Category" asp-action="Details" asp-route-categoryId="@suggestion.Id">
+                <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id">
                     <div class="px-10 pb-6">
                         <div class="w-full h-40 transition ease-in-out hover:scale-105 transform shadow hover:shadow-xl rounded-lg rounded-tr-xl">
                             <div class="flex w-full bg-gray-200 rounded-lg rounded-tr-xl">
@@ -55,7 +55,11 @@
                                 </div>
                                 <div class="flex gap-20">
                                     <div class="flex flex-col justify-center pr-20">
-                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;">
+                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;
+                                            color: @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
+                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "yellow" :
+                                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
+                                                "gray");">
                                             @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
                                                 (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
                                                 (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :

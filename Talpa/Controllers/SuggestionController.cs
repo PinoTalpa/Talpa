@@ -46,10 +46,26 @@ namespace Talpa.Controllers
             return View(suggestionViewModels);
         }
 
-        // GET: SuggestionController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int suggestionId)
         {
-            return View();
+            Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
+
+            if (suggestion.ErrorMessage == null)
+            {
+                SuggestionViewModel suggestionViewModel = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    Date = suggestion.Date,
+                    ActivityState = suggestion.ActivityState,
+                };
+
+                return View(suggestionViewModel);
+            }
+
+            TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult Create()
