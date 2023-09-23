@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talpa_DAL.Enums;
 
-namespace Talpa_DAL.Entities
+namespace Talpa_BLL.Models
 {
     public class Suggestion
     {
@@ -16,5 +16,7 @@ namespace Talpa_DAL.Entities
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public ActivityState ActivityState { get; set; }
+
+        public string? ErrorMessage { get; set; }
     }
 }

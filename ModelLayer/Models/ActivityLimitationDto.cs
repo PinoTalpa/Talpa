@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talpa_DAL.Entities
+namespace ModelLayer.Models
 {
     [Keyless]
-    public class ActivityLimitation
+    public class ActivityLimitationDto
     {
         public int SuggestionId { get; set; }
-        public Suggestion Suggestion { get; set; }
+        public SuggestionDto Suggestion { get; set; }
 
         public int LimitationId { get; set; }
-        public Limitation Limitation { get; set; }
+        public LimitationDto Limitation { get; set; }
     }
 }

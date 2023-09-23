@@ -33,21 +33,6 @@ namespace Talpa.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Quarters",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Quarters", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -66,13 +51,11 @@ namespace Talpa.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
+                    Email = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -87,12 +70,14 @@ namespace Talpa.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ActivityState = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +95,8 @@ namespace Talpa.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -131,48 +117,21 @@ namespace Talpa.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Activities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SuggestionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Activities_Suggestions_SuggestionId",
-                        column: x => x.SuggestionId,
-                        principalTable: "Suggestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "ActivityDates",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ActivityId = table.Column<int>(type: "int", nullable: false),
-                    QuarterId = table.Column<int>(type: "int", nullable: false),
+                    SuggestionId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ActivityDates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ActivityDates_Activities_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "Activities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivityDates_Quarters_QuarterId",
-                        column: x => x.QuarterId,
-                        principalTable: "Quarters",
+                        name: "FK_ActivityDates_Suggestions_SuggestionId",
+                        column: x => x.SuggestionId,
+                        principalTable: "Suggestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -182,21 +141,21 @@ namespace Talpa.Migrations
                 name: "ActivityLimitations",
                 columns: table => new
                 {
-                    ActivityId = table.Column<int>(type: "int", nullable: false),
+                    SuggestionId = table.Column<int>(type: "int", nullable: false),
                     LimitationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.ForeignKey(
-                        name: "FK_ActivityLimitations_Activities_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "Activities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_ActivityLimitations_Limitations_LimitationId",
                         column: x => x.LimitationId,
                         principalTable: "Limitations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActivityLimitations_Suggestions_SuggestionId",
+                        column: x => x.SuggestionId,
+                        principalTable: "Suggestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -208,16 +167,17 @@ namespace Talpa.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ActivityId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SuggestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Votes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Votes_Activities_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "Activities",
+                        name: "FK_Votes_Suggestions_SuggestionId",
+                        column: x => x.SuggestionId,
+                        principalTable: "Suggestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -233,7 +193,8 @@ namespace Talpa.Migrations
                 name: "UserActivityDates",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ActivityDateId = table.Column<int>(type: "int", nullable: false),
                     IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
@@ -255,29 +216,19 @@ namespace Talpa.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_SuggestionId",
-                table: "Activities",
+                name: "IX_ActivityDates_SuggestionId",
+                table: "ActivityDates",
                 column: "SuggestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityDates_ActivityId",
-                table: "ActivityDates",
-                column: "ActivityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityDates_QuarterId",
-                table: "ActivityDates",
-                column: "QuarterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityLimitations_ActivityId",
-                table: "ActivityLimitations",
-                column: "ActivityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActivityLimitations_LimitationId",
                 table: "ActivityLimitations",
                 column: "LimitationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActivityLimitations_SuggestionId",
+                table: "ActivityLimitations",
+                column: "SuggestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Suggestions_UserId",
@@ -305,9 +256,9 @@ namespace Talpa.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Votes_ActivityId",
+                name: "IX_Votes_SuggestionId",
                 table: "Votes",
-                column: "ActivityId");
+                column: "SuggestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votes_UserId",
@@ -338,12 +289,6 @@ namespace Talpa.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Activities");
-
-            migrationBuilder.DropTable(
-                name: "Quarters");
 
             migrationBuilder.DropTable(
                 name: "Suggestions");

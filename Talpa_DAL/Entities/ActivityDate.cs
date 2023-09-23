@@ -9,11 +9,8 @@ namespace Talpa_DAL.Entities
     public class ActivityDate
     {
         public int Id { get; set; }
-        public int ActivityId { get; set; }
-        public Activity Activity { get; set; }
-
-        public int QuarterId { get; set; }
-        public Quarter Quarter { get; set; }
+        public int SuggestionId { get; set; }
+        public Suggestion Suggestion { get; set; }
 
         public DateTime Date { get; set; }
     }

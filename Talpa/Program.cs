@@ -33,6 +33,9 @@ namespace Talpa
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            builder.Services.AddScoped<ISuggestionService, SuggestionService>();
+            builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
