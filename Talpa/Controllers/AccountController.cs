@@ -38,8 +38,6 @@ namespace Talpa.Controllers
         public async Task Logout()
         {
             var authenticationProperties = new LogoutAuthenticationPropertiesBuilder()
-                // Indicate here where Auth0 should redirect the user after a logout.
-                // Note that the resulting absolute Uri must be whitelisted in 
                 .WithRedirectUri(Url.Action("Index", "Home"))
                 .Build();
 
@@ -101,8 +99,6 @@ namespace Talpa.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
-
-
 
                         var userClaims = (User.Identity as ClaimsIdentity);
                         userClaims.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
