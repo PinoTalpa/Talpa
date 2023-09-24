@@ -1,0 +1,190 @@
+﻿@model IEnumerable<SuggestionViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div class="h-screen">
+    <div class="md:px-20">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <div class="px-2 md:px-20 pt-10">
+        <div>
+            @using (Html.BeginForm("Index", "Suggestion", FormMethod.Get))
+            {
+                <p>
+                    <div class="relative hidden xl:block px-10">
+                        <input type="text" id="searchString" name="searchString" placeholder="Zoeken" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                        <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-16">
+                            <svg class="h-6 w-6 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </p>
+            }
+        </div>
+
+        <div class="w-full pt-10 flex flex-col h-[88vh] overflow-y-auto transform scroll">
+            @foreach (SuggestionViewModel suggestion in Model)
+            {
+                <div class="px-10 pb-6">
+                    <div class="w-full h-40 shadow hover:shadow-xl rounded-lg rounded-tr-xl">
+                        <div class="flex w-full bg-white rounded-lg rounded-tr-xl">
+                            <div class="flex flex-1 h-40 flex-col justify-center">
+                                <h1 class="text-blue-700 text-4xl pl-20">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
+                            </div>
+
+                            <div class="flex p-4 pr-20">
+                                <div class="flex bg-[#E8E5F2] p-4 rounded-md">
+                                    <div class="flex flex-col justify-center cursor-pointer">
+                                        <button onclick="document.getElementById('accept-modal-@suggestion.Id').showModal();">
+                                            <span class="material-symbols-outlined text-green-500" style="font-size: 60px;">
+                                                check_circle
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex flex-col justify-center cursor-pointer">
+                                        <button onclick="document.getElementById('delete-modal-@suggestion.Id').showModal();">
+                                            <span class="material-symbols-outlined text-red-500" style="font-size: 60px;">
+                                                dangerous
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex flex-col justify-center pl-16">
+                                        <span class="material-symbols-outlined text-[#5236AB]" style="font-size: 60px;">
+                                            pending_actions
+                                        </span>
+                                    </div>
+
+                                    <dialog id="delete-modal-@suggestion.Id"
+                                            class="relative p-4 text-center bg-white rounded-lg shadow sm:p-5">
+                                        <div>
+                                            <button type="button"
+                                                    onclick="document.getElementById('delete-modal-@suggestion.Id').close()"
+                                                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                    data-modal-toggle="deleteModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                          clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                            <svg class="text-gray-400 w-11 h-11 mb-3.5 mx-auto"
+                                                 aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+
+                                            <p class="mb-4 text-gray-500">Weet u zeker dat u de suggestie wilt afwijzen?</p>
+
+                                            <div class="md:px-10 flex gap-4">
+                                                <div class="w-full">
+                                                    <button onclick="document.getElementById('delete-modal-@suggestion.Id').close()"
+                                                            type="button"
+                                                            class="bg-white border border-red-500 w-full hover:bg-gray-100 font-bold rounded py-2 text-red-500">
+                                                            Annuleer
+                                                    </button>
+                                                </div>
+
+                                                <form asp-action="Decline" asp-route-suggestionId="@suggestion.Id" class="w-full">
+                                                    <input type="hidden" asp-for="@suggestion.Id" />
+                                                    <div class="w-full">
+                                                        <input type="submit" value="Afwijzen" class="cursor-pointer bg-red-500 w-full hover:bg-red-600 text-white font-bold py-2 rounded" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </dialog>
+
+                                    <dialog id="accept-modal-@suggestion.Id"
+                                            class="relative p-10 bg-white rounded-lg shadow sm:p-5">
+                                        <div class="px-2 md:px-20 lg:px-32">
+                                            <h3 class="text-4xl font-semibold text-gray-900 pt-5">
+                                                Maak een nieuwe activiteit aan
+                                            </h3>
+
+                                            <p class="text-3xl font-semibold pt-10">Activiteit keuze:</p>
+
+                                            <div class="bg-[#E8E5F2] p-4 rounded-md mt-4">
+                                                <p class="text-4xl font-bold text-[#200A58] pt-4">@suggestion.Name</p>
+
+                                                <div class="pt-10">
+                                                    <p class="text-xl text-[#200A58]">Beschrijving:</p>
+                                                    <p class="pt-2 text-[#200A58]">@suggestion.Description</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex justify-center w-full">
+                                                <div class="w-96">
+                                                    <p class="text-2xl pt-10">Kwartaal keuze:</p>
+
+                                                    <div class="mb-4 mt-4">
+                                                        <select id="CategoryId" name="CategoryId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                                            <option>-- Select Quarter --</option>
+                                                            @foreach (var suggestionOpt in Model)
+                                                            {
+                                                                <option value="@suggestionOpt.Id">@suggestionOpt.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="md:px-10 flex flex-col h-full justify-end">
+                                                <div class="flex flex-col flex-col-reverse sm:flex-row gap-2 md:gap-4">
+                                                    <div class="w-full flex justify-end">
+                                                        <button onclick="document.getElementById('accept-modal-@suggestion.Id').close()"
+                                                                type="button"
+                                                                class="bg-white border border-blue-500 w-full hover:bg-gray-100 font-bold rounded py-2 text-blue-500">
+                                                            Annuleer
+                                                        </button>
+                                                    </div>
+                                                    <div class="w-full flex justify-end">
+                                                        <input type="submit" value="Datum toevoegen" class="cursor-pointer bg-blue-500 w-full hover:bg-blue-600 text-white font-bold py-2 rounded" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </dialog>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <style>
+            .scroll::-webkit-scrollbar {
+                display: none;
+            }
+
+            .scroll {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+    </div>
+</div>

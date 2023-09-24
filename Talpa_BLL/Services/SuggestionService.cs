@@ -1,4 +1,5 @@
-﻿using ModelLayer.Models;
+﻿using ModelLayer.Enums;
+using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,7 @@ namespace Talpa_BLL.Services
             Suggestion suggestion = new()
             {
                 Id = suggestionDto.Id, 
+                UserId = suggestionDto.UserId,
                 Name = suggestionDto.Name, 
                 Description = suggestionDto.Description,
                 Date = (DateTime?)suggestionDto.Date,
@@ -90,6 +92,28 @@ namespace Talpa_BLL.Services
             if (!isSuggestionCreated)
             {
                 suggestion.ErrorMessage = "There was an error while creating the suggestion!";
+            }
+
+            return suggestion;
+        }
+
+        public async Task<Suggestion> DeclineSuggestionAsync(Suggestion suggestion)
+        {
+            SuggestionDto suggestionDto = new()
+            {
+                Id = suggestion.Id,
+                UserId = suggestion.UserId,
+                Name = suggestion.Name,
+                Description = suggestion.Description,
+                Date = (DateTime?)suggestion.Date,
+                ActivityState = ActivityState.Rejected,
+            };
+
+            bool isSuggestionDeclined = await _suggestionRepository.DeclineSuggestionAsync(suggestionDto);
+
+            if (!isSuggestionDeclined)
+            {
+                suggestion.ErrorMessage = "There was an error while declining the suggestion!";
             }
 
             return suggestion;

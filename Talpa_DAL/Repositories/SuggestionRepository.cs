@@ -60,5 +60,29 @@ namespace Talpa_DAL.Repositories
 
             return true;
         }
+
+        public async Task<bool> DeclineSuggestionAsync(SuggestionDto suggestion)
+        {
+            try
+            {
+                var existingSuggestion = await _dbContext.Suggestions.FindAsync(suggestion.Id);
+
+                if (existingSuggestion != null)
+                {
+                    existingSuggestion.ActivityState = suggestion.ActivityState;
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
