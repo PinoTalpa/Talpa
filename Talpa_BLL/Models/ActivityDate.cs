@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talpa_DAL.Entities
+namespace Talpa_BLL.Models
 {
-    public class Vote
+    public class ActivityDate
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
-
         public int SuggestionId { get; set; }
         public Suggestion Suggestion { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Talpa_DAL.Repositories
 
             if (existingUser == null)
             {
-                var newUser = new User
+                var newUser = new UserDto
                 {
                     Id = userId,
                     Name = name,

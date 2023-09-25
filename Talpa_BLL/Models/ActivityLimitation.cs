@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talpa_DAL.Entities
+namespace Talpa_BLL.Models
 {
     [Keyless]
     public class ActivityLimitation

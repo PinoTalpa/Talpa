@@ -33,6 +33,11 @@ namespace Talpa
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            builder.Services.AddScoped<ISuggestionService, SuggestionService>();
+            builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
+
+            builder.Services.AddScoped<IQuarterService, QuarterService>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -74,6 +79,11 @@ namespace Talpa
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.MapAreaControllerRoute(
+                name: "MyAreaAdmin",
+                areaName: "Admin",
+                pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",

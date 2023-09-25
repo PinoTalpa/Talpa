@@ -11,8 +11,8 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230919130704_Second")]
-    partial class Second
+    [Migration("20230923142400_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,11 +22,14 @@ namespace Talpa.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Activity", b =>
+            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("SuggestionId")
                         .HasColumnType("int");
@@ -35,44 +38,20 @@ namespace Talpa.Migrations
 
                     b.HasIndex("SuggestionId");
 
-                    b.ToTable("Activities");
-                });
-
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("QuarterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActivityId");
-
-                    b.HasIndex("QuarterId");
-
                     b.ToTable("ActivityDates");
                 });
 
             modelBuilder.Entity("Talpa_DAL.Entities.ActivityLimitation", b =>
                 {
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
                     b.Property<int>("LimitationId")
                         .HasColumnType("int");
 
-                    b.HasIndex("ActivityId");
+                    b.Property<int>("SuggestionId")
+                        .HasColumnType("int");
 
                     b.HasIndex("LimitationId");
+
+                    b.HasIndex("SuggestionId");
 
                     b.ToTable("ActivityLimitations");
                 });
@@ -96,23 +75,6 @@ namespace Talpa.Migrations
                     b.ToTable("Limitations");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Quarter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Quarters");
-                });
-
             modelBuilder.Entity("Talpa_DAL.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -134,6 +96,12 @@ namespace Talpa.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("ActivityState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -142,11 +110,9 @@ namespace Talpa.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -157,11 +123,13 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("Talpa_DAL.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -178,8 +146,9 @@ namespace Talpa.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("ActivityDateId");
 
@@ -193,8 +162,9 @@ namespace Talpa.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("RoleId");
 
@@ -209,22 +179,23 @@ namespace Talpa.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ActivityId")
+                    b.Property<int>("SuggestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId");
+                    b.HasIndex("SuggestionId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Votes");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Activity", b =>
+            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
                 {
                     b.HasOne("Talpa_DAL.Entities.Suggestion", "Suggestion")
                         .WithMany()
@@ -235,42 +206,23 @@ namespace Talpa.Migrations
                     b.Navigation("Suggestion");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
-                {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Talpa_DAL.Entities.Quarter", "Quarter")
-                        .WithMany()
-                        .HasForeignKey("QuarterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Quarter");
-                });
-
             modelBuilder.Entity("Talpa_DAL.Entities.ActivityLimitation", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Talpa_DAL.Entities.Limitation", "Limitation")
                         .WithMany()
                         .HasForeignKey("LimitationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.HasOne("Talpa_DAL.Entities.Suggestion", "Suggestion")
+                        .WithMany()
+                        .HasForeignKey("SuggestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Limitation");
+
+                    b.Navigation("Suggestion");
                 });
 
             modelBuilder.Entity("Talpa_DAL.Entities.Suggestion", b =>
@@ -324,9 +276,9 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("Talpa_DAL.Entities.Vote", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
+                    b.HasOne("Talpa_DAL.Entities.Suggestion", "Suggestion")
                         .WithMany()
-                        .HasForeignKey("ActivityId")
+                        .HasForeignKey("SuggestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -336,7 +288,7 @@ namespace Talpa.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.Navigation("Suggestion");
 
                     b.Navigation("User");
                 });
