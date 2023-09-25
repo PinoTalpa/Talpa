@@ -2,7 +2,40 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@Localizer["Welcome"]</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <div class="relative text-center flex justify-center">
+        <img class="w-full h-[700px] object-cover brightness-50" src="@Url.Content("~/img/main/banner.png")">
+
+        <div class="text-white absolute top-40 px-20">
+            <h1 class="text-5xl font-medium">Plannen bedrijfsuitje?</h1>
+
+            <div class="text-2xl pt-5">
+                <h2 class="pt-2">Heb je een briljant idee voor ons volgende bedrijfsuitje?</h2>
+                <p>Deel het met ons en help ons om samen een onvergetelijke ervaring te creëren!</p>
+            </div>
+
+            <div class="w-full flex justify-center mt-10">
+                <a asp-controller="Suggestion" asp-action="Create" class="text-center cursor-pointer bg-[#5236AB] w-96 hover:bg-[#300FA8] text-white font-bold py-2 rounded">Plannen</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-10 flex justify-center px-20">
+        <div>
+            <h2 class="text-2xl font-bold text-center">Met Talpa kun je snel en eenvoudig een suggestie suggeren voor het bedrijfsuitje!</h2>
+
+            <div class="lg:flex lg:justify-between w-full pt-12">
+                <div class="pt-4 lg:pt-16 xl:pt-28 2xl:pt-32 w-full text-center">
+                    <h3 class="text-2xl font-medium">Suggestie</h3>
+                    <p class="text-xl">In een paar eenvoudige stappen maak je een suggestie met Talpa.</p>
+                </div>
+
+                <div class="w-full pt-6 lg:pt-0">
+                    <img class="object-cover brightness-75" src="@Url.Content("~/img/main/CreateSuggestion.PNG")">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
 </div>
