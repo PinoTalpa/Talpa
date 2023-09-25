@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ModelLayer.Enums;
 using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,27 @@ namespace Talpa_DAL.Repositories
         public SuggestionRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<List<SuggestionDto>> GetPendingSuggestionsAsync(string searchString)
+        {
+            IQueryable<SuggestionDto> query = _dbContext.Suggestions.Select(s => new SuggestionDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                Date = s.Date,
+                ActivityState = s.ActivityState,
+            });
+
+            query = query.Where(s => s.ActivityState.Equals(ActivityState.Pending));
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(s => s.Name.Contains(searchString));
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<List<SuggestionDto>> GetSuggestionsAsync(string searchString)
