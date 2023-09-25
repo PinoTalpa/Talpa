@@ -52,11 +52,11 @@
                             <div class="flex p-4 pr-20">
                                 <div class="flex bg-[#E8E5F2] p-4 rounded-md">
                                     <div class="flex flex-col justify-center cursor-pointer">
-                                        <button onclick="document.getElementById('accept-modal-@suggestion.Id').showModal();">
+                                        <a asp-area="Admin" asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id">
                                             <span class="material-symbols-outlined text-green-500" style="font-size: 60px;">
                                                 check_circle
                                             </span>
-                                        </button>
+                                        </a>
                                     </div>
 
                                     <div class="flex flex-col justify-center cursor-pointer">
@@ -116,7 +116,7 @@
                                         </div>
                                     </dialog>
 
-                                    <dialog id="accept-modal-@suggestion.Id"
+                                    @*<dialog id="accept-modal-@suggestion.Id"
                                             class="relative p-10 bg-white rounded-lg shadow sm:p-5">
                                         <div class="px-2 md:px-20 lg:px-32">
                                             <h3 class="text-4xl font-semibold text-gray-900 pt-5">
@@ -166,7 +166,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </dialog>
+                                    </dialog>*@
 
 
                                 </div>

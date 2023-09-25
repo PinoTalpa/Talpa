@@ -65,6 +65,28 @@ namespace Talpa.Areas.Admin.Controllers
             return View(quarterDayViewModel);
         }
 
+        public async Task<ActionResult> Details(int suggestionId)
+        {
+            Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
+
+            if (suggestion.ErrorMessage == null)
+            {
+                SuggestionViewModel suggestionViewModel = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    Date = suggestion.Date,
+                    ActivityState = suggestion.ActivityState,
+                };
+
+                return View(suggestionViewModel);
+            }
+
+            TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateSuggestionViewModel suggestionViewModel, IFormCollection collection)
