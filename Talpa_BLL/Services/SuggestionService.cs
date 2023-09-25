@@ -20,6 +20,22 @@ namespace Talpa_BLL.Services
             _suggestionRepository = suggestionRepository;
         }
 
+        public async Task<List<Suggestion>> GetPendingSuggestionsAsync(string searchString)
+        {
+            List<SuggestionDto> suggestionDtos = await _suggestionRepository.GetPendingSuggestionsAsync(searchString);
+
+            List<Suggestion> suggestions = suggestionDtos.Select(suggestion => new Suggestion
+            {
+                Id = suggestion.Id,
+                Name = suggestion.Name,
+                Description = suggestion.Description,
+                Date = (DateTime?)suggestion.Date,
+                ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+            }).ToList();
+
+            return suggestions;
+        }
+
         public async Task<List<Suggestion>> GetSuggestionsAsync(string searchString)
         {
             List<SuggestionDto> suggestionDtos = await _suggestionRepository.GetSuggestionsAsync(searchString);

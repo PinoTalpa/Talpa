@@ -26,7 +26,7 @@ namespace Talpa.Areas.Admin.Controllers
 
         public async Task<ActionResult> Index(string searchString)
         {
-            List<Suggestion> suggestions = await _suggestionService.GetSuggestionsAsync(searchString);
+            List<Suggestion> suggestions = await _suggestionService.GetPendingSuggestionsAsync(searchString);
 
             if (suggestions.Any(s => s.ErrorMessage != null))
             {
