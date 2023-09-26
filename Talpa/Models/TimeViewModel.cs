@@ -2,6 +2,7 @@
 {
     public class TimeViewModel
     {
-        public List<DateTime> DateTimes { get; set; }
+        public int SuggestionId { get; set; }
+        public List<TimeInputViewModel> TimeInputs { get; set; }
     }
 }

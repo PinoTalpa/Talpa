@@ -18,11 +18,13 @@ namespace Talpa.Areas.Admin.Controllers
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IQuarterService _quarterService;
+        private readonly IActivityDateService _activityDateService;
 
-        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService)
+        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService)
         {
             _suggestionService = suggestionService;
             _quarterService = quarterService;
+            _activityDateService = activityDateService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -67,7 +69,7 @@ namespace Talpa.Areas.Admin.Controllers
             return View(quarterDayViewModel);
         }
 
-        public ActionResult Times(string selectedDates)
+        public ActionResult Times(string selectedDates, int suggestionId)
         {
             string[] dateStrings = selectedDates.Split(',');
             List<DateTime> selectedDateList = new();
@@ -82,9 +84,15 @@ namespace Talpa.Areas.Admin.Controllers
 
             selectedDateList.Sort();
 
+            List<TimeInputViewModel> timeInputViewModel = selectedDateList.Select(selectedDate => new TimeInputViewModel
+            {
+                Date = selectedDate,
+            }).ToList();
+
             TimeViewModel timeViewModel = new()
             {
-                DateTimes = selectedDateList,
+                SuggestionId = suggestionId,
+                TimeInputs = timeInputViewModel,
             };
 
             return View(timeViewModel);
@@ -128,17 +136,23 @@ namespace Talpa.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Times(CreateSuggestionViewModel suggestionViewModel, IFormCollection collection)
+        public async Task<ActionResult> Times(List<TimeInputViewModel> timeInputs, int suggestionId)
         {
             if (!ModelState.IsValid)
             {
-                return View(suggestionViewModel);
+                return View(timeInputs);
             }
 
+            List<ActivityDate> activityDates = timeInputs.Select(ti => new ActivityDate
+            {
+                SuggestionId = suggestionId,
+                StartDate = ti.Date.Add(new TimeSpan(ti.StartTimeHours, ti.StartTimeMinutes, 0)),
+                EndDate = ti.Date.Add(new TimeSpan(ti.EndTimeHours, ti.EndTimeMinutes, 0))
+            }).ToList();
 
+            await _activityDateService.CreateActivityDates(activityDates);
 
-
-            TempData["StatusMessage"] = "The activity was successfully made!";
+            TempData["StatusMessage"] = "The activity was successfully made with the dates!";
             return RedirectToAction(nameof(Index));
         }
 

@@ -9,6 +9,7 @@
     <div class="bg-white rounded-md">
         <form id="dateSelectionForm" method="get" asp-area="Admin" asp-action="Times" asp-controller="Suggestion">
         <input type="hidden" id="selectedDates" name="selectedDates" value="" />
+        <input type="hidden" name="suggestionId" value="@Model.SuggestionId" />
 
         <div class="flex gap-10 py-10 justify-center bg-white rounded-lg">
             @foreach (var monthGroup in Model.Days.GroupBy(day => day.Month))

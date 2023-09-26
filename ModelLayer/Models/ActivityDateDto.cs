@@ -12,6 +12,7 @@ namespace ModelLayer.Models
         public int SuggestionId { get; set; }
         public SuggestionDto Suggestion { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
