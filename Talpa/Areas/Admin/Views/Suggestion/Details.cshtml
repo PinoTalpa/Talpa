@@ -1,4 +1,4 @@
-﻿@model SuggestionViewModel
+﻿@model SuggestionQuarterViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,27 +14,28 @@
         <p class="text-3xl font-semibold pt-10">Activiteit keuze:</p>
 
         <div class="bg-[#E8E5F2] p-4 rounded-md mt-4">
-            <p class="text-4xl font-bold text-[#200A58] pt-4">@Model.Name</p>
+            <p class="text-4xl font-bold text-[#200A58] pt-4">@Model.Suggestion.Name</p>
 
             <div class="pt-10">
                 <p class="text-xl text-[#200A58]">Beschrijving:</p>
-                <p class="pt-2 text-[#200A58]">@Model.Description</p>
+                <p class="pt-2 text-[#200A58]">@Model.Suggestion.Description</p>
             </div>
         </div>
 
+        <form method="get" asp-area="Admin" asp-action="Dates" asp-controller="Suggestion">
         <div class="flex justify-center w-full">
             <div class="w-96">
                 <p class="text-2xl pt-10">Kwartaal keuze:</p>
-
                 <div class="mb-4 mt-4">
-                    <select id="CategoryId" name="CategoryId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option>-- Select Quarter --</option>
-                        @*                    @foreach (var suggestionOpt in Model)
+                    <select id="quarter" name="quarter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        @foreach (var quarter in Model.Quarters)
                         {
-                        <option value="@suggestionOpt.Id">@suggestionOpt.Name</option>
-                        }*@
+                            <option value="@quarter.Quarters.FirstOrDefault()">@quarter.Name</option>
+                        }
                     </select>
                 </div>
+
+                <input type="hidden" name="suggestionId" value="@Model.Suggestion.Id" />
             </div>
         </div>
 
@@ -47,11 +48,14 @@
                     </a>
                 </div>
 
+@*                <div class="w-full flex justify-end">
+                    <a asp-area="Admin" asp-action="Dates" asp-route-suggestionId="@Model.Suggestion.Id" class="cursor-pointer bg-blue-500 w-full text-center hover:bg-blue-600 text-white font-bold py-2 rounded">Datum toevoegen</a>
+                </div>*@
                 <div class="w-full flex justify-end">
-                    <a asp-area="Admin" asp-action="Create" class="cursor-pointer bg-blue-500 w-full text-center hover:bg-blue-600 text-white font-bold py-2 rounded">Datum toevoegen</a>
+                    <button type="submit" class="cursor-pointer bg-blue-500 w-full text-center hover:bg-blue-600 text-white font-bold py-2 rounded">Datum toevoegen</button>
                 </div>
             </div>
         </div>
+        </form>
     </div>
-    
 </div>
