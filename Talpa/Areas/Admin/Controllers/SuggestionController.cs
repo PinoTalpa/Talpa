@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 using Talpa.Models;
 using Talpa.Models.CreateModels;
@@ -53,16 +54,40 @@ namespace Talpa.Areas.Admin.Controllers
             return View(suggestionViewModels);
         }
 
-        public ActionResult Create()
+        public ActionResult Dates(string quarter, int suggestionId)
         {
-            QuarterDay quarterDay = _quarterService.GetQuarterDays();
+            QuarterDay quarterDay = _quarterService.GetQuarterDays(quarter);
 
             QuarterDayViewModel quarterDayViewModel = new()
             {
+                SuggestionId = suggestionId,
                 Days = quarterDay.Days,
             };
 
             return View(quarterDayViewModel);
+        }
+
+        public ActionResult Times(string selectedDates)
+        {
+            string[] dateStrings = selectedDates.Split(',');
+            List<DateTime> selectedDateList = new List<DateTime>();
+
+            foreach (string dateString in dateStrings)
+            {
+                if (DateTime.TryParse(dateString, out DateTime date))
+                {
+                    selectedDateList.Add(date);
+                }
+            }
+
+            selectedDateList.Sort();
+
+            TimeViewModel timeViewModel = new()
+            {
+                DateTimes = selectedDateList,
+            };
+
+            return View(timeViewModel);
         }
 
         public async Task<ActionResult> Details(int suggestionId)
@@ -80,7 +105,21 @@ namespace Talpa.Areas.Admin.Controllers
                     ActivityState = suggestion.ActivityState,
                 };
 
-                return View(suggestionViewModel);
+                List<Quarter> upcomingQuarters = _quarterService.GetUpcomingQuarters();
+
+                List<QuarterViewModel> quarterViewModels = upcomingQuarters.Select(upcomingQuarter => new QuarterViewModel
+                {
+                    Name = upcomingQuarter.Name,
+                    Quarters = upcomingQuarter.Quarters,
+                }).ToList();
+
+                SuggestionQuarterViewModel suggestionQuarterViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    Quarters = quarterViewModels,
+                };
+
+                return View(suggestionQuarterViewModel);
             }
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;

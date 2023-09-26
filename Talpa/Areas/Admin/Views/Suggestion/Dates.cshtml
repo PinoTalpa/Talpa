@@ -1,0 +1,161 @@
+﻿@model QuarterDayViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div class="h-screen px-10 pt-10 overflow-auto">
+    <div class="bg-white rounded-md">
+        <form id="dateSelectionForm" method="post" asp-area="Admin" asp-action="Times" asp-controller="Suggestion">
+        <input type="hidden" id="selectedDates" name="selectedDates" value="" />
+
+        <div class="flex gap-10 py-10 justify-center bg-white rounded-lg">
+            @foreach (var monthGroup in Model.Days.GroupBy(day => day.Month))
+            {
+                <div class="bg-[#E8E5F2] p-4 rounded-md">
+                    <div>
+                        <h3 class="text-4xl font-medium">@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(monthGroup.Key)</h3>
+                        <table class="text-xl table-auto mt-6">
+                            <thead>
+                                <tr>
+                                    <th>Ma</th>
+                                    <th>Di</th>
+                                    <th>Wo</th>
+                                    <th>Do</th>
+                                    <th>Vr</th>
+                                    <th>Za</th>
+                                    <th>Zo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var day in monthGroup)
+                                {
+                                    @if (day.DayOfWeek == DayOfWeek.Monday)
+                                    {
+                                        @:<tr>
+
+                                        @if (day.Day == 1)
+                                        {
+                                            @for (var i = 0; i < (int)day.DayOfWeek - 1; i++)
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+
+                                        <td class="text-center h-10 w-10 hover:bg-[#5236AB] hover:text-white rounded-full cursor-pointer date-cell">
+                                            <div>
+                                                <p>@day.Day</p>
+                                                <p class="full-day hidden">@day</p>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        @if (day.Day == 1)
+                                        {
+                                            @for (var i = 0; i < (int)day.DayOfWeek - 1; i++)
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+
+                                        <td class="text-center h-10 w-10 hover:bg-[#5236AB] hover:text-white rounded-full cursor-pointer date-cell">
+                                            <div>
+                                                <p>@day.Day</p>
+                                                <p class="full-day hidden">@day</p>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (day.DayOfWeek == DayOfWeek.Sunday)
+                                    {
+                                        @:</tr> 
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                }           
+        </div>
+
+        <div class="px-10 flex justify-center gap-4 pb-6">
+            <div class="">
+                <a asp-action="Index" class="bg-white border border-[#5236AB] w-96 hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">Annuleren</a>
+            </div>
+            <div class="">
+                <input type="submit" asp-action="Times" value="Accepteren" class="bg-white bg-[#5236AB] w-96 hover:bg-[#300FA8] font-bold rounded py-2 text-white cursor-pointer">
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var selectedDates = [];
+
+    function toggleDateSelection(cell) {
+        var fullDayElement = cell.querySelector(".full-day");
+        var day = fullDayElement.textContent;
+
+        var index = selectedDates.indexOf(day);
+        if (index === -1) {
+            selectedDates.push(day);
+        } else {
+            selectedDates.splice(index, 1);
+        }
+
+        updateSelectedDatesField();
+    }
+
+    function updateSelectedDatesField() {
+        document.getElementById("selectedDates").value = selectedDates.join(",");
+    }
+
+    var dayCells = document.querySelectorAll(".date-cell");
+    dayCells.forEach(function (cell) {
+        cell.addEventListener("click", function () {
+            toggleDateSelection(cell);
+            cell.classList.toggle("selected");
+        });
+    });
+</script>
+
+
+@*<script>
+    var selectedDates = [];
+
+    function toggleDateSelection(day) {
+        var index = selectedDates.indexOf(day);
+        if (index === -1) {
+            selectedDates.push(day);
+        } else {
+            selectedDates.splice(index, 1);
+        }
+
+        updateSelectedDatesField();
+    }
+
+    function updateSelectedDatesField() {
+        document.getElementById("selectedDates").value = selectedDates.join(",");
+    }
+
+    var dayCells = document.querySelectorAll(".date-cell");
+    dayCells.forEach(function (cell) {
+        cell.addEventListener("click", function () {
+            toggleDateSelection(cell.textContent);
+            cell.classList.toggle("selected");
+        });
+    });
+</script>*@
+
+<style>
+    .date-cell.selected {
+        background-color: #5236AB;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+
+

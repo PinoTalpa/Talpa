@@ -9,6 +9,7 @@ namespace Talpa_BLL.Interfaces
 {
     public interface IQuarterService
     {
-        QuarterDay GetQuarterDays();
+        QuarterDay GetQuarterDays(string currentQuarter);
+        List<Quarter> GetUpcomingQuarters();
     }
 }
