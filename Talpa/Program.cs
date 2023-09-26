@@ -24,7 +24,7 @@ namespace Talpa
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
                     connectionString,
-                    new MySqlServerVersion(new Version(10, 4, 22)), // Edit this to your SQL server version.
+                    new MySqlServerVersion(new Version(10, 4, 28)), // Edit this to your SQL server version.
                     mySqlOptions => mySqlOptions.MigrationsAssembly("Talpa")
                 ));
 

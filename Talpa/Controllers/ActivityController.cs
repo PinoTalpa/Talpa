@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
+using Talpa_DAL.Entities;
 
 namespace Talpa.Controllers
 {
@@ -47,9 +48,26 @@ namespace Talpa.Controllers
         }
 
         // GET: ActivityController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int activityId)
         {
-            return View();
+            Activity activity = await _activityService.GetActivityByIdAsync(activityId);
+
+            if (activity.ErrorMessage == null)
+            {
+                ActivityViewModel activityViewModel = new()
+                {
+                    Id = activity.Id,
+                    Name = activity.Name,
+                    Description = activity.Description,
+                    Date = activity.Date,
+                    ActivityState = activity.ActivityState,
+                };
+
+                return View(activityViewModel);
+            }
+
+            TempData["ErrorMessage"] = activity.ErrorMessage;
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ActivityController/Create

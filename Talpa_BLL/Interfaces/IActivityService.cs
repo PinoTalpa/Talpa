@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModelLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace Talpa_BLL.Interfaces
     public interface IActivityService
     {
         Task<List<Activity>> GetActivitiesAsync(string searchString);
+
+        Task<Activity> GetActivityByIdAsync(int id);
     }
 }
