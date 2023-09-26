@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talpa_DAL.Entities
+namespace Talpa_BLL.Models
 {
-    public class Activity
+    public class Limitation
     {
         public int Id { get; set; }
-        public int SuggestionId { get; set;}
-        public Suggestion Suggestion { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

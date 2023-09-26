@@ -11,8 +11,8 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230919081844_Initial")]
-    partial class Initial
+    [Migration("20230926111246_Third")]
+    partial class Third
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,11 +22,17 @@ namespace Talpa.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Activity", b =>
+            modelBuilder.Entity("ModelLayer.Models.ActivityDateDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("SuggestionId")
                         .HasColumnType("int");
@@ -35,49 +41,25 @@ namespace Talpa.Migrations
 
                     b.HasIndex("SuggestionId");
 
-                    b.ToTable("Activities");
-                });
-
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("QuarterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActivityId");
-
-                    b.HasIndex("QuarterId");
-
                     b.ToTable("ActivityDates");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityLimitation", b =>
+            modelBuilder.Entity("ModelLayer.Models.ActivityLimitationDto", b =>
                 {
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
                     b.Property<int>("LimitationId")
                         .HasColumnType("int");
 
-                    b.HasIndex("ActivityId");
+                    b.Property<int>("SuggestionId")
+                        .HasColumnType("int");
 
                     b.HasIndex("LimitationId");
+
+                    b.HasIndex("SuggestionId");
 
                     b.ToTable("ActivityLimitations");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Limitation", b =>
+            modelBuilder.Entity("ModelLayer.Models.LimitationDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,24 +78,7 @@ namespace Talpa.Migrations
                     b.ToTable("Limitations");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Quarter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Quarters");
-                });
-
-            modelBuilder.Entity("Talpa_DAL.Entities.Role", b =>
+            modelBuilder.Entity("ModelLayer.Models.RoleDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,11 +93,17 @@ namespace Talpa.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Suggestion", b =>
+            modelBuilder.Entity("ModelLayer.Models.SuggestionDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<int>("ActivityState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -142,11 +113,9 @@ namespace Talpa.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -155,30 +124,7 @@ namespace Talpa.Migrations
                     b.ToTable("Suggestions");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Talpa_DAL.Entities.UserActivityDate", b =>
+            modelBuilder.Entity("ModelLayer.Models.UserActivityDateDto", b =>
                 {
                     b.Property<int>("ActivityDateId")
                         .HasColumnType("int");
@@ -186,8 +132,9 @@ namespace Talpa.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("ActivityDateId");
 
@@ -196,13 +143,31 @@ namespace Talpa.Migrations
                     b.ToTable("UserActivityDates");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.UserRole", b =>
+            modelBuilder.Entity("ModelLayer.Models.UserDto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ModelLayer.Models.UserRoleDto", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("RoleId");
 
@@ -211,30 +176,31 @@ namespace Talpa.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Vote", b =>
+            modelBuilder.Entity("ModelLayer.Models.VoteDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ActivityId")
+                    b.Property<int>("SuggestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId");
+                    b.HasIndex("SuggestionId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Votes");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Activity", b =>
+            modelBuilder.Entity("ModelLayer.Models.ActivityDateDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Suggestion", "Suggestion")
+                    b.HasOne("ModelLayer.Models.SuggestionDto", "Suggestion")
                         .WithMany()
                         .HasForeignKey("SuggestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,47 +209,28 @@ namespace Talpa.Migrations
                     b.Navigation("Suggestion");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityDate", b =>
+            modelBuilder.Entity("ModelLayer.Models.ActivityLimitationDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Talpa_DAL.Entities.Quarter", "Quarter")
-                        .WithMany()
-                        .HasForeignKey("QuarterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Quarter");
-                });
-
-            modelBuilder.Entity("Talpa_DAL.Entities.ActivityLimitation", b =>
-                {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Talpa_DAL.Entities.Limitation", "Limitation")
+                    b.HasOne("ModelLayer.Models.LimitationDto", "Limitation")
                         .WithMany()
                         .HasForeignKey("LimitationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.HasOne("ModelLayer.Models.SuggestionDto", "Suggestion")
+                        .WithMany()
+                        .HasForeignKey("SuggestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Limitation");
+
+                    b.Navigation("Suggestion");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Suggestion", b =>
+            modelBuilder.Entity("ModelLayer.Models.SuggestionDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.User", "User")
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -292,15 +239,15 @@ namespace Talpa.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.UserActivityDate", b =>
+            modelBuilder.Entity("ModelLayer.Models.UserActivityDateDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.ActivityDate", "ActivityDate")
+                    b.HasOne("ModelLayer.Models.ActivityDateDto", "ActivityDate")
                         .WithMany()
                         .HasForeignKey("ActivityDateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Talpa_DAL.Entities.User", "User")
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -311,15 +258,15 @@ namespace Talpa.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.UserRole", b =>
+            modelBuilder.Entity("ModelLayer.Models.UserRoleDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Role", "Role")
+                    b.HasOne("ModelLayer.Models.RoleDto", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Talpa_DAL.Entities.User", "User")
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -330,21 +277,21 @@ namespace Talpa.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Talpa_DAL.Entities.Vote", b =>
+            modelBuilder.Entity("ModelLayer.Models.VoteDto", b =>
                 {
-                    b.HasOne("Talpa_DAL.Entities.Activity", "Activity")
+                    b.HasOne("ModelLayer.Models.SuggestionDto", "Suggestion")
                         .WithMany()
-                        .HasForeignKey("ActivityId")
+                        .HasForeignKey("SuggestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Talpa_DAL.Entities.User", "User")
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.Navigation("Suggestion");
 
                     b.Navigation("User");
                 });

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talpa_DAL.Entities
+namespace Talpa_BLL.Models
 {
     public class Quarter
     {
-        public int Id { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string Name { get; set; }
+        public List<DateTime> Quarters { get; set; }
     }
 }

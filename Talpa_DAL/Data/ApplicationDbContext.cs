@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ModelLayer.Models;
 using Talpa_DAL.Entities;
 
 namespace Talpa_DAL.Data
@@ -12,16 +13,14 @@ namespace Talpa_DAL.Data
 
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Suggestion> Suggestions { get; set; }
-        public DbSet<Activity> Activities { get; set; }
-        public DbSet<Vote> Votes { get; set; }
-        public DbSet<Limitation> Limitations { get; set; }
-        public DbSet<ActivityLimitation> ActivityLimitations { get; set; }
-        public DbSet<Quarter> Quarters { get; set; }
-        public DbSet<ActivityDate> ActivityDates { get; set; }
-        public DbSet<UserActivityDate> UserActivityDates { get; set; }
+        public DbSet<UserDto> Users { get; set; }
+        public DbSet<RoleDto> Roles { get; set; }
+        public DbSet<UserRoleDto> UserRoles { get; set; }
+        public DbSet<SuggestionDto> Suggestions { get; set; }
+        public DbSet<VoteDto> Votes { get; set; }
+        public DbSet<LimitationDto> Limitations { get; set; }
+        public DbSet<ActivityLimitationDto> ActivityLimitations { get; set; }
+        public DbSet<ActivityDateDto> ActivityDates { get; set; }
+        public DbSet<UserActivityDateDto> UserActivityDates { get; set; }
     }
 }

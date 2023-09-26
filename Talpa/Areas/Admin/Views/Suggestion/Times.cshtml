@@ -1,0 +1,121 @@
+﻿@model TimeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div class="h-screen px-2 md:px-10 pt-10 overflow-auto">
+    <div class="flex justify-center">
+        <form method="post" asp-controller="Suggestion" asp-action="Times">
+            @for (var index = 0; index < Model.TimeInputs.Count; index++)
+            {
+            var dateTime = Model.TimeInputs[index].Date;
+            <div data-index="@index" class="w-[800px] bg-white p-4 rounded-md mt-10">
+                <div class="flex justify-center">
+                    <div>
+                        <h1 class="font-bold text-2xl">@dateTime.ToString("dddd d MMMM yyyy")</h1>
+                        <div class="flex justify-between w-full pt-4">
+                            <div class="md:flex gap-4">
+                                <div>
+                                    <label>Starttijd</label>
+
+                                    <div class="flex gap-4 mt-2">
+                                        <div class="flex gap-2">
+                                                <input name="timeInputs[@index].Date" type="hidden" value="@dateTime.ToString("yyyy-MM-dd")">
+                                                <input name="timeInputs[@index].StartTimeHours" data-group="@index" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 23) this.value = '23';" maxlength="2" class="text-input text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                            <p class="text-3xl">:</p>
+                                                <input name="timeInputs[@index].StartTimeMinutes" data-group="@index" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 59) this.value = '59';" maxlength="2" class="text-input text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-3xl md:pt-8">-</p>
+
+                                <div>
+                                    <label>Eindtijd</label>
+
+                                    <div class="flex gap-4 mt-2">
+                                        <div class="flex gap-2">
+                                                <input name="timeInputs[@index].EndTimeHours" data-group="@index" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 23) this.value = '23';" maxlength="2" class="text-input text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                            <p class="text-3xl">:</p>
+                                                <input name="timeInputs[@index].EndTimeMinutes" data-group="@index" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 59) this.value = '59';" maxlength="2" class="text-input text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4 w-full justify-end">
+
+                                <div>
+                                    <label>All day</label>
+
+                                    <div class="flex gap-4 mt-2">
+                                        <div class="flex gap-2">
+                                            <input data-group="@index" type="checkbox" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-index="@index" class="flex pt-8 delete-item cursor-pointer">
+                                    <span class="material-symbols-outlined text-red-500" style="font-size: 40px;">
+                                        delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+            <input type="hidden" name="suggestionId" value="@Model.SuggestionId" />
+
+        <div class="flex justify-end w-full mt-4 mb-4">
+            <input type="submit" asp-action="Times" value="Aanmaken" class="bg-white bg-[#5236AB] w-96 hover:bg-[#300FA8] font-bold rounded py-2 text-white cursor-pointer">
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const deleteButtons = document.querySelectorAll('.delete-item');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const indexToRemove = this.getAttribute('data-index');
+            const itemToRemove = document.querySelector(`[data-index="${indexToRemove}"]`);
+
+            if (itemToRemove) {
+                itemToRemove.remove();
+            }
+        });
+    });
+</script>
+
+<script>
+    const checkboxes = document.querySelectorAll('.checkbox');
+    const textInputs = document.querySelectorAll('.text-input');
+
+    function toggleInputs(event) {
+        const checkbox = event.target;
+        const group = checkbox.getAttribute('data-group');
+        const textInputsGroup = document.querySelectorAll(`.text-input[data-group="${group}"]`);
+
+        for (const input of textInputsGroup) {
+            input.disabled = checkbox.checked;
+        }
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleInputs);
+    });
+</script>
+
+<style>
+    .text-input[disabled] {
+        background-color: #DDDDDD;
+        opacity: 0.7;
+        pointer-events: none; 
+    }
+</style>
+
+

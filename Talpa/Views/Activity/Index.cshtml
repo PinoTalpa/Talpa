@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ActivityViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="h-screen">
+    <div class="md:px-20">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <div class="px-2 md:px-20 pt-10">
+            <div class=" grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-full pt-10 gap-4 flex flex-col overflow-y-auto transform scroll">
+                @foreach (ActivityViewModel activity in Model)
+                {
+                    <a asp-controller="Activity" asp-action="Details" asp-route-activityId="@activity.Id">
+                        <div class="w-full h-40 transition ease-in-out hover:scale-105 transform shadow hover:shadow-xl rounded-lg rounded-tr-xl">
+                            <div class="flex w-full bg-gray-200 rounded-lg rounded-tr-xl">
+                                <div class="flex flex-1 h-40 flex-col justify-center">
+                                    <h1 class="text-blue-700 text-4xl pl-20">@Html.DisplayFor(modelItem => activity.Name)</h1>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex flex-col justify-center pr-20">
+                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;
+                                        color: @((int)activity.ActivityState == (int)ActivityState.Rejected ? "red" :
+                                            (int)activity.ActivityState == (int)ActivityState.Pending ? "yellow" :
+                                            (int)activity.ActivityState == (int)ActivityState.Accepted ? "green" :
+                                            "gray");">
+                                            @((int)activity.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                                                (int)activity.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                                                (int)activity.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                                                "")
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+        </div>
+        
+        <style>
+            .scroll::-webkit-scrollbar {
+                display: none;
+            }
+
+            .scroll {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+    </div>
+</div>
