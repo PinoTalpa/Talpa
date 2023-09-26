@@ -1,7 +1,7 @@
-﻿@model SuggestionViewModel
+﻿@model ActivityViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Activity Details";
 }
 
 <div class="h-full py-10 px-2 md:px-20">
@@ -12,29 +12,14 @@
                     <div>
                         <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Name)</p>
                     </div>
-
-                    <div>
-                        <div class="flex justify-end">
-                            <div class="flex flex-col justify-center">
-                                <span class="material-symbols-outlined" style="font-size: 60px;
-                                    color: @((int)Model.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                            (int)Model.ActivityState == (int)ActivityState.Pending ? "yellow" :
-                                            (int)Model.ActivityState == (int)ActivityState.Accepted ? "green" :
-                                            "gray");">
-                                    @((int)Model.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
-                                        (int)Model.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
-                                        (int)Model.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
-                                        "")
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="pt-10">
                     <h2 class="text-2xl font-medium">Beschrijving:</h2>
                     <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
                 </div>
+
+                <a asp-controller="Activity" asp-action="Index" type="submit" class="cursor-pointer bg-green-500 px-4 hover:bg-green-600 text-white font-bold py-2 rounded">Stem!</a>
 
                 <div class="pt-10">
                     <h2 class="text-2xl font-medium">Beperkingen:</h2>

@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
+using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_DAL.Entities;
 
-namespace Talpa.Controllers
+namespace Talpa.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class ActivityController : Controller
     {
         private readonly ISuggestionService _suggestionService;
@@ -32,16 +36,16 @@ namespace Talpa.Controllers
                     }
                 }
 
-                return View(new List<ActivityViewModel>());
+                return View(new List<AdminActivityViewModel>());
             }
 
-            List<ActivityViewModel> activityViewModels = activities.Select(activity => new ActivityViewModel
+            List<AdminActivityViewModel> activityViewModels = activities.Select(activity => new AdminActivityViewModel
             {
                 Id = activity.Id,
                 Name = activity.Name,
                 Description = activity.Description,
                 Date = activity.Date,
-                ActivityState = activity.ActivityState,
+                ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
             }).ToList();
 
             return View(activityViewModels);
@@ -54,13 +58,13 @@ namespace Talpa.Controllers
 
             if (activity.ErrorMessage == null)
             {
-                ActivityViewModel activityViewModel = new()
+                AdminActivityViewModel activityViewModel = new()
                 {
                     Id = activity.Id,
                     Name = activity.Name,
                     Description = activity.Description,
                     Date = activity.Date,
-                    ActivityState = activity.ActivityState,
+                    ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
                 };
 
                 return View(activityViewModel);
@@ -118,19 +122,27 @@ namespace Talpa.Controllers
             return View();
         }
 
-        // POST: ActivityController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Remove(int activityId, IFormCollection collection)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            Activity activity = await _activityService.GetActivityByIdAsync(activityId);
+
+            if (activity == null)
             {
                 return View();
             }
+
+            activity = await _activityService.RemoveActivityAsync(activity);
+
+            if (activity.ErrorMessage != null)
+            {
+                TempData["ErrorMessage"] = activity.ErrorMessage;
+                return View();
+            }
+
+            TempData["StatusMessage"] = "The activity was successfully removed!";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

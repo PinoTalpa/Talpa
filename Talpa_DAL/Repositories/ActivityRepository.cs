@@ -40,5 +40,36 @@ namespace Talpa_DAL.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<SuggestionDto?> GetActivityByIdAsync(int id)
+        {
+            SuggestionDto? activityDto = await _dbContext.Suggestions.FindAsync(id);
+
+            return activityDto;
+        }
+
+        public async Task<bool> RemoveActivityAsync(ActivityDto activity)
+        {
+            try
+            {
+                var existingActivity = await _dbContext.Suggestions.FindAsync(activity.Id);
+
+                if (existingActivity != null)
+                {
+                    existingActivity.ActivityState = activity.ActivityState;
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

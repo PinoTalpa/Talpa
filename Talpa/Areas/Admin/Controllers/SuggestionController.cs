@@ -241,7 +241,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View();
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully created!";
+            TempData["StatusMessage"] = "The suggestion was successfully removed!";
             return RedirectToAction(nameof(Index));
         }
     }
