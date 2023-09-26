@@ -7,8 +7,9 @@
 
 <div class="h-screen px-10 pt-10 overflow-auto">
     <div class="bg-white rounded-md">
-        <form id="dateSelectionForm" method="post" asp-area="Admin" asp-action="Times" asp-controller="Suggestion">
+        <form id="dateSelectionForm" method="get" asp-area="Admin" asp-action="Times" asp-controller="Suggestion">
         <input type="hidden" id="selectedDates" name="selectedDates" value="" />
+        <input type="hidden" name="suggestionId" value="@Model.SuggestionId" />
 
         <div class="flex gap-10 py-10 justify-center bg-white rounded-lg">
             @foreach (var monthGroup in Model.Days.GroupBy(day => day.Month))
@@ -121,34 +122,6 @@
         });
     });
 </script>
-
-
-@*<script>
-    var selectedDates = [];
-
-    function toggleDateSelection(day) {
-        var index = selectedDates.indexOf(day);
-        if (index === -1) {
-            selectedDates.push(day);
-        } else {
-            selectedDates.splice(index, 1);
-        }
-
-        updateSelectedDatesField();
-    }
-
-    function updateSelectedDatesField() {
-        document.getElementById("selectedDates").value = selectedDates.join(",");
-    }
-
-    var dayCells = document.querySelectorAll(".date-cell");
-    dayCells.forEach(function (cell) {
-        cell.addEventListener("click", function () {
-            toggleDateSelection(cell.textContent);
-            cell.classList.toggle("selected");
-        });
-    });
-</script>*@
 
 <style>
     .date-cell.selected {

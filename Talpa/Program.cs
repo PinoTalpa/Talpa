@@ -39,6 +39,9 @@ namespace Talpa
             builder.Services.AddScoped<IActivityService, ActivityService>();
             builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 
+            builder.Services.AddScoped<IActivityDateService, ActivityDateService>();
+            builder.Services.AddScoped<IActivityDateRepository, ActivityDateRepository>();
+
             builder.Services.AddScoped<IQuarterService, QuarterService>();
 
             // Add services to the container.
