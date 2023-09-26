@@ -70,7 +70,7 @@ namespace Talpa.Areas.Admin.Controllers
         public ActionResult Times(string selectedDates)
         {
             string[] dateStrings = selectedDates.Split(',');
-            List<DateTime> selectedDateList = new List<DateTime>();
+            List<DateTime> selectedDateList = new();
 
             foreach (string dateString in dateStrings)
             {
@@ -123,6 +123,22 @@ namespace Talpa.Areas.Admin.Controllers
             }
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Times(CreateSuggestionViewModel suggestionViewModel, IFormCollection collection)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(suggestionViewModel);
+            }
+
+
+
+
+            TempData["StatusMessage"] = "The activity was successfully made!";
             return RedirectToAction(nameof(Index));
         }
 
