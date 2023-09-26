@@ -47,5 +47,29 @@ namespace Talpa_DAL.Repositories
 
             return activityDto;
         }
+
+        public async Task<bool> RemoveActivityAsync(ActivityDto activity)
+        {
+            try
+            {
+                var existingActivity = await _dbContext.Suggestions.FindAsync(activity.Id);
+
+                if (existingActivity != null)
+                {
+                    existingActivity.ActivityState = activity.ActivityState;
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

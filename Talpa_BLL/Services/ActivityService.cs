@@ -1,4 +1,5 @@
-﻿using ModelLayer.Models;
+﻿using ModelLayer.Enums;
+using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,14 +42,14 @@ namespace Talpa_BLL.Services
         {
             if (id <= 0)
             { 
-                return new Activity { ErrorMessage = "Invalid suggestion." };
+                return new Activity { ErrorMessage = "Invalid activity." };
             }
 
             SuggestionDto? activityDto = await _activityRepository.GetActivityByIdAsync(id);
 
             if (activityDto == null)
             {
-                return new Activity { ErrorMessage = "Suggestion not found." };
+                return new Activity { ErrorMessage = "Activity not found." };
             }
 
             Activity activity = new()
@@ -60,6 +61,28 @@ namespace Talpa_BLL.Services
                 Date = (DateTime?)activityDto.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)activityDto.ActivityState,
             };
+
+            return activity;
+        }
+
+        public async Task<Activity> RemoveActivityAsync(Activity activity)
+        {
+            ActivityDto activityDto = new()
+            {
+                Id = activity.Id,
+                UserId = activity.UserId,
+                Name = activity.Name,
+                Description = activity.Description,
+                Date = (DateTime?)activity.Date,
+                ActivityState = ActivityState.Rejected,
+            };
+
+            bool isActivityDeclined = await _activityRepository.RemoveActivityAsync(activityDto);
+
+            if (!isActivityDeclined)
+            {
+                activity.ErrorMessage = "There was an error while removing the activity!";
+            }
 
             return activity;
         }
