@@ -1,4 +1,5 @@
-﻿@model ActivityViewModel
+﻿@using Talpa.Models.AdminModels;
+@model AdminActivityViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -45,8 +46,8 @@
 
                 <form asp-action="Remove" asp-route-activityId="@Model.Id" class="w-full">
                     <input type="hidden" asp-for="@Model.Id" />
-                    <div class="bg-red-600 text-center border border-red-900 w-full hover:bg-red-700 font-bold rounded py-2 text-white">
-                        <input type="submit" value="Verwijderen"/>
+                    <div class="">
+                        <input type="submit" value="Verwijderen" class="cursor-pointer bg-red-600 text-center border border-red-900 w-full hover:bg-red-700 font-bold rounded py-2 text-white" />
                     </div>
                 </form>
             </div>

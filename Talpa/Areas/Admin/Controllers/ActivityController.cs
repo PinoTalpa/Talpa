@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
+using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_DAL.Entities;
 
 namespace Talpa.Areas.Admin.Controllers
 {
@@ -36,16 +36,16 @@ namespace Talpa.Areas.Admin.Controllers
                     }
                 }
 
-                return View(new List<ActivityViewModel>());
+                return View(new List<AdminActivityViewModel>());
             }
 
-            List<ActivityViewModel> activityViewModels = activities.Select(activity => new ActivityViewModel
+            List<AdminActivityViewModel> activityViewModels = activities.Select(activity => new AdminActivityViewModel
             {
                 Id = activity.Id,
                 Name = activity.Name,
                 Description = activity.Description,
                 Date = activity.Date,
-                ActivityState = activity.ActivityState,
+                ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
             }).ToList();
 
             return View(activityViewModels);
@@ -58,13 +58,13 @@ namespace Talpa.Areas.Admin.Controllers
 
             if (activity.ErrorMessage == null)
             {
-                ActivityViewModel activityViewModel = new()
+                AdminActivityViewModel activityViewModel = new()
                 {
                     Id = activity.Id,
                     Name = activity.Name,
                     Description = activity.Description,
                     Date = activity.Date,
-                    ActivityState = activity.ActivityState,
+                    ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
                 };
 
                 return View(activityViewModel);

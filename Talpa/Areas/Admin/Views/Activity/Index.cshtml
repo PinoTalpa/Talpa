@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ActivityViewModel>
+﻿@using Talpa.Models.AdminModels;
+@model IEnumerable<AdminActivityViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -40,7 +41,7 @@
         </div>
 
         <div class="w-full pt-10 flex flex-col h-[88vh] overflow-y-auto transform scroll">
-            @foreach (ActivityViewModel Activity in Model)
+            @foreach (AdminActivityViewModel Activity in Model)
             {
                 <a asp-controller="Activity" asp-action="Details" asp-route-activityId="@Activity.Id">
                     <div class="px-10 pb-6">
