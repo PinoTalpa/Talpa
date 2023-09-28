@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_DAL.Entities;
 using Talpa_DAL.Interfaces;
 using Talpa_DAL.Repositories;
 
@@ -65,6 +64,28 @@ namespace Talpa_BLL.Services
             return activity;
         }
 
+        public async Task<Suggestion> CreateActivityAsync(Suggestion suggestion)
+        {
+            SuggestionDto suggestionDto = new()
+            {
+                Id = suggestion.Id,
+                UserId = suggestion.UserId,
+                Name = suggestion.Name,
+                Description = suggestion.Description,
+                Date = (DateTime?)suggestion.Date,
+                ActivityState = ActivityState.Accepted,
+            };
+
+            bool isSuggestionDeclined = await _activityRepository.CreateActivityAsync(suggestionDto);
+
+            if (!isSuggestionDeclined)
+            {
+                suggestion.ErrorMessage = "There was an error while declining the suggestion!";
+            }
+
+            return suggestion;
+        }
+
         public async Task<Activity> RemoveActivityAsync(Activity activity)
         {
             ActivityDto activityDto = new()
@@ -85,6 +106,21 @@ namespace Talpa_BLL.Services
             }
 
             return activity;
+        }
+
+        public async Task<List<ActivityDate>> GetActivityDates(int activityId)
+        {
+            List<ActivityDateDto> activityDateDto = await _activityRepository.GetActivityDates(activityId);
+
+            List<ActivityDate> activitieDates = activityDateDto.Select(activityDate => new ActivityDate
+            {
+                Id = (int)activityDate.Id,
+                SuggestionId = activityDate.SuggestionId,
+                StartDate = activityDate.StartDate,
+                EndDate = activityDate.EndDate,
+            }).ToList();
+
+            return activitieDates;
         }
     }
 }

@@ -7,5 +7,7 @@
         public int StartTimeMinutes { get; set; }
         public int EndTimeHours { get; set; }
         public int EndTimeMinutes { get; set; }
+
+        public bool IsFullDay { get; set; }
     }
 }

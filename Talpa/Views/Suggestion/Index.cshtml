@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="h-screen">
+<div>
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
@@ -24,7 +24,7 @@
     <div class="px-2 md:px-20 pt-10">
 
         <div class="pb-2 px-10 w-full flex justify-end">
-            <a asp-action="Create" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Create New</a>
+            <a asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">Create New</a>
         </div>
 
         <div>
@@ -43,7 +43,7 @@
             }
         </div>
 
-        <div class="w-full pt-10 flex flex-col h-[88vh] overflow-y-auto transform scroll">
+        <div class="w-full pt-10 flex flex-col">
             @foreach (SuggestionViewModel suggestion in Model)
             {
                 <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id">
@@ -57,7 +57,7 @@
                                     <div class="flex flex-col justify-center pr-20">
                                         <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;
                                             color: @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "yellow" :
+                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
                                                 (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
                                                 "gray");">
                                             @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
