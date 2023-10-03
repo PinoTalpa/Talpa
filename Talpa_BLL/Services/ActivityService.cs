@@ -30,6 +30,7 @@ namespace Talpa_BLL.Services
                 Id = activity.Id,
                 Name = activity.Name,
                 Description = activity.Description,
+                ImageUrl = activity.ImageUrl,
                 Date = (DateTime?)activity.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)activity.ActivityState,
             }).ToList();
@@ -57,6 +58,7 @@ namespace Talpa_BLL.Services
                 UserId = activityDto.UserId,
                 Name = activityDto.Name,
                 Description = activityDto.Description,
+                ImageUrl = activityDto.ImageUrl,
                 Date = (DateTime?)activityDto.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)activityDto.ActivityState,
             };
@@ -72,6 +74,7 @@ namespace Talpa_BLL.Services
                 UserId = suggestion.UserId,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = (DateTime?)suggestion.Date,
                 ActivityState = ActivityState.Accepted,
             };
@@ -94,6 +97,7 @@ namespace Talpa_BLL.Services
                 UserId = activity.UserId,
                 Name = activity.Name,
                 Description = activity.Description,
+                ImageUrl = activity.ImageUrl,
                 Date = (DateTime?)activity.Date,
                 ActivityState = ActivityState.Rejected,
             };

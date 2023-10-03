@@ -10,29 +10,15 @@
     <div class="bg-white p-4 mt-10">
         <p class="text-3xl font-semibold pt-10">Activiteit keuze:</p>
 
-        <div class="bg-[#E8E5F2] p-4 rounded-md mt-4">
+        <div class="bg-[#E8E5F2] p-4 rounded-md mt-4 mb-10">
             <p class="text-4xl font-bold text-[#200A58] pt-4">@Model.Name</p>
 
             <div class="pt-10">
                 <p class="text-xl text-[#200A58]">Beschrijving:</p>
                 <p class="pt-2 text-[#200A58]">@Model.Description</p>
             </div>
-        </div>
 
-        <div class="flex justify-center w-full">
-            <div class="w-96">
-                <p class="text-2xl pt-10">Kwartaal keuze:</p>
-
-                <div class="mb-4 mt-4">
-                    <select id="CategoryId" name="CategoryId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option>-- Select Quarter --</option>
-                        @*                    @foreach (var suggestionOpt in Model)
-                        {
-                        <option value="@suggestionOpt.Id">@suggestionOpt.Name</option>
-                        }*@
-                    </select>
-                </div>
-            </div>
+            <img src="@Url.Content("~/img/suggestion/" + @Model.ImageUrl)" class="h-40 mt-4" />
         </div>
 
         <div class="md:px-10 flex flex-col h-full justify-end">
@@ -47,7 +33,7 @@
                 <form asp-action="Remove" asp-route-activityId="@Model.Id" class="w-full">
                     <input type="hidden" asp-for="@Model.Id" />
                     <div class="">
-                        <input type="submit" value="Verwijderen" class="cursor-pointer bg-red-600 text-center border border-red-900 w-full hover:bg-red-700 font-bold rounded py-2 text-white" />
+                        <input type="submit" value="Verwijderen" class="cursor-pointer bg-red-600 text-center border w-full hover:bg-red-700 font-bold rounded py-2 text-white" />
                     </div>
                 </form>
             </div>
