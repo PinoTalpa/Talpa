@@ -29,6 +29,7 @@ namespace Talpa_DAL.Repositories
                 Name = s.Name,
                 Description = s.Description,
                 Date = s.Date,
+                ImageUrl = s.ImageUrl,
                 ActivityState = s.ActivityState,
             });
 
@@ -50,6 +51,7 @@ namespace Talpa_DAL.Repositories
                 Name = s.Name,
                 Description = s.Description,
                 Date = s.Date,
+                ImageUrl = s.ImageUrl,
                 ActivityState = s.ActivityState,
             });
 

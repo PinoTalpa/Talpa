@@ -28,6 +28,7 @@ namespace Talpa_DAL.Repositories
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
+                ImageUrl = s.ImageUrl,
                 Date = s.Date,
                 ActivityState = s.ActivityState,
             });

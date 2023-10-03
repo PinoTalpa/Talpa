@@ -14,8 +14,9 @@
 
                         <div class="flex flex-col justify-center"> 
                             <div class="text-lg md:flex gap-1">
-                                <p>@activityDate.StartDate.ToString("yyyy-MM-dd HH:mm:ss") -</p>
-                                <p>@activityDate.EndDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                                <p class="pr-10">@activityDate.StartDate.ToString("yyyy-MM-dd")</p>
+                                <p>@activityDate.StartDate.ToString("HH:mm") -</p>
+                                <p>@activityDate.EndDate.ToString("HH:mm")</p>
                             </div>
                         </div>
 

@@ -42,6 +42,7 @@ namespace Talpa.Controllers
                 Id = activity.Id,
                 Name = activity.Name,
                 Description = activity.Description,
+                ImageUrl = activity.ImageUrl,
                 Date = activity.Date,
                 ActivityState = activity.ActivityState,
             }).ToList();
@@ -61,6 +62,7 @@ namespace Talpa.Controllers
                     Id = activity.Id,
                     Name = activity.Name,
                     Description = activity.Description,
+                    ImageUrl = activity.ImageUrl,
                     Date = activity.Date,
                     ActivityState = activity.ActivityState,
                 };

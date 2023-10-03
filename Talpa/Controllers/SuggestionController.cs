@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,10 +14,12 @@ namespace Talpa.Controllers
     public class SuggestionController : Controller
     {
         private readonly ISuggestionService _suggestionService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public SuggestionController(ISuggestionService suggestionService)
+        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment)
         {
             _suggestionService = suggestionService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -41,6 +44,7 @@ namespace Talpa.Controllers
                 Id = suggestion.Id,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = suggestion.Date,
                 ActivityState = suggestion.ActivityState,
             }).ToList();
@@ -59,6 +63,7 @@ namespace Talpa.Controllers
                     Id = suggestion.Id,
                     Name = suggestion.Name,
                     Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
                     Date = suggestion.Date,
                     ActivityState = suggestion.ActivityState,
                 };
@@ -77,8 +82,19 @@ namespace Talpa.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateSuggestionViewModel suggestionViewModel, IFormCollection collection)
+        public async Task<ActionResult> Create(CreateSuggestionViewModel suggestionViewModel, IFormFile image)
         {
+            string? fileName = await SaveImageAsync(image, _webHostEnvironment, null);
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                suggestionViewModel.ImageUrl = fileName;
+            }
+            else
+            {
+                return View(suggestionViewModel);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(suggestionViewModel);
@@ -90,7 +106,8 @@ namespace Talpa.Controllers
             {
                 UserId = userId,
                 Name = suggestionViewModel.Name,
-                Description = suggestionViewModel.Description
+                Description = suggestionViewModel.Description,
+                ImageUrl = suggestionViewModel.ImageUrl,
             };
 
             suggestion = await _suggestionService.CreateSuggestionAsync(suggestion);
@@ -145,6 +162,25 @@ namespace Talpa.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<string?> SaveImageAsync(IFormFile image, IWebHostEnvironment webHostEnvironment, string? existingImageUrl)
+        {
+            if (image != null && image.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                string webRootPath = webHostEnvironment.WebRootPath;
+                string imagePath = Path.Combine(webRootPath, "img/suggestion", fileName);
+
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                return fileName;
+            }
+
+            return existingImageUrl;
         }
     }
 }

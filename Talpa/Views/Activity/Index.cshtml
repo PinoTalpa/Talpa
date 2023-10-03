@@ -30,7 +30,7 @@
                 <a asp-controller="Vote" asp-action="Index" asp-route-activityId="@activity.Id" class="px-2">
                     <div class="flex flex-col w-full rounded-lg bg-[#E8E5F2] hover:bg-[#D4CEEA] p-3">
                         <h1 class="text-[#5236AB] w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => activity.Name)</h1>
-                        <img src="@Url.Content("~/img/main/Activity.png")" class="w-full object-cover h-60 pt-6" />
+                        <img src="@Url.Content("~/img/suggestion/" + activity.ImageUrl)" class="w-full object-cover h-60 pt-6" />
                         <p class="text-[#5236AB] w-full text-center text-2xl pt-10">Votes: 9</p>
                     </div>
                 </a>

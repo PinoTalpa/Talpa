@@ -29,6 +29,7 @@ namespace Talpa_BLL.Services
                 Id = suggestion.Id,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = (DateTime?)suggestion.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
             }).ToList();
@@ -45,6 +46,7 @@ namespace Talpa_BLL.Services
                 Id = suggestion.Id,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = (DateTime?)suggestion.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
             }).ToList();
@@ -72,6 +74,7 @@ namespace Talpa_BLL.Services
                 UserId = suggestionDto.UserId,
                 Name = suggestionDto.Name, 
                 Description = suggestionDto.Description,
+                ImageUrl = suggestionDto.ImageUrl,
                 Date = (DateTime?)suggestionDto.Date,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)suggestionDto.ActivityState,
             };
@@ -92,6 +95,7 @@ namespace Talpa_BLL.Services
                 UserId = suggestion.UserId,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 ActivityState = ModelLayer.Enums.ActivityState.Pending,
             };
 
@@ -102,6 +106,7 @@ namespace Talpa_BLL.Services
                 UserId = suggestionDto.UserId,
                 Name = suggestionDto.Name,
                 Description = suggestionDto.Description,
+                ImageUrl = suggestionDto.ImageUrl,
                 ActivityState = (Talpa_DAL.Enums.ActivityState)suggestionDto.ActivityState
             };
 
@@ -121,6 +126,7 @@ namespace Talpa_BLL.Services
                 UserId = suggestion.UserId,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = (DateTime?)suggestion.Date,
                 ActivityState = ActivityState.Rejected,
             };

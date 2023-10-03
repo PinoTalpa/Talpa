@@ -5,7 +5,7 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="px-2 md:px-20 lg:px-32">
+<div class="px-2 md:px-20 pb-10 lg:px-32 overflow-y-scroll h-screen">
     <div class="bg-white p-4 mt-10">
         <h3 class="text-4xl font-semibold text-gray-900 pt-5">
             Maak een nieuwe activiteit aan
@@ -20,6 +20,8 @@
                 <p class="text-xl text-[#200A58]">Beschrijving:</p>
                 <p class="pt-2 text-[#200A58]">@Model.Suggestion.Description</p>
             </div>
+
+            <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-40 mt-4" />
         </div>
 
         <form method="get" asp-area="Admin" asp-action="Dates" asp-controller="Suggestion">

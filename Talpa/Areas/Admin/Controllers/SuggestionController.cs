@@ -51,6 +51,7 @@ namespace Talpa.Areas.Admin.Controllers
                 Id = suggestion.Id,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = suggestion.Date,
                 ActivityState = suggestion.ActivityState,
             }).ToList();
@@ -118,6 +119,7 @@ namespace Talpa.Areas.Admin.Controllers
                     Id = suggestion.Id,
                     Name = suggestion.Name,
                     Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
                     Date = suggestion.Date,
                     ActivityState = suggestion.ActivityState,
                 };
@@ -187,7 +189,8 @@ namespace Talpa.Areas.Admin.Controllers
             {
                 UserId = userId,
                 Name = suggestionViewModel.Name,
-                Description = suggestionViewModel.Description
+                Description = suggestionViewModel.Description,
+                ImageUrl = suggestionViewModel.ImageUrl,
             };
 
             suggestion = await _suggestionService.CreateSuggestionAsync(suggestion);
