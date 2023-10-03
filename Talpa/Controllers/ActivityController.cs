@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
@@ -7,6 +8,7 @@ using Talpa_DAL.Entities;
 
 namespace Talpa.Controllers
 {
+    [Authorize]
     public class ActivityController : Controller
     {
         private readonly ISuggestionService _suggestionService;

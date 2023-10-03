@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Talpa.Models;
@@ -8,6 +9,7 @@ using Talpa_BLL.Models;
 
 namespace Talpa.Controllers
 {
+    [Authorize]
     public class SuggestionController : Controller
     {
         private readonly ISuggestionService _suggestionService;
@@ -99,7 +101,7 @@ namespace Talpa.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully declined!";
+            TempData["StatusMessage"] = "The suggestion was successfully created!";
             return RedirectToAction(nameof(Index));
         }
 

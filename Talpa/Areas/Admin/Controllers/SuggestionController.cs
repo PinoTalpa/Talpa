@@ -198,7 +198,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully declined!";
+            TempData["StatusMessage"] = "The suggestion was successfully created!";
             return RedirectToAction(nameof(Index));
         }
 
