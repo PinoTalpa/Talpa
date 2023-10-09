@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelLayer.Models;
+using System;
+using System.Security.Claims;
+using System.Web;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
@@ -11,10 +14,12 @@ namespace Talpa.Controllers
     public class VoteController : Controller
     {
         private readonly IActivityService _activityService;
+        private readonly IVoteService _voteService;
 
-        public VoteController(IActivityService activityService)
+        public VoteController(IActivityService activityService, IVoteService voteService)
         {
             _activityService = activityService;
+            _voteService = voteService;
         }
 
         public async Task<ActionResult> Index(int activityId)
@@ -41,22 +46,33 @@ namespace Talpa.Controllers
         // GET: VoteController/Create
         public ActionResult Create()
         {
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: VoteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(List<DateTime> selectedDates, int suggestionId)
         {
-            try
+            //int.TryParse(collection["activityId"], out int ActivityId);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (selectedDates.Count == 0 || suggestionId == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Activity");
             }
-            catch
+
+            Vote vote = new()
             {
-                return View();
-            }
+                UserId = userId,
+                SuggestionId = suggestionId,
+                SelectedDates = selectedDates
+            };
+
+            //TODO vote creation with interface
+            vote = await _voteService.CreateVoteAsync(vote);
+
+            return RedirectToAction(nameof(Index), "Activity");
         }
 
         // GET: VoteController/Edit/5

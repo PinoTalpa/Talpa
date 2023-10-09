@@ -14,5 +14,7 @@ namespace Talpa_BLL.Models
 
         public int SuggestionId { get; set; }
         public Suggestion Suggestion { get; set; }
+
+        public List<DateTime> SelectedDates { get; set; }
     }
 }

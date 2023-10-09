@@ -33,6 +33,9 @@ namespace Talpa
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            builder.Services.AddScoped<IVoteService, VoteService>();
+            builder.Services.AddScoped<IVoteRepository, VoteRepository>();
+
             builder.Services.AddScoped<ISuggestionService, SuggestionService>();
             builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
 
