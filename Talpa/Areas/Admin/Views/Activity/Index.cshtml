@@ -6,7 +6,7 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="h-screen">
+<div class="h-screen overflow-y-auto">
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
