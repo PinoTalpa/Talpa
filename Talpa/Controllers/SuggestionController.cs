@@ -15,11 +15,13 @@ namespace Talpa.Controllers
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILimitationService _limitationService;
 
-        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment)
+        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment, ILimitationService limitationService)
         {
             _suggestionService = suggestionService;
             _webHostEnvironment = webHostEnvironment;
+            _limitationService = limitationService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -68,7 +70,21 @@ namespace Talpa.Controllers
                     ActivityState = suggestion.ActivityState,
                 };
 
-                return View(suggestionViewModel);
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
             }
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
