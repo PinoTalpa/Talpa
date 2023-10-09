@@ -5,6 +5,7 @@ using Talpa.Models;
 using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
+using Talpa_BLL.Services;
 
 namespace Talpa.Areas.Admin.Controllers
 {
@@ -15,11 +16,15 @@ namespace Talpa.Areas.Admin.Controllers
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IActivityService _activityService;
+        private readonly IQuarterService _quarterService;
+        private readonly IActivityDateService _activityDateService;
 
-        public ActivityController(ISuggestionService suggestionService, IActivityService activityService)
+        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IQuarterService quarterService, IActivityDateService activityDateService)
         {
             _suggestionService = suggestionService;
             _activityService = activityService;
+            _quarterService = quarterService;
+            _activityDateService = activityDateService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -77,24 +82,108 @@ namespace Talpa.Areas.Admin.Controllers
         }
 
         // GET: ActivityController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            List<Suggestion> suggestions = await _suggestionService.GetPendingSuggestionsAsync("");
+
+            if (suggestions.Any(s => s.ErrorMessage != null))
+            {
+                foreach (Suggestion suggestion in suggestions)
+                {
+                    if (suggestion.ErrorMessage != null)
+                    {
+                        TempData["ErrorMessage"] = suggestion.ErrorMessage;
+                    }
+                }
+
+                return View(new List<SuggestionViewModel>());
+            }
+
+            List<SuggestionViewModel> suggestionViewModels = suggestions.Select(suggestion => new SuggestionViewModel
+            {
+                Id = suggestion.Id,
+                Name = suggestion.Name,
+                Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
+                Date = suggestion.Date,
+                ActivityState = suggestion.ActivityState,
+            }).ToList();
+
+            List<Quarter> upcomingQuarters = _quarterService.GetUpcomingQuarters();
+
+            List<QuarterViewModel> quarterViewModels = upcomingQuarters.Select(upcomingQuarter => new QuarterViewModel
+            {
+                Name = upcomingQuarter.Name,
+                Quarters = upcomingQuarter.Quarters,
+            }).ToList();
+
+            SuggestionQuarterViewModel suggestionQuarterViewModel = new()
+            {
+                Suggestions = suggestionViewModels,
+                Quarters = quarterViewModels,
+            };
+
+            return View(suggestionQuarterViewModel);
         }
 
-        // POST: ActivityController/Create
+        public ActionResult Times(string[] suggestions, DateTime eventStart, DateTime eventEnd)
+        {
+            List<int> selectedSuggestionIds = new List<int>();
+
+            foreach (var suggestion in suggestions)
+            {
+                if (int.TryParse(suggestion, out int suggestionId))
+                {
+                    selectedSuggestionIds.Add(suggestionId);
+                }
+            }
+
+            List<DateTime> allDatesInRange = new();
+            for (DateTime date = eventStart; date <= eventEnd; date = date.AddDays(1))
+            {
+                allDatesInRange.Add(date);
+            }
+
+            List<DateViewModel> allDates = allDatesInRange.Select(date => new DateViewModel
+            {
+                Date = date,
+                IsChecked = false
+            }).ToList();
+
+            EventViewModel eventViewModel = new()
+            {
+                SelectedSuggestionIds = selectedSuggestionIds,
+                AllDatesInRange = allDates,
+            };
+
+            return View(eventViewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Times(EventViewModel eventViewModel)
         {
-            try
+            foreach (int selectedSuggestionId in eventViewModel.SelectedSuggestionIds)
             {
-                return RedirectToAction(nameof(Index));
+                List<ActivityDate> activityDates = eventViewModel.AllDatesInRange
+                    .Where(ad => ad.IsChecked)
+                    .Select(ad => new ActivityDate
+                    {
+                        SuggestionId = selectedSuggestionId,
+                        StartDate = ad.Date,
+                        EndDate = ad.Date,
+                    })
+                    .ToList();
+
+                await _activityDateService.CreateActivityDates(activityDates);
+
+                Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(selectedSuggestionId);
+                suggestion = await _activityService.CreateActivityAsync(suggestion);
             }
-            catch
-            {
-                return View();
-            }
+            
+
+            TempData["StatusMessage"] = "The activity was successfully made with the dates!";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ActivityController/Edit/5

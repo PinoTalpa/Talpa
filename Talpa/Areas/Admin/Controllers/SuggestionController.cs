@@ -108,7 +108,7 @@ namespace Talpa.Areas.Admin.Controllers
             return View(timeViewModel);
         }
 
-        public async Task<ActionResult> Details(int suggestionId)
+        /*public async Task<ActionResult> Details(int suggestionId)
         {
             Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
 
@@ -143,7 +143,7 @@ namespace Talpa.Areas.Admin.Controllers
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
         [HttpPost]
         [ValidateAntiForgeryToken]
