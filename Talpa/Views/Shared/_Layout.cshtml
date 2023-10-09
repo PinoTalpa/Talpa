@@ -52,7 +52,7 @@
                                     <li>
                                         <a href="/" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
                                         @(currentController == "Home" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
-                                        Home
+                                        @Localizer["Home"]
                                         </a>
                                     </li>
                                     <li>
@@ -89,12 +89,12 @@
                                             <ul class="nav navbar-nav navbar-right text-white">
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
-                                                    <li><a asp-controller="Account" asp-action="Profile">Hello @User.Identity.Name!</a></li>
-                                                    <li><a id="qsLogoutBtn" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                                    <li><a asp-controller="Account" asp-action="Profile">@Localizer["Hello"] @User.Identity.Name!</a></li>
+                                                    <li><a id="qsLogoutBtn" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a></li>
                                                 }
                                                 else
                                                 {
-                                                    <li><a id="qsLoginBtn" asp-controller="Account" asp-action="Login">Login</a></li>
+                                                    <li><a id="qsLoginBtn" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a></li>
                                                 }
                                             </ul>
                                         </div>
