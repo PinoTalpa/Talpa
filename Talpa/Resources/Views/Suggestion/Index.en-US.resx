@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NoActivities" xml:space="preserve">
-    <value>No activities have been chosen by your manager yet!</value>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create New</value>
   </data>
-  <data name="ReturnSoon" xml:space="preserve">
-    <value>Come back soon!</value>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>

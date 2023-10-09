@@ -24,7 +24,7 @@
     <div class="px-2 md:px-20 pt-10">
 
         <div class="pb-2 px-10 w-full flex justify-end">
-            <a asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">Create New</a>
+            <a asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">@Localizer["CreateNew"]</a>
         </div>
 
         <div>
@@ -32,7 +32,7 @@
             {
                 <p>
                     <div class="relative hidden xl:block px-10">
-                        <input type="text" id="searchString" name="searchString" placeholder="Zoeken" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                        <input type="text" id="searchString" name="searchString" placeholder="@Localizer["Search"]" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
                         <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-16">
                             <svg class="h-6 w-6 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
