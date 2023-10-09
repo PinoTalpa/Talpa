@@ -1,4 +1,4 @@
-﻿@model SuggestionViewModel
+﻿@model SuggestionLimitationViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,20 +10,20 @@
             <div>
                 <div class="flex justify-between">
                     <div>
-                        <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Name)</p>
+                        <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
                     </div>
 
                     <div>
                         <div class="flex justify-end">
                             <div class="flex flex-col justify-center">
                                 <span class="material-symbols-outlined" style="font-size: 60px;
-                                    color: @((int)Model.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                            (int)Model.ActivityState == (int)ActivityState.Pending ? "orange" :
-                                            (int)Model.ActivityState == (int)ActivityState.Accepted ? "green" :
+                                    color: @((int)Model.Suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
+                                            (int)Model.Suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
+                                            (int)Model.Suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
                                             "gray");">
-                                    @((int)Model.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
-                                        (int)Model.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
-                                        (int)Model.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                                    @((int)Model.Suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                                        (int)Model.Suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                                        (int)Model.Suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
                                         "")
                                 </span>
                             </div>
@@ -34,29 +34,39 @@
                 <div class="pt-10 flex justify-between">
                     <div class="">
                         <h2 class="text-2xl font-medium">Beschrijving:</h2>
-                        <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
+                        <p class="text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
                     </div>
-                    <img src="@Url.Content("~/img/suggestion/" + @Model.ImageUrl)" class="h-60" />
+                    <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-60" />
                 </div>
 
                 <div class="pt-10">
                     <h2 class="text-2xl font-medium">Beperkingen:</h2>
 
-                    <div class="mb-4 w-full pt-4">
-                        <div class="input-group relative w-full">
-                            <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
-                            <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Limitation</label>
+                    <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Suggestion.Id">
+                        <div class="mb-4 w-full pt-4">
+                            <div class="input-group relative w-full">
+                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
+                                <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Limitation</label>
+                            </div>
+                            <span for="Limitation" class="text-red-700"></span>
                         </div>
-                        <span for="Limitation" class="text-red-700"></span>
-                    </div>
 
-                    <div class="w-full flex justify-end">
-                        <input type="submit" value="Beperking toevoegen" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
-                    </div>
+                        <div class="w-full flex justify-end">
+                            <input type="submit" value="Beperking toevoegen" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
+                        </div>
+                    </form>
 
                     <div class="w-full shadow-lg rounded-md mt-4 p-3">
-                        <h3 class="text-lg font-medium">Beperking</h3>
-                        <p>Dit is een beperking die bij het uitje past.</p>
+                        @foreach (var limitation in Model.limitations)
+                        {
+                            <div class="flex gap-4 md:gap-40 shadow-lg p-4 bg-white mb-4 w-full rounded-md">
+                                <div class="">
+                                    <div class="text-xl text-left gap-1">
+                                        @limitation.Name
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
