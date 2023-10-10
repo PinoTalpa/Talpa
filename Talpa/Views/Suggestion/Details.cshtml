@@ -10,11 +10,11 @@
             <div>
                 <div class="flex justify-between">
                     <div>
-                        <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
+                        <p class="text-2xl sm:text-3xl md:text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
                     </div>
 
                     <div>
-                        <div class="flex justify-end">
+                        <div class="flex justify-end hidden sm:flex">
                             <div class="flex flex-col justify-center">
                                 <span class="material-symbols-outlined" style="font-size: 60px;
                                     color: @((int)Model.Suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
@@ -33,14 +33,14 @@
 
                 <div class="pt-10 flex justify-between">
                     <div class="">
-                        <h2 class="text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
-                        <p class="text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
+                        <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
+                        <p class="text-sm sm:text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
                     </div>
-                    <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-60" />
+                    <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="hidden sm:flex h-60" />
                 </div>
 
                 <div class="pt-10">
-                    <h2 class="text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
+                    <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
 
                     <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Suggestion.Id">
                         <div class="mb-4 w-full pt-4">
