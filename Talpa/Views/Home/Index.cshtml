@@ -6,16 +6,16 @@
     <div class="relative text-center flex justify-center">
         <img class="w-full h-[700px] object-cover brightness-50" src="@Url.Content("~/img/main/banner.png")">
 
-        <div class="text-white absolute top-40 px-20">
-            <h1 class="text-5xl font-medium">@Localizer["PlanOuting"]</h1>
+        <div class="text-white absolute md:top-40 px-20">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium">@Localizer["PlanOuting"]</h1>
 
-            <div class="text-2xl pt-5">
+            <div class="text-xl sm:text-2xl pt-5">
                 <h2 class="pt-2">@Localizer["BrilliantIdea"]</h2>
                 <p>@Localizer["ShareCreate"]</p>
             </div>
 
             <div class="w-full flex justify-center mt-10">
-                <a asp-controller="Suggestion" asp-action="Create" class="text-center cursor-pointer bg-[#5236AB] w-96 hover:bg-[#300FA8] text-white font-bold py-2 rounded">Plannen</a>
+                <a asp-controller="Suggestion" asp-action="Create" class="text-center cursor-pointer bg-[#5236AB] w-3/6 hover:bg-[#300FA8] text-white font-bold py-2 rounded">Plannen</a>
             </div>
         </div>
     </div>
