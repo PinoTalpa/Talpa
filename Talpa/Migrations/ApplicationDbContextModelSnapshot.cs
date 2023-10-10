@@ -43,11 +43,17 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.ActivityLimitationDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("LimitationId")
                         .HasColumnType("int");
 
                     b.Property<int>("SuggestionId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("LimitationId");
 
@@ -61,10 +67,6 @@ namespace Talpa.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
