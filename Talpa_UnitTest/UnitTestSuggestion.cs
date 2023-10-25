@@ -142,5 +142,69 @@ namespace Talpa_UnitTest
             // Assert
             Assert.That(suggestionDeclined.ErrorMessage, Is.EqualTo(null));
         }
+
+        [Test]
+        public async Task SuggestionName_ShouldDeclineDuplicatedSuggestionFromRepository()
+        {
+            // Arrange
+            List<SuggestionDto> suggestionDtos = new()
+            {
+                new SuggestionDto { Id = 1, UserId = "1029734", Name = "Bowlen", Description = "Bowlen om 8 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Pending  },
+                new SuggestionDto { Id = 2, UserId = "1029734", Name = "Padellen", Description = "Padellen om 3 uur in de middag", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Pending  },
+                new SuggestionDto { Id = 3, UserId = "1029734", Name = "Film", Description = "Film kijken om 9 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Rejected },
+                new SuggestionDto { Id = 4, UserId = "1029734", Name = "Karten", Description = "Karten om 4 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Accepted },
+            };
+
+            _suggestionTestRepository.InitializeSuggestions(suggestionDtos);
+
+            Suggestion suggestion = new()
+            {
+                Id = 5,
+                UserId = "1029734",
+                Name = "bowlen",
+                Description = "Padellen om 3 uur in de middag",
+                ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg",
+                Date = null,
+                ActivityState = (Talpa_DAL.Enums.ActivityState)ModelLayer.Enums.ActivityState.Pending
+            };
+
+            // Act
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestion.Name);
+
+            // Assert
+            Assert.That(isDuplicateName, Is.EqualTo(true));
+        }
+
+        [Test]
+        public async Task SuggestionName_ShouldAcceptSuggestionFromRepository()
+        {
+            // Arrange
+            List<SuggestionDto> suggestionDtos = new()
+            {
+                new SuggestionDto { Id = 1, UserId = "1029734", Name = "Bowlen", Description = "Bowlen om 8 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Pending  },
+                new SuggestionDto { Id = 2, UserId = "1029734", Name = "Padellen", Description = "Padellen om 3 uur in de middag", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Pending  },
+                new SuggestionDto { Id = 3, UserId = "1029734", Name = "Film", Description = "Film kijken om 9 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Rejected },
+                new SuggestionDto { Id = 4, UserId = "1029734", Name = "Karten", Description = "Karten om 4 uur in de avond", ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg", Date = null, ActivityState = ModelLayer.Enums.ActivityState.Accepted },
+            };
+
+            _suggestionTestRepository.InitializeSuggestions(suggestionDtos);
+
+            Suggestion suggestion = new()
+            {
+                Id = 5,
+                UserId = "1029734",
+                Name = "tennis",
+                Description = "Tennis om 3 uur in de middag",
+                ImageUrl = "ef7837c1-02c6-4b76-83e1-84f00355d8b4.jpg",
+                Date = null,
+                ActivityState = (Talpa_DAL.Enums.ActivityState)ModelLayer.Enums.ActivityState.Pending
+            };
+
+            // Act
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestion.Name);
+
+            // Assert
+            Assert.That(isDuplicateName, Is.EqualTo(false));
+        }
     }
 }
