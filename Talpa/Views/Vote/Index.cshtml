@@ -14,8 +14,8 @@
                 <div class="flex flex-col justify-center">
                     <input type="hidden" name="activityDateId" value="@activityDate.Id">
                     <input hidden="hidden" value="@activityDate.SuggestionId" id="suggestionId" name="suggestionId" />
-                    <input name="selectedDates" type="checkbox" value="@activityDate.StartDate" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
-                    <input type="hidden" name="activityDateIsSelected" value="@activityDate.StartDate" />
+                    <input name="selectedDates" type="checkbox" value="@activityDate.Id" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
+                    <input type="hidden" name="activityDateIsSelected" value="@activityDate.Id" />
                 </div>
             </div>
         }

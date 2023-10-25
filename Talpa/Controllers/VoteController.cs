@@ -15,6 +15,7 @@ namespace Talpa.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly IVoteService _voteService;
+        private readonly IUserActivityDateService _userActivityDateService;
 
         public VoteController(IActivityService activityService, IVoteService voteService)
         {
@@ -52,7 +53,7 @@ namespace Talpa.Controllers
         // POST: VoteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(List<DateTime> selectedDates, int suggestionId)
+        public async Task<ActionResult> Create(List<int> selectedDates, int suggestionId)
         {
             //int.TryParse(collection["activityId"], out int ActivityId);
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,8 +67,13 @@ namespace Talpa.Controllers
             {
                 UserId = userId,
                 SuggestionId = suggestionId,
-                SelectedDates = selectedDates
+                SelectedDatesId = selectedDates
             };
+
+            //foreach (int DateId in selectedDates)
+            //{
+            //    await _userActivityDateService.AddUserActivityDateAsync(userId, DateId);
+            //}
 
             //TODO vote creation with interface
             vote = await _voteService.CreateVoteAsync(vote);
