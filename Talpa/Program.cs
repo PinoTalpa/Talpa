@@ -22,11 +22,16 @@ namespace Talpa
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseMySql(
                     connectionString,
                     new MySqlServerVersion(new Version(10, 4, 28)), // Edit this to your SQL server version.
-                    mySqlOptions => mySqlOptions.MigrationsAssembly("Talpa")
-                ));
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.MigrationsAssembly("Talpa");
+                        mySqlOptions.EnableStringComparisonTranslations(); // Enable string comparison translations
+                    });
+            });
 
             builder.Services.AddScoped<ApplicationDbContext>();
 

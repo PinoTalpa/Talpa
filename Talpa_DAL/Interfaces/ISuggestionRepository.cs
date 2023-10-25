@@ -15,5 +15,6 @@ namespace Talpa_DAL.Interfaces
         Task<bool> CreateSuggestionAsync(SuggestionDto suggestion);
         Task<SuggestionDto?> GetSuggestionByIdAsync(int id);
         Task<bool> DeclineSuggestionAsync(SuggestionDto suggestion);
+        Task<bool> SuggestionNameExistsAsync(string suggestionName);
     }
 }

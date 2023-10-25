@@ -108,5 +108,11 @@ namespace Talpa_DAL.Repositories
 
             return true;
         }
+
+        public async Task<bool> SuggestionNameExistsAsync(string suggestionName)
+        {
+            return await _dbContext.Suggestions
+                .AnyAsync(s => string.Equals(s.Name, suggestionName, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
