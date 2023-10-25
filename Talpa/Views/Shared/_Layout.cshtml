@@ -67,6 +67,12 @@
                                         @(currentController == "Activity" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
                                         @Localizer["Activities"]</a>
                                     </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Leaderboard" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Suggestion" && currentAction == "Leaderboard" ? "text-[#A299C6]" : "text-white")">
+                                            @Localizer["Leaderboard"]
+                                        </a>
+                                    </li>
 
                                     <li class="block md:hidden flex pt-5 text-[#D4CEEA]">
                                         <a class="block py-2 pl-3 pr-4 text-[#D4CEEA] text-lg rounded md:p-0">Account</a>
