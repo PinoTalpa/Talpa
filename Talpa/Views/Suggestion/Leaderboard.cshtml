@@ -1,0 +1,32 @@
+﻿@model SuggestionLeaderboardViewModel
+
+@{
+    ViewData["Title"] = "Leaderboard";
+}
+
+<div>
+    <div>
+        <div class="relative text-center flex justify-center">
+            <img class="w-full h-[700px] object-cover brightness-50" src="@Url.Content("~/img/main/banner.png")">
+            <div class="absolute text-white top-40">
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">@Localizer["Name"]</th>
+                            <th class="px-4 py-2">@Localizer["ExecutedSuggestions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var leaderboardViewModel in Model.leaderboardViewModels.OrderByDescending(vm => vm.ExecutedSuggestionCount))
+                        {
+                            <tr>
+                                <td class="px-4 py-2">@leaderboardViewModel.UserId</td>
+                                <td class="px-4 py-2">@leaderboardViewModel.ExecutedSuggestionCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

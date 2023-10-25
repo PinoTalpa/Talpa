@@ -3,6 +3,7 @@ using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Talpa_BLL.Interfaces;
@@ -52,6 +53,19 @@ namespace Talpa_BLL.Services
             }).ToList();
 
             return suggestions;
+        }
+
+        public async Task<List<Leaderboard>> GetExecutedSuggestionsAsync()
+        {
+            List<LeaderboardDto> leaderboardDtos = await _suggestionRepository.GetExecutedSuggestionsAsync();
+
+            List<Leaderboard> leaderboards = leaderboardDtos.Select(leaderboard => new Leaderboard
+            {
+                UserName = leaderboard.UserName,
+                ExecutedSuggestionCount = leaderboard.ExecutedSuggestionCount,
+            }).ToList();
+
+            return leaderboards;
         }
 
         public async Task<Suggestion> GetSuggestionByIdAsync(int id)
