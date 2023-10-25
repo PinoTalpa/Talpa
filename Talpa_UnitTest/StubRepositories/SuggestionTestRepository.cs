@@ -87,5 +87,10 @@ namespace Talpa_UnitTest.StubRepositories
 
             return false;
         }
+
+        public async Task<bool> SuggestionNameExistsAsync(string suggestionName)
+        {
+            return suggestions.Any(s => string.Equals(s.Name, suggestionName, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
