@@ -118,6 +118,14 @@ namespace Talpa.Controllers
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestionViewModel.Name);
+
+            if (isDuplicateName)
+            {
+                TempData["ErrorMessage"] = "De suggestie bestaat al!";
+                return View(suggestionViewModel);
+            }
+
             Suggestion suggestion = new()
             {
                 UserId = userId,

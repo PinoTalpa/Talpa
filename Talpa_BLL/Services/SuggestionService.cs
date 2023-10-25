@@ -140,5 +140,12 @@ namespace Talpa_BLL.Services
 
             return suggestion;
         }
+
+        public async Task<bool> SuggestionNameExistsAsync(string suggestionName)
+        {
+            bool exists = await _suggestionRepository.SuggestionNameExistsAsync(suggestionName);
+
+            return exists;
+        }
     }
 }
