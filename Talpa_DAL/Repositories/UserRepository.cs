@@ -53,7 +53,7 @@ namespace Talpa_DAL.Repositories
             return true;
         }
 
-        public async Task<List<UserDto>> GetUserAsync(string searchString)
+        public async Task<List<UserDto>> GetUsersAsync(string searchString)
         {
             IQueryable<UserDto> query = _dbContext.Users.Select(s => new UserDto
             {
@@ -69,6 +69,20 @@ namespace Talpa_DAL.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<UserDto> GetUserAsync(string userId)
+        {
+            IQueryable<UserDto> query = _dbContext.Users
+                .Where(s => s.Id == userId)
+                .Select(s => new UserDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ProfileImage = s.ProfileImage
+                });
+
+            return await query.FirstOrDefaultAsync();
         }
 
 

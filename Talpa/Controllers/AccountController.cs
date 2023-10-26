@@ -16,6 +16,7 @@ using Talpa_BLL.Models;
 using Microsoft.AspNetCore.Hosting;
 using Talpa.Models;
 using Talpa.Models.CreateModels;
+using ModelLayer.Models;
 
 namespace Talpa.Controllers
 {
@@ -56,12 +57,16 @@ namespace Talpa.Controllers
         {
             string name = User.Identity.Name;
             string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            UserDto user = await _userService.GetUserAsync(userId);
+
 
             return View(new UserProfileViewModel()
             {
-                Name = User.Identity.Name,
+                Name = user.Name,
                 EmailAddress = emailAddress,
-                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
+                ProfileImage = user.ProfileImage
             });
         }
 

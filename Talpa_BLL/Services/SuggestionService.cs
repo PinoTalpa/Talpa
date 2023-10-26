@@ -54,6 +54,8 @@ namespace Talpa_BLL.Services
             return suggestions;
         }
 
+
+
         public async Task<Suggestion> GetSuggestionByIdAsync(int id)
         {
             if (id <= 0)

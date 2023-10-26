@@ -12,6 +12,7 @@ namespace Talpa_DAL.Interfaces
         Task Login(string userId, string name, string email);
         //Task<List<UserDto>> GetSuggestionsAsync(string searchString);
         Task<bool> UpdateUserAsync(UserDto user);
+        Task<UserDto> GetUserAsync(string userId);
 
 
 

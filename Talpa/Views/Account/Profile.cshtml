@@ -32,16 +32,16 @@
                     </div>
                     <span asp-validation-for="Name" class="text-red-700"></span>
                 </div>
-            <div class="mb-4">
-                <fieldset>
-                    <legend>Upload Image</legend>
-                    <label for="Image">Image</label>
-                    <input type="file" name="Image" id="imageUpload" onchange="previewImage(event)" />
-                    <br />
-                    <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;" />
-                    <br />
-                </fieldset>
-            </div>
+                <div class="mb-4">
+                    <fieldset>
+                        <legend>Upload Image</legend>
+                        <label for="Image">Image</label>
+                        <input type="file" name="Image" id="imageUpload" onchange="previewImage(event)" />
+                        <br />
+                        <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;" />
+                        <br />
+                    </fieldset>
+                </div>
 
                 <div class="form-group">
                     <button type="submit" style="padding: 15px 30px; font-size: 16px; border: none;" class="text-white bg-[#007bff] rounded-md">Save</button>

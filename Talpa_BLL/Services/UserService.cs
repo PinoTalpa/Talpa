@@ -1,4 +1,5 @@
-﻿using ModelLayer.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,24 @@ namespace Talpa_BLL.Services
         {
             await _userRepository.Login(userId, name, email );
         }
+        public async Task<UserDto> GetUserAsync(string userId)
+        {
+            UserDto user = await _userRepository.GetUserAsync(userId);
+
+            if (user != null)
+            {
+                user = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    ProfileImage = user.ProfileImage
+                };
+            }
+
+            return user;
+        }
+
+
 
         public async Task<User> UpdateUserAsync(User userProfile)
         {
