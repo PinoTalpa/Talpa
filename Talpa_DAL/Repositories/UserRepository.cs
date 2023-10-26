@@ -20,7 +20,7 @@ namespace Talpa_DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task Login(string userId, string name, string email)
+        public async Task Login(string userId, string name, string email)  
         {
             var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -37,5 +37,40 @@ namespace Talpa_DAL.Repositories
                 await _dbContext.SaveChangesAsync();
             }
         }
+
+        public async Task<bool> UpdateUserAsync(UserDto user)
+        {
+            try
+            {
+                _dbContext.Users.Update(user);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<List<UserDto>> GetUserAsync(string searchString)
+        {
+            IQueryable<UserDto> query = _dbContext.Users.Select(s => new UserDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                ProfileImage = s.ProfileImage
+
+            });
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(s => s.Name.Contains(searchString));
+            }
+
+            return await query.ToListAsync();
+        }
+
+
     }
 }

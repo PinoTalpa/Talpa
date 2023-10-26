@@ -7,22 +7,28 @@ using SampleMvcApp.ViewModels;
 using System.Linq;
 using System.Security.Claims;
 using Auth0.AspNetCore.Authentication;
-using Talpa_DAL.Entities;
 using Talpa_BLL.Interfaces;
 using System.Net.Mail;
 using System.Text;
 using Newtonsoft.Json;
 using Auth0.AuthenticationApi.Models;
+using Talpa_BLL.Models;
+using Microsoft.AspNetCore.Hosting;
+using Talpa.Models;
+using Talpa.Models.CreateModels;
 
 namespace Talpa.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AccountController(IUserService userService)
+
+        public AccountController(IUserService userService, IWebHostEnvironment webHostEnvironment)
         {
             _userService = userService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task Login(string returnUrl = "/")
@@ -58,6 +64,66 @@ namespace Talpa.Controllers
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
             });
         }
+
+        // TODO: maak een index voor het ophalen van de gebruiker
+        [Authorize]
+/*        public async Task<ActionResult> Index()
+        {
+
+        }*/
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> Update(UserProfileViewModel userProfileViewModel, IFormFile image)
+        {
+            string? fileName = await SaveImageAsync(image, _webHostEnvironment, null);
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                userProfileViewModel.ProfileImage = fileName;
+            }
+
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            User userProfile = new()
+            {
+                Id = userId,
+                Name = userProfileViewModel.Name,
+                ProfileImage = userProfileViewModel.ProfileImage,
+            };
+
+            userProfile = await _userService.UpdateUserAsync(userProfile);
+
+            if (userProfile.ErrorMessage != null) {
+                TempData["ErrorMessage"] = userProfile.ErrorMessage;
+                return RedirectToAction("Profile", "Account");
+            }
+
+            TempData["StatusMessage"] = "The Update was successfully created!";
+
+            return RedirectToAction("Profile", "Account");
+        }
+
+        public async Task<string?> SaveImageAsync(IFormFile image, IWebHostEnvironment webHostEnvironment, string? existingImageUrl)
+        {
+            if (image != null && image.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                string webRootPath = webHostEnvironment.WebRootPath;
+                string imagePath = Path.Combine(webRootPath, "img/profile", fileName);
+
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                return fileName;
+            }
+
+            return existingImageUrl;
+        }
+
+
 
         [Authorize]
         public async Task<ActionResult> StoreUser()
