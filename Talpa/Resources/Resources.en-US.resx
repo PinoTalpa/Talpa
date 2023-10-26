@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExecutedSuggestions" xml:space="preserve">
-    <value>Aantal uitgevoerde suggesties</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Naam</value>
-  </data>
-  <data name="Rank" xml:space="preserve">
-    <value>Rang</value>
+  <data name="NameMaxLengthError" xml:space="preserve">
+    <value>Name cannot be longer than 50 characters.</value>
   </data>
 </root>

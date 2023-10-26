@@ -123,4 +123,7 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Rank" xml:space="preserve">
+    <value>Rank</value>
+  </data>
 </root>
