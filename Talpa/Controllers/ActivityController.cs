@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_DAL.Entities;
 
 namespace Talpa.Controllers
 {
@@ -20,9 +18,9 @@ namespace Talpa.Controllers
             _activityService = activityService;
         }
 
-        public async Task<ActionResult> Index(string searchString)
+        public async Task<ActionResult> Index()
         {
-            List<Activity> activities = await _activityService.GetActivitiesAsync(searchString);
+            List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
 
             if (activities.Any(s => s.ErrorMessage != null))
             {
@@ -39,12 +37,17 @@ namespace Talpa.Controllers
 
             List<ActivityViewModel> activityViewModels = activities.Select(activity => new ActivityViewModel
             {
-                Id = activity.Id,
-                Name = activity.Name,
-                Description = activity.Description,
-                ImageUrl = activity.ImageUrl,
-                Date = activity.Date,
-                ActivityState = activity.ActivityState,
+                Suggestions = activity.Suggestions?.Select(suggestion => new Suggestion
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = (DateTime?)suggestion.Date,
+                    ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+                }).ToList(),
+                startTime = activity.startTime,
+                endTime = activity.endTime
             }).ToList();
 
             return View(activityViewModels);
@@ -53,88 +56,25 @@ namespace Talpa.Controllers
         // GET: ActivityController/Details/5
         public async Task<ActionResult> Details(int activityId)
         {
-            Activity activity = await _activityService.GetActivityByIdAsync(activityId);
+            Activity activity = null; // await _activityService.GetActivityByIdAsync(activityId);
 
-            if (activity.ErrorMessage == null)
-            {
-                ActivityViewModel activityViewModel = new()
-                {
-                    Id = activity.Id,
-                    Name = activity.Name,
-                    Description = activity.Description,
-                    ImageUrl = activity.ImageUrl,
-                    Date = activity.Date,
-                    ActivityState = activity.ActivityState,
-                };
+            //if (activity.ErrorMessage == null)
+            //{
+            //    ActivityViewModel activityViewModel = new()
+            //    {
+            //        Id = activity.Id,
+            //        Name = activity.Name,
+            //        Description = activity.Description,
+            //        ImageUrl = activity.ImageUrl,
+            //        Date = activity.Date,
+            //        ActivityState = activity.ActivityState,
+            //    };
 
-                return View(activityViewModel);
-            }
+            //    return View(activityViewModel);
+            //}
 
             TempData["ErrorMessage"] = activity.ErrorMessage;
             return RedirectToAction(nameof(Index));
-        }
-
-        // GET: ActivityController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ActivityController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ActivityController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ActivityController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ActivityController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ActivityController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
