@@ -4,5 +4,7 @@
     {
         public int SuggestionId { get; set; }
         public List<DateTime> Days { get; set; }
+
+        public string? SelectedQuarter { get; set; }
     }
 }

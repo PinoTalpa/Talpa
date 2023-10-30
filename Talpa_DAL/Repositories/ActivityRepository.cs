@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Talpa_DAL.Data;
+using Talpa_DAL.Entities;
 using Talpa_DAL.Interfaces;
 
 namespace Talpa_DAL.Repositories
@@ -27,6 +28,7 @@ namespace Talpa_DAL.Repositories
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
+                ImageUrl = s.ImageUrl,
                 Date = s.Date,
                 ActivityState = s.ActivityState,
             });
@@ -39,6 +41,39 @@ namespace Talpa_DAL.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<List<ActivityDateDto>> GetActivityDates(int activityId)
+        {
+            List<ActivityDateDto> activityDates = _dbContext.ActivityDates
+                .Where(date => date.SuggestionId == activityId)
+                .ToList();
+
+            return activityDates;
+        }
+
+        public async Task<bool> CreateActivityAsync(SuggestionDto suggestion)
+        {
+            try
+            {
+                var existingSuggestion = await _dbContext.Suggestions.FindAsync(suggestion.Id);
+
+                if (existingSuggestion != null)
+                {
+                    existingSuggestion.ActivityState = suggestion.ActivityState;
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<SuggestionDto?> GetActivityByIdAsync(int id)

@@ -17,14 +17,16 @@ namespace Talpa.Areas.Admin.Controllers
     public class SuggestionController : Controller
     {
         private readonly ISuggestionService _suggestionService;
+        private readonly IActivityService _activityService;
         private readonly IQuarterService _quarterService;
         private readonly IActivityDateService _activityDateService;
 
-        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService)
+        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService, IActivityService activityService)
         {
             _suggestionService = suggestionService;
             _quarterService = quarterService;
             _activityDateService = activityDateService;
+            _activityService = activityService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -49,6 +51,7 @@ namespace Talpa.Areas.Admin.Controllers
                 Id = suggestion.Id,
                 Name = suggestion.Name,
                 Description = suggestion.Description,
+                ImageUrl = suggestion.ImageUrl,
                 Date = suggestion.Date,
                 ActivityState = suggestion.ActivityState,
             }).ToList();
@@ -64,13 +67,20 @@ namespace Talpa.Areas.Admin.Controllers
             {
                 SuggestionId = suggestionId,
                 Days = quarterDay.Days,
+                SelectedQuarter = quarter,
             };
 
             return View(quarterDayViewModel);
         }
 
-        public ActionResult Times(string selectedDates, int suggestionId)
+        public ActionResult Times(string selectedQuarter, string selectedDates, int suggestionId)
         {
+            if (selectedDates == null)
+            {
+                TempData["ErrorMessage"] = "Please select 1 or more days!";
+                return RedirectToAction("Dates", new { quarter = selectedQuarter, suggestionId = suggestionId });
+            }
+
             string[] dateStrings = selectedDates.Split(',');
             List<DateTime> selectedDateList = new();
 
@@ -109,6 +119,7 @@ namespace Talpa.Areas.Admin.Controllers
                     Id = suggestion.Id,
                     Name = suggestion.Name,
                     Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
                     Date = suggestion.Date,
                     ActivityState = suggestion.ActivityState,
                 };
@@ -146,11 +157,18 @@ namespace Talpa.Areas.Admin.Controllers
             List<ActivityDate> activityDates = timeInputs.Select(ti => new ActivityDate
             {
                 SuggestionId = suggestionId,
-                StartDate = ti.Date.Add(new TimeSpan(ti.StartTimeHours, ti.StartTimeMinutes, 0)),
-                EndDate = ti.Date.Add(new TimeSpan(ti.EndTimeHours, ti.EndTimeMinutes, 0))
+                StartDate = ti.IsFullDay
+                    ? ti.Date.Add(new TimeSpan(0, 0, 0))
+                    : ti.Date.Add(new TimeSpan(ti.StartTimeHours, ti.StartTimeMinutes, 0)),
+                EndDate = ti.IsFullDay
+                    ? ti.Date.Add(new TimeSpan(23, 59, 0))
+                    : ti.Date.Add(new TimeSpan(ti.EndTimeHours, ti.EndTimeMinutes, 0)),
             }).ToList();
 
             await _activityDateService.CreateActivityDates(activityDates);
+
+            Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
+            suggestion = await _activityService.CreateActivityAsync(suggestion);
 
             TempData["StatusMessage"] = "The activity was successfully made with the dates!";
             return RedirectToAction(nameof(Index));
@@ -171,7 +189,8 @@ namespace Talpa.Areas.Admin.Controllers
             {
                 UserId = userId,
                 Name = suggestionViewModel.Name,
-                Description = suggestionViewModel.Description
+                Description = suggestionViewModel.Description,
+                ImageUrl = suggestionViewModel.ImageUrl,
             };
 
             suggestion = await _suggestionService.CreateSuggestionAsync(suggestion);
@@ -182,7 +201,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully declined!";
+            TempData["StatusMessage"] = "The suggestion was successfully created!";
             return RedirectToAction(nameof(Index));
         }
 

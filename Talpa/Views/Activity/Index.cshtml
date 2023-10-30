@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="h-screen">
+<div>
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
@@ -22,33 +22,19 @@
     </div>
 
     <div class="px-2 md:px-20 pt-10">
-            <div class=" grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-full pt-10 gap-4 flex flex-col overflow-y-auto transform scroll">
-                @foreach (ActivityViewModel activity in Model)
-                {
-                    <a asp-controller="Activity" asp-action="Details" asp-route-activityId="@activity.Id">
-                        <div class="w-full h-40 transition ease-in-out hover:scale-105 transform shadow hover:shadow-xl rounded-lg rounded-tr-xl">
-                            <div class="flex w-full bg-gray-200 rounded-lg rounded-tr-xl">
-                                <div class="flex flex-1 h-40 flex-col justify-center">
-                                    <h1 class="text-blue-700 text-4xl pl-20">@Html.DisplayFor(modelItem => activity.Name)</h1>
-                                </div>
-                                <div class="flex">
-                                    <div class="flex flex-col justify-center pr-20">
-                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;
-                                        color: @((int)activity.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                            (int)activity.ActivityState == (int)ActivityState.Pending ? "yellow" :
-                                            (int)activity.ActivityState == (int)ActivityState.Accepted ? "green" :
-                                            "gray");">
-                                            @((int)activity.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
-                                                (int)activity.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
-                                                (int)activity.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
-                                                "")
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                }
+        <h1 class="text-4xl font-bold pl-2 pt-10">Kwartaal</h1>
+        <p class="pl-2 text-lg">Selecteer alstublieft een keuze voor de activiteit die je het meest aantrekkelijk vindt.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-full pt-10 flex justify-center">
+            @foreach (ActivityViewModel activity in Model)
+            {
+                <a asp-controller="Vote" asp-action="Index" asp-route-activityId="@activity.Id" class="px-2">
+                    <div class="flex flex-col w-full rounded-lg bg-[#E8E5F2] hover:bg-[#D4CEEA] p-3">
+                        <h1 class="text-[#5236AB] w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => activity.Name)</h1>
+                        <img src="@Url.Content("~/img/suggestion/" + activity.ImageUrl)" class="w-full object-cover h-60 pt-6" />
+                        <p class="text-[#5236AB] w-full text-center text-2xl pt-10">Votes: 9</p>
+                    </div>
+                </a>
+            }
         </div>
         
         <style>

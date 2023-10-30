@@ -25,7 +25,7 @@
 
     <div class="px-2 md:px-20 pt-10">
         <div>
-            @using (Html.BeginForm("Index", "Suggestion", FormMethod.Get))
+            @using (Html.BeginForm("Index", "Activity", FormMethod.Get))
             {
                 <p>
                     <div class="relative hidden xl:block px-10">
@@ -48,7 +48,10 @@
                         <div class="w-full h-40 shadow hover:shadow-xl rounded-lg rounded-tr-xl">
                             <div class="flex w-full bg-white rounded-lg rounded-tr-xl">
                                 <div class="flex flex-1 h-40 flex-col justify-center">
-                                    <h1 class="text-blue-700 text-4xl pl-20">@Html.DisplayFor(modelItem => Activity.Name)</h1>
+                                    <div class="flex modal-fullscreen-lg-down justify-between">
+                                        <h1 class="text-blue-700 text-4xl pl-20 flex flex-col justify-center">@Html.DisplayFor(modelItem => Activity.Name)</h1>
+                                        <img src="@Url.Content("~/img/suggestion/" + Activity.ImageUrl)" class="h-40 p-4" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

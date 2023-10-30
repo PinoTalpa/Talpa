@@ -21,7 +21,7 @@
             </div>
         }
 
-        <section class="bg-white pt-28 xl:pt-0 pl-0 md:pl-20">
+        <section class="bg-white pt-20 xl:pt-10 pl-0 md:pl-20">
             <div class="px-4 mx-auto max-w-2xl">
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -36,7 +36,7 @@
 
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
-                            <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
+                            <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]">
                             <label for="Name" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Titel</label>
                         </div>
                         <span asp-validation-for="Name" class="text-red-700"></span>
@@ -44,10 +44,21 @@
 
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
-                            <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500" style="min-height: 100px;"></textarea>
+                            <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]" style="min-height: 100px;"></textarea>
                             <label for="Description" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Description</label>
                         </div>
                         <span asp-validation-for="Description" class="text-red-700"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <fieldset>
+                            <legend>Upload Image</legend>
+                            <label for="Image">Image</label>
+                            <input type="file" name="Image" id="imageUpload" onchange="previewImage(event)" />
+                            <br />
+                            <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;" />
+                            <br />
+                        </fieldset>
                     </div>
 
                     <div class="px-10 flex gap-4">
@@ -67,7 +78,7 @@
         .custom-input:focus,
         .custom-input:valid {
             outline: none;
-            border: 1.5px solid #1a73e8;
+            border: 1.5px solid #5236AB;
         }
 
         .custom-input:focus ~ .custom-label,
@@ -75,9 +86,27 @@
             transform: translateY(-50%) scale(0.8);
             background-color: white;
             padding: 0 .2em;
-            color: #2196f3;
+                color: #5236AB;
         }
     </style>
+
+    <script>
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 
     @section Scripts {
         @{

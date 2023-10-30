@@ -11,8 +11,8 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230926111246_Third")]
-    partial class Third
+    [Migration("20231002082014_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

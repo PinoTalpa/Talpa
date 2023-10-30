@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BrilliantIdea" xml:space="preserve">
+    <value>Do you have a brilliant idea for our next company outing?</value>
+  </data>
+  <data name="EasySteps" xml:space="preserve">
+    <value>In just a few simple steps, you can make a suggestion with Talpa.</value>
+  </data>
+  <data name="PlanOuting" xml:space="preserve">
+    <value>Planning a company outing?</value>
+  </data>
+  <data name="ShareCreate" xml:space="preserve">
+    <value>Share it with us and help us create an unforgettable experience together!</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>Suggestion</value>
+  </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="WithTalpa" xml:space="preserve">
+    <value>With Talpa, you can quickly and easily suggest an idea for the company outing!</value>
   </data>
 </root>

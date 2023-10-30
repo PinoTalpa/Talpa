@@ -1,5 +1,9 @@
 ﻿@{
     var currentPage = Context.Request.Path;
+
+    string? currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+    string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
 
 <aside id="default-sidebar" class="w-full h-full" aria-label="Sidebar">
@@ -7,7 +11,8 @@
 @*        <img src="@Url.Content("~/Images/Main/TKDPLogo.png")" class="w-32 h-32" />*@
         <ul class="space-y-2 font-medium">
             <li>
-                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                    @(currentController == "Admin" ? "bg-gray-100" : "bg-white")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         dashboard
                     </span>
@@ -15,7 +20,8 @@
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                    @(currentController == "Activity" ? "bg-gray-100" : "bg-white")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>
@@ -23,7 +29,8 @@
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
+                    @(currentController == "Suggestion" ? "bg-gray-100" : "bg-white")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>

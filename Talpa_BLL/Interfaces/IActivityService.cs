@@ -12,6 +12,9 @@ namespace Talpa_BLL.Interfaces
     {
         Task<List<Activity>> GetActivitiesAsync(string searchString);
         Task<Activity> GetActivityByIdAsync(int id);
+        Task<Suggestion> CreateActivityAsync(Suggestion suggestion);
         Task<Activity> RemoveActivityAsync(Activity activity);
+
+        Task<List<ActivityDate>> GetActivityDates(int activityId);
     }
 }

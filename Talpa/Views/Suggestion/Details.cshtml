@@ -18,7 +18,7 @@
                             <div class="flex flex-col justify-center">
                                 <span class="material-symbols-outlined" style="font-size: 60px;
                                     color: @((int)Model.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                            (int)Model.ActivityState == (int)ActivityState.Pending ? "yellow" :
+                                            (int)Model.ActivityState == (int)ActivityState.Pending ? "orange" :
                                             (int)Model.ActivityState == (int)ActivityState.Accepted ? "green" :
                                             "gray");">
                                     @((int)Model.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
@@ -31,9 +31,12 @@
                     </div>
                 </div>
 
-                <div class="pt-10">
-                    <h2 class="text-2xl font-medium">Beschrijving:</h2>
-                    <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
+                <div class="pt-10 flex justify-between">
+                    <div class="">
+                        <h2 class="text-2xl font-medium">Beschrijving:</h2>
+                        <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
+                    </div>
+                    <img src="@Url.Content("~/img/suggestion/" + @Model.ImageUrl)" class="h-60" />
                 </div>
 
                 <div class="pt-10">

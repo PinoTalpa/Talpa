@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string? currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+    string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -44,17 +50,26 @@
                                 </div>
                                 <ul class="flex flex-col mt-4 bg-black p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
                                     <li>
-                                        <a href="/" class="hover:text-[#1CADE4] block py-2 pl-3 text-white pr-4 text-lg rounded md:bg-transparent md:p-0">Home</a>
+                                        <a href="/" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
+                                        @(currentController == "Home" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        Home
+                                        </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index" class="hover:text-[#1CADE4] block py-2 pl-3 text-white pr-4 text-lg rounded md:p-0">Suggestions</a>
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index"
+                                           class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                           @(currentController == "Suggestion" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                           @Localizer["Suggestions"]
+                                        </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[#1CADE4] block py-2 pl-3 text-white pr-4 text-lg rounded md:p-0">Activities</a>
+                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        @Localizer["Activities"]</a>
                                     </li>
 
-                                    <li class="block md:hidden flex pt-5 text-[#1CADE4]">
-                                        <a class="block py-2 pl-3 pr-4 text-[#1CADE4] text-lg rounded md:p-0">Account</a>
+                                    <li class="block md:hidden flex pt-5 text-[#D4CEEA]">
+                                        <a class="block py-2 pl-3 pr-4 text-[#D4CEEA] text-lg rounded md:p-0">Account</a>
                                     </li>
                                 </ul>
                             </div>

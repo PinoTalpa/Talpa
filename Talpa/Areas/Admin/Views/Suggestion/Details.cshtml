@@ -5,7 +5,7 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="px-2 md:px-20 lg:px-32">
+<div class="px-2 md:px-20 pb-10 lg:px-32 overflow-y-scroll h-screen">
     <div class="bg-white p-4 mt-10">
         <h3 class="text-4xl font-semibold text-gray-900 pt-5">
             Maak een nieuwe activiteit aan
@@ -20,6 +20,8 @@
                 <p class="text-xl text-[#200A58]">Beschrijving:</p>
                 <p class="pt-2 text-[#200A58]">@Model.Suggestion.Description</p>
             </div>
+
+            <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-40 mt-4" />
         </div>
 
         <form method="get" asp-area="Admin" asp-action="Dates" asp-controller="Suggestion">
@@ -43,16 +45,12 @@
             <div class="flex flex-col flex-col-reverse sm:flex-row gap-2 md:gap-4">
                 <div class="w-full flex justify-end">
                     <a asp-action="Index"
-                            class="bg-white text-center border border-blue-500 w-full hover:bg-gray-100 font-bold rounded py-2 text-blue-500">
+                           class="bg-white text-center border border-[#5236AB] w-full hover:bg-gray-100 font-bold rounded py-2 text-[#5236AB]">
                         Annuleer
                     </a>
                 </div>
-
-@*                <div class="w-full flex justify-end">
-                    <a asp-area="Admin" asp-action="Dates" asp-route-suggestionId="@Model.Suggestion.Id" class="cursor-pointer bg-blue-500 w-full text-center hover:bg-blue-600 text-white font-bold py-2 rounded">Datum toevoegen</a>
-                </div>*@
                 <div class="w-full flex justify-end">
-                    <button type="submit" class="cursor-pointer bg-blue-500 w-full text-center hover:bg-blue-600 text-white font-bold py-2 rounded">Datum toevoegen</button>
+                    <button type="submit" class="cursor-pointer bg-[#5236AB] hover:bg-[#300FA8] w-full text-center text-white font-bold py-2 rounded">Datum toevoegen</button>
                 </div>
             </div>
         </div>

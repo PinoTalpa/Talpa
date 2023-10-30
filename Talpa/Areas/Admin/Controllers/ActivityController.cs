@@ -45,6 +45,7 @@ namespace Talpa.Areas.Admin.Controllers
                 Name = activity.Name,
                 Description = activity.Description,
                 Date = activity.Date,
+                ImageUrl = activity.ImageUrl,
                 ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
             }).ToList();
 
@@ -63,6 +64,7 @@ namespace Talpa.Areas.Admin.Controllers
                     Id = activity.Id,
                     Name = activity.Name,
                     Description = activity.Description,
+                    ImageUrl = activity.ImageUrl,
                     Date = activity.Date,
                     ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
                 };

@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Models\UpdateModels\" />
+    <Folder Include="wwwroot\img\suggestion\" />
   </ItemGroup>
 
 </Project>
