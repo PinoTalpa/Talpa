@@ -81,12 +81,8 @@ namespace Talpa.Controllers
         [HttpPost]
         public async Task<ActionResult> Update(UserProfileViewModel userProfileViewModel, IFormFile image)
         {
-            string? fileName = await SaveImageAsync(image, _webHostEnvironment, null);
-
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                userProfileViewModel.ProfileImage = fileName;
-            }
+            string? fileName = await SaveImageAsync(image, _webHostEnvironment, userProfileViewModel.ProfileImage);
+            userProfileViewModel.ProfileImage = fileName;
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
