@@ -100,7 +100,7 @@ namespace Talpa.Controllers
                 return RedirectToAction("Profile", "Account");
             }
 
-            TempData["StatusMessage"] = "The Update was successfully created!";
+            TempData["StatusMessage"] = "The profile was updated successfully!";
 
             return RedirectToAction("Profile", "Account");
         }

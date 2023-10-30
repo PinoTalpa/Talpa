@@ -3,6 +3,21 @@
     ViewData["Title"] = "Profile";
 }
 
+<div class="md:px-20">
+    @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+    {
+        <div class="mt-10 text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full">
+            @TempData["StatusMessage"]
+        </div>
+    }
+
+    @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+    {
+        <div class="mt-10 text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+</div>
 <div class="pt-10 px-2 md:px-20 lg:px-40">
     <h1 class="text-4xl font-medium pt-2 pb-10">@Localizer["Profile"]</h1>
     <div class="grid grid-cols-4 w-full">
