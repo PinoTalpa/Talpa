@@ -10,7 +10,7 @@ namespace ModelLayer.Models
     {
         public int Id { get; set; }
         public int SuggestionId { get; set; }
-        public VoteDto Suggestion { get; set; }
+        public SuggestionDto Suggestion { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

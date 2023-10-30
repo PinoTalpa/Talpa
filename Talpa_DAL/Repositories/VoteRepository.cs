@@ -44,22 +44,12 @@ namespace Talpa_DAL.Repositories
             return foundVotes;
         }
 
-        public Task<Vote> getVote(VoteDto vote)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<VoteDto> GetVoteBySuggestionId(VoteDto vote)
         {
             VoteDto foundVote = _dbContext.Votes
                 .FirstOrDefault(v => v.UserId == vote.UserId && v.SuggestionId == vote.SuggestionId);
 
             return foundVote;
-        }
-
-        Task<VoteDto> IVoteRepository.getVote(VoteDto vote)
-        {
-            throw new NotImplementedException();
         }
     }
 }
