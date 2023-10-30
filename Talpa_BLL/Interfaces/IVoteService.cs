@@ -10,5 +10,8 @@ namespace Talpa_BLL.Interfaces
     public interface IVoteService
     {
         Task<Vote> CreateVoteAsync(Vote vote);
+        Task<Vote> getExistingVoteAsync(Vote vote);
+        Task<List<Vote>> GetAllVotesBySuggestionAsync(int id);
+        Task<bool> DeleteExistingVoteAsync(Vote vote);
     }
 }

@@ -27,6 +27,14 @@ namespace Talpa.Controllers
         {
             List<ActivityDate> activityDates = await _activityService.GetActivityDates(activityId);
 
+            Vote vote = new()
+            {
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                SuggestionId = activityId,
+            };
+
+            //Vote existing = await _voteService.getExistingVoteAsync(vote);
+
             List<ActivityDateViewModel> activitieDates = activityDates.Select(activityDate => new ActivityDateViewModel
             {
                 Id = (int)activityDate.Id,
@@ -34,7 +42,6 @@ namespace Talpa.Controllers
                 StartDate = activityDate.StartDate,
                 EndDate = activityDate.EndDate,
             }).ToList();
-
             return View(activitieDates);
         }
 
@@ -67,16 +74,26 @@ namespace Talpa.Controllers
             {
                 UserId = userId,
                 SuggestionId = suggestionId,
-                SelectedDatesId = selectedDates
             };
 
-            //foreach (int DateId in selectedDates)
-            //{
-            //    await _userActivityDateService.AddUserActivityDateAsync(userId, DateId);
-            //}
+            var existingVote = _voteService.getExistingVoteAsync(vote);
+
+            if(existingVote.Id == 0)
+            {
+                vote = await _voteService.CreateVoteAsync(vote);
+
+                foreach (int DateId in selectedDates)
+                {
+                    UserActivityDate userActivityDate = new()
+                    {
+                        UserId = userId,
+                        ActivityDateId = DateId,
+                    };
+                    //await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
+                }
+            }
 
             //TODO vote creation with interface
-            vote = await _voteService.CreateVoteAsync(vote);
 
             return RedirectToAction(nameof(Index), "Activity");
         }
@@ -111,11 +128,11 @@ namespace Talpa.Controllers
         // POST: VoteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Vote vote)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return View();
             }
             catch
             {

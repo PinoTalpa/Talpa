@@ -6,7 +6,7 @@ namespace Talpa.Models
     {
         public int Id { get; set; }
         public int SuggestionId { get; set; }
-        public SuggestionDto Suggestion { get; set; }
+        public VoteDto Suggestion { get; set; }
 
         public bool IsSelected { get; set; }
         public DateTime StartDate { get; set; }

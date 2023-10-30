@@ -13,6 +13,6 @@ namespace ModelLayer.Models
         public UserDto User { get; set; }
 
         public int SuggestionId { get; set; }
-        public SuggestionDto Suggestion { get; set; }
+        public VoteDto Suggestion { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace ModelLayer.Models
         public int Id { get; set; }
 
         public int SuggestionId { get; set; }
-        public SuggestionDto Suggestion { get; set; }
+        public VoteDto Suggestion { get; set; }
 
         public int LimitationId { get; set; }
         public LimitationDto Limitation { get; set; }

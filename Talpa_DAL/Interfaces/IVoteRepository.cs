@@ -11,5 +11,8 @@ namespace Talpa_DAL.Interfaces
     public interface IVoteRepository
     {
         Task<bool> CreateVote(VoteDto vote);
+        Task<VoteDto> getVote(VoteDto vote);
+        Task<List<VoteDto>> GetAllVotesBySuggestionId(int Id);
+        Task<VoteDto> GetVoteBySuggestionId(VoteDto vote);
     }
 }

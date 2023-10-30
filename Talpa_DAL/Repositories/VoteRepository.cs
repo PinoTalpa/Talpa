@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,33 @@ namespace Talpa_DAL.Repositories
             }
 
             return true;
+        }
+
+        public async Task<List<VoteDto>> GetAllVotesBySuggestionId(int Id)
+        {
+            List<VoteDto> foundVotes = _dbContext.Votes
+                .Where(v => v.SuggestionId == Id)
+                .ToList();
+
+            return foundVotes;
+        }
+
+        public Task<Vote> getVote(VoteDto vote)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<VoteDto> GetVoteBySuggestionId(VoteDto vote)
+        {
+            VoteDto foundVote = _dbContext.Votes
+                .FirstOrDefault(v => v.UserId == vote.UserId && v.SuggestionId == vote.SuggestionId);
+
+            return foundVote;
+        }
+
+        Task<VoteDto> IVoteRepository.getVote(VoteDto vote)
+        {
+            throw new NotImplementedException();
         }
     }
 }

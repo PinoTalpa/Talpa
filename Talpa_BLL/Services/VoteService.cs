@@ -38,5 +38,54 @@ namespace Talpa_BLL.Services
 
             return vote;
         }
+
+        public Task<bool> DeleteExistingVoteAsync(Vote vote)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Vote>> GetAllVotesBySuggestionAsync(int Id)
+        {
+            List<VoteDto> votes = await _voteRepository.GetAllVotesBySuggestionId(Id);
+            List<Vote> results = new List<Vote>();
+
+            foreach(VoteDto vote in votes)
+            {
+                Vote result = new()
+                {
+                    Id = vote.Id,
+                    UserId = vote.UserId,
+                    SuggestionId = vote.SuggestionId,
+                };
+                results.Add(result);
+            }
+            return results;
+        }
+
+        public async Task<Vote> getExistingVoteAsync(Vote vote)
+        {
+            VoteDto voteDto = new()
+            {
+                UserId = vote.UserId,
+                SuggestionId = vote.SuggestionId,
+            };
+
+            VoteDto isExistingVote = await _voteRepository.GetVoteBySuggestionId(voteDto);
+            
+            if(isExistingVote == null)
+            {
+                return new Vote();
+            }
+            else
+            {
+                Vote found = new()
+                {
+                    Id = isExistingVote.Id,
+                    UserId = isExistingVote.UserId,
+                    SuggestionId = isExistingVote.SuggestionId,
+                };
+                return found;
+            }
+        }
     }
 }
