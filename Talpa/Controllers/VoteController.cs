@@ -76,7 +76,7 @@ namespace Talpa.Controllers
                 SuggestionId = suggestionId,
             };
 
-            var existingVote = _voteService.getExistingVoteAsync(vote);
+            Vote existingVote = await _voteService.getExistingVoteAsync(vote);
 
             if(existingVote.Id == 0)
             {
@@ -88,13 +88,11 @@ namespace Talpa.Controllers
                     {
                         UserId = userId,
                         ActivityDateId = DateId,
+                        IsAvailable = true,
                     };
                     //await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
                 }
             }
-
-            //TODO vote creation with interface
-
             return RedirectToAction(nameof(Index), "Activity");
         }
 

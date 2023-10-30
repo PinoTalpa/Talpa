@@ -74,7 +74,11 @@ namespace Talpa_BLL.Services
             
             if(isExistingVote == null)
             {
-                return new Vote();
+                Vote newVote = new()
+                {
+                    Id = 0,
+                };
+                return newVote;
             }
             else
             {
