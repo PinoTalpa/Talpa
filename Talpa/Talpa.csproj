@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Models\UpdateModels\" />
+    <Folder Include="wwwroot\img\profile\" />
     <Folder Include="Humanizer\" />
     <Folder Include="wwwroot\img\suggestion\" />
     <Folder Include="wwwroot\img\suggestion\" />
