@@ -17,5 +17,10 @@ namespace ModelLayer.Models
         public ActivityDateDto ActivityDate { get; set; }
 
         public bool IsAvailable { get; set; }
+
+        public static implicit operator UserActivityDateDto(bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

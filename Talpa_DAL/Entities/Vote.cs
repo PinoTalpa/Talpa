@@ -14,5 +14,6 @@ namespace Talpa_DAL.Entities
 
         public int SuggestionId { get; set; }
         public Suggestion Suggestion { get; set; }
+        public string? errorMessage { get; set; }
     }
 }
