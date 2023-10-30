@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.Models
 {
-    [Keyless]
     public class ActivityLimitationDto
     {
+        public int Id { get; set; }
+
         public int SuggestionId { get; set; }
         public SuggestionDto Suggestion { get; set; }
 

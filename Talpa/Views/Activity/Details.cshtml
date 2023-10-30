@@ -8,6 +8,10 @@
     <div class="w-full shadow-lg p-10">
         <div class="w-full">
             <div>
+                <a asp-controller="Activity" asp-action="Index" type="submit" class="cursor-pointer bg-red-500 px-4 hover:bg-red-600 text-white font-bold py-2 rounded">@Localizer["DetailsBack"]</a>
+
+                <a asp-controller="Vote" asp-action="Index" asp-route-activityId="@Model.Id" type="submit" class="cursor-pointer bg-green-500 px-4 hover:bg-green-600 text-white font-bold py-2 rounded">@Localizer["DetailsVote"]!</a>
+
                 <div class="flex justify-between">
                     <div>
                         <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Name)</p>
@@ -15,26 +19,26 @@
                 </div>
 
                 <div class="pt-10">
-                    <h2 class="text-2xl font-medium">Beschrijving:</h2>
+                    <h2 class="text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
                     <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
                 </div>
 
-                <a asp-controller="Activity" asp-action="Index" type="submit" class="cursor-pointer bg-green-500 px-4 hover:bg-green-600 text-white font-bold py-2 rounded">Stem!</a>
-
                 <div class="pt-10">
-                    <h2 class="text-2xl font-medium">Beperkingen:</h2>
+                    <h2 class="text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
 
-                    <div class="mb-4 w-full pt-4">
-                        <div class="input-group relative w-full">
-                            <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
-                            <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Limitation</label>
+                    <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Id">
+                        <div class="mb-4 w-full pt-4">
+                            <div class="input-group relative w-full">
+                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
+                                <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["DetailsLimitation"]</label>
+                            </div>
+                            <span for="Limitation" class="text-red-700"></span>
                         </div>
-                        <span for="Limitation" class="text-red-700"></span>
-                    </div>
 
-                    <div class="w-full flex justify-end">
-                        <input type="submit" value="Beperking toevoegen" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
-                    </div>
+                        <div class="w-full flex justify-end">
+                            <input type="submit" value="@Localizer["DetailsAddLimitation"]" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
+                        </div>
+                    </form>
 
                     <div class="w-full shadow-lg rounded-md mt-4 p-3">
                         <h3 class="text-lg font-medium">Beperking</h3>

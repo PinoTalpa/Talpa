@@ -11,7 +11,7 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231002082014_Initial")]
+    [Migration("20231009123335_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,11 +46,17 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.ActivityLimitationDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("LimitationId")
                         .HasColumnType("int");
 
                     b.Property<int>("SuggestionId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("LimitationId");
 
@@ -64,10 +70,6 @@ namespace Talpa.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,6 +108,10 @@ namespace Talpa.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -29,7 +29,15 @@
     <Folder Include="Migrations\" />
     <Folder Include="Models\UpdateModels\" />
     <Folder Include="wwwroot\img\profile\" />
+    <Folder Include="Humanizer\" />
     <Folder Include="wwwroot\img\suggestion\" />
+    <Folder Include="wwwroot\img\suggestion\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.en-US.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

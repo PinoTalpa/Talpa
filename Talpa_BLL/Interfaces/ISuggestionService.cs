@@ -11,8 +11,10 @@ namespace Talpa_BLL.Interfaces
     {
         Task<List<Suggestion>> GetSuggestionsAsync(string searchString);
         Task<List<Suggestion>> GetPendingSuggestionsAsync(string searchString);
+        Task<List<Leaderboard>> GetExecutedSuggestionsAsync();
         Task<Suggestion> CreateSuggestionAsync(Suggestion suggestion);
         Task<Suggestion> GetSuggestionByIdAsync(int id);
         Task<Suggestion> DeclineSuggestionAsync(Suggestion suggestion);
+        Task<bool> SuggestionNameExistsAsync(string suggestionName);
     }
 }

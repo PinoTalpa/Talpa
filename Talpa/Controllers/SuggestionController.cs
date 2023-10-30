@@ -15,11 +15,13 @@ namespace Talpa.Controllers
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILimitationService _limitationService;
 
-        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment)
+        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment, ILimitationService limitationService)
         {
             _suggestionService = suggestionService;
             _webHostEnvironment = webHostEnvironment;
+            _limitationService = limitationService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -68,11 +70,49 @@ namespace Talpa.Controllers
                     ActivityState = suggestion.ActivityState,
                 };
 
-                return View(suggestionViewModel);
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
             }
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> Leaderboard()
+        {
+            List<Leaderboard> Leaderboards = await _suggestionService.GetExecutedSuggestionsAsync();
+            List<LeaderboardViewModel> LeaderboardViewModels = new();
+
+            foreach(var leaderboard in Leaderboards)
+            {
+                LeaderboardViewModel LeaderboardViewModel = new()
+                {
+                    UserId = leaderboard.UserName,
+                    ExecutedSuggestionCount = leaderboard.ExecutedSuggestionCount
+                };
+
+                LeaderboardViewModels.Add(LeaderboardViewModel);
+            }
+
+            SuggestionLeaderboardViewModel suggestionLeaderboardViewModel = new()
+            {
+                leaderboardViewModels = LeaderboardViewModels
+            };
+
+            return View(suggestionLeaderboardViewModel);
         }
 
         public ActionResult Create()
@@ -101,6 +141,14 @@ namespace Talpa.Controllers
             }
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestionViewModel.Name);
+
+            if (isDuplicateName)
+            {
+                TempData["ErrorMessage"] = "De suggestie bestaat al!";
+                return View(suggestionViewModel);
+            }
 
             Suggestion suggestion = new()
             {
