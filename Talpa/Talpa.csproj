@@ -30,6 +30,7 @@
     <Folder Include="Models\UpdateModels\" />
     <Folder Include="Humanizer\" />
     <Folder Include="wwwroot\img\suggestion\" />
+    <Folder Include="wwwroot\img\suggestion\" />
   </ItemGroup>
 
   <ItemGroup>

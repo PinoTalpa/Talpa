@@ -52,7 +52,7 @@ namespace Talpa
             builder.Services.AddScoped<ILimitationRepository, LimitationRepository>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
             builder.Services.AddAuth0WebAppAuthentication(options =>
             {

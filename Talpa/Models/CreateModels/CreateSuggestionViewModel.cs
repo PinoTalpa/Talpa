@@ -6,7 +6,7 @@ namespace Talpa.Models.CreateModels
     public class CreateSuggestionViewModel
     {
         [Required(ErrorMessage = "Name is required.")]
-        [MaxLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameMaxLengthError")]
+        [MaxLength(50, ErrorMessage = "NameMaxLengthError")]
         public string Name { get; set; }
         public string Description { get; set; }
         public string? ImageUrl { get; set; }
