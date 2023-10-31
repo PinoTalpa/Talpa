@@ -11,7 +11,7 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231009123335_Initial")]
+    [Migration("20231031090408_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -159,6 +159,9 @@ namespace Talpa.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
