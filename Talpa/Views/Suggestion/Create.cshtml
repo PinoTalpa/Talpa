@@ -30,14 +30,14 @@
                     </div>
 
                     <div class="mb-4 w-full">
-                        <h1 class="text-3xl font-medium text-center">Wat is de titel van de suggestie?</h1>
-                        <h2 class="text-xl text-gray-400 font-medium text-center pt-2">Maak hieronder een suggestie aan</h2>
+                        <h1 class="text-3xl font-medium text-center">@Localizer["WhatIsTheTitleSuggestion"]</h1>
+                        <h2 class="text-xl text-gray-400 font-medium text-center pt-2">@Localizer["MakeSuggestionBelow"]</h2>
                     </div>
 
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
                             <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]">
-                            <label for="Name" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Titel</label>
+                            <label for="Name" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["Title"]</label>
                         </div>
                         <span asp-validation-for="Name" class="text-red-700"></span>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
                             <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]" style="min-height: 100px;"></textarea>
-                            <label for="Description" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">Description</label>
+                            <label for="Description" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["Description"]</label>
                         </div>
                         <span asp-validation-for="Description" class="text-red-700"></span>
                     </div>
@@ -63,10 +63,10 @@
 
                     <div class="px-10 flex gap-4">
                         <div class="w-full flex justify-end">
-                            <a asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">Annuleren</a>
+                            <a asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">@Localizer["Cancel"]</a>
                         </div>
                         <div class="w-full flex justify-end">
-                            <input type="submit" value="Aanmaken" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
+                            <input type="submit" value="@Localizer["Create"]" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
                         </div>
                     </div>
                 </form>
