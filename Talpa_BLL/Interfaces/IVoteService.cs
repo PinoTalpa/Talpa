@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Talpa_BLL.Models;
+﻿using Talpa_BLL.Models;
 
 namespace Talpa_BLL.Interfaces
 {
@@ -12,6 +7,7 @@ namespace Talpa_BLL.Interfaces
         Task<Vote> CreateVoteAsync(Vote vote);
         Task<Vote> getExistingVoteAsync(Vote vote);
         Task<List<Vote>> GetAllVotesBySuggestionAsync(int id);
+        int GetVoteCountBySuggestionAsync(int Id);
         Task<bool> DeleteExistingVoteAsync(Vote vote);
     }
 }

@@ -36,34 +36,63 @@ namespace Talpa_BLL.Services
         {
             List<ActivityDateDto> activityDtos = await _activityRepository.GetActivitiesWithSuggestionsAsync();
 
-            // Group SuggestionDto objects by startTime and endTime
-            var groupedSuggestions = activityDtos.GroupBy(dto => new { dto.StartDate, dto.EndDate });
+            // Group SuggestionDto objects by SuggestionId
+            var groupedSuggestions = activityDtos.GroupBy(dto => dto.Suggestion.Id);
 
-            // Create Activity objects based on the grouped suggestions
-            List<Activity> activities = groupedSuggestions.Select(group =>
+            // Create Activity objects based on the grouped suggestions with the same period
+            List<Activity> activities = new List<Activity>();
+
+            foreach (var group in groupedSuggestions)
             {
-                var firstDto = group.First(); // Take the first element for startTime and endTime
-                var activity = new Activity
+                var suggestionId = group.Key;
+                var earliestStartDate = group.Min(dto => dto.StartDate);
+                var latestEndDate = group.Max(dto => dto.EndDate);
+
+                // Check if there is an existing activity with the same period
+                var existingActivity = activities.FirstOrDefault(a =>
+                    a.startTime == earliestStartDate &&
+                    a.endTime == latestEndDate);
+
+                if (existingActivity != null)
                 {
-                    Id = firstDto.Id,
-                    startTime = firstDto.StartDate,
-                    endTime = firstDto.EndDate,
-                    Suggestions = group.Select(dto => new Suggestion
+                    // Add the suggestion to the existing activity
+                    existingActivity.Suggestions.Add(new Suggestion
                     {
-                        Id = dto.Suggestion.Id,
-                        Name = dto.Suggestion.Name,
-                        Description = dto.Suggestion.Description,
-                        ImageUrl = dto.Suggestion.ImageUrl,
-                        Date = (DateTime?)dto.Suggestion.Date,
-                        ActivityState = (Talpa_DAL.Enums.ActivityState)dto.Suggestion.ActivityState
-                    }).ToList()
-                };
-                return activity;
-            }).ToList();
+                        Id = group.First().Suggestion.Id,
+                        Name = group.First().Suggestion.Name,
+                        Description = group.First().Suggestion.Description,
+                        ImageUrl = group.First().Suggestion.ImageUrl,
+                        Date = (DateTime?)group.First().Suggestion.Date,
+                        ActivityState = (Talpa_DAL.Enums.ActivityState)group.First().Suggestion.ActivityState
+                    });
+                }
+                else
+                {
+                    // Create a new activity if one doesn't exist
+                    var activity = new Activity
+                    {
+                        Id = suggestionId,
+                        startTime = earliestStartDate,
+                        endTime = latestEndDate,
+                        Suggestions = new List<Suggestion>
+                {
+                    new Suggestion
+                    {
+                        Id = group.First().Suggestion.Id,
+                        Name = group.First().Suggestion.Name,
+                        Description = group.First().Suggestion.Description,
+                        ImageUrl = group.First().Suggestion.ImageUrl,
+                        Date = (DateTime?)group.First().Suggestion.Date,
+                        ActivityState = (Talpa_DAL.Enums.ActivityState)group.First().Suggestion.ActivityState
+                    }
+                }
+                    };
+                    activities.Add(activity);
+                }
+            }
 
             return activities;
         }
-
 
         //public async Task<Activity> GetActivityByIdAsync(int id)
         //{

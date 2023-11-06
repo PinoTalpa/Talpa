@@ -31,13 +31,16 @@
             {
                 <h1 class="text-2xl font-extrabold">Periode: @activity.startTime.ToShortDateString() - @activity.endTime.ToShortDateString()</h1>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-10 flex justify-center">
-                    @foreach (Suggestion suggestion in activity.Suggestions)
+                    @foreach (SuggestionViewModel suggestion in activity.Suggestions)
                     {
-                        <a asp-controller="Activity" asp-action="Details" asp-route-activityId="@suggestion.Id" class="px-2 mb-4">
+                        <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id" class="px-2 mb-4">
                             <div class="flex flex-col w-full h-full rounded-lg bg-[#E8E5F2] hover:bg-[#D4CEEA] p-3">
                                 <h1 class="text-[#5236AB] w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
                                 <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" class="w-full object-cover h-60 pt-6" />
-                                <p class="text-[#5236AB] w-full text-center text-2xl pt-10">Votes: 9</p>
+                                <form asp-controller="Vote" asp-action="Index" asp-route-activityId="@suggestion.Id" method="post" class="inline-block">
+                                    <button type="submit" class="bg-green-500 transition hover:scale-105 text-white font-bold py-2 px-4 rounded">Vote!</button>
+                                </form>
+                                <p class="text-[#5236AB] w-full text-center text-2xl pt-10">Votes: @suggestion.VoteCount</p>
                             </div>
                         </a>
                     }

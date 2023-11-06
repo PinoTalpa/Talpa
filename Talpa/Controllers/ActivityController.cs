@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
+using Talpa_DAL.Entities;
 
 namespace Talpa.Controllers
 {
@@ -11,11 +12,13 @@ namespace Talpa.Controllers
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IActivityService _activityService;
+        private readonly IVoteService _voteService;
 
-        public ActivityController(ISuggestionService suggestionService, IActivityService activityService)
+        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IVoteService voteService)
         {
             _suggestionService = suggestionService;
             _activityService = activityService;
+            _voteService = voteService;
         }
 
         public async Task<ActionResult> Index()
@@ -37,7 +40,7 @@ namespace Talpa.Controllers
 
             List<ActivityViewModel> activityViewModels = activities.Select(activity => new ActivityViewModel
             {
-                Suggestions = activity.Suggestions?.Select(suggestion => new Suggestion
+                Suggestions = activity.Suggestions?.Select(suggestion => new SuggestionViewModel
                 {
                     Id = suggestion.Id,
                     Name = suggestion.Name,
@@ -45,6 +48,7 @@ namespace Talpa.Controllers
                     ImageUrl = suggestion.ImageUrl,
                     Date = (DateTime?)suggestion.Date,
                     ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+                    VoteCount = _voteService.GetVoteCountBySuggestionAsync(suggestion.Id),
                 }).ToList(),
                 startTime = activity.startTime,
                 endTime = activity.endTime

@@ -5,7 +5,7 @@ namespace Talpa.Models
 {
     public class ActivityViewModel
     {
-        public List<Suggestion>? Suggestions { get; set; }
+        public List<SuggestionViewModel>? Suggestions { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
 

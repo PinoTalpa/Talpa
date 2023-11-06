@@ -62,6 +62,13 @@ namespace Talpa_BLL.Services
             return results;
         }
 
+        public int GetVoteCountBySuggestionAsync(int Id)
+        {
+            int voteCount = _voteRepository.GetVoteCountBySuggestionAsync(Id);
+            
+            return voteCount;
+        }
+
         public async Task<Vote> getExistingVoteAsync(Vote vote)
         {
             VoteDto voteDto = new()

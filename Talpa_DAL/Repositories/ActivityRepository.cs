@@ -72,8 +72,6 @@ namespace Talpa_DAL.Repositories
             return query;
         }
 
-
-
         public async Task<List<ActivityDateDto>> GetActivityDates(int activityId)
         {
             List<ActivityDateDto> activityDates = _dbContext.ActivityDates
@@ -84,7 +82,6 @@ namespace Talpa_DAL.Repositories
         }
 
         // Move this to the suggestion part of the application/or rework.
-
         public async Task<bool> CreateActivityAsync(SuggestionDto suggestion)
         {
             try
