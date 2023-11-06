@@ -1,54 +1,128 @@
-﻿@model ActivityViewModel
+﻿﻿@using Talpa_BLL.Models;
+@model ActivityViewModel
 
 @{
     ViewData["Title"] = "Activity Details";
 }
 
-@* <div class="h-full py-10 px-2 md:px-20">
-    <div class="w-full shadow-lg p-10">
-        <div class="w-full">
-            <div>
-                <a asp-controller="Activity" asp-action="Index" type="submit" class="cursor-pointer bg-red-500 px-4 hover:bg-red-600 text-white font-bold py-2 rounded">@Localizer["DetailsBack"]</a>
-
-                <a asp-controller="Vote" asp-action="Index" asp-route-activityId="@Model.Id" type="submit" class="cursor-pointer bg-green-500 px-4 hover:bg-green-600 text-white font-bold py-2 rounded">@Localizer["DetailsVote"]!</a>
-
-                <div class="flex justify-between">
-                    <div>
-                        <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Name)</p>
-                    </div>
-                </div>
-
-                <div class="pt-10">
-                    <h2 class="text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
-                    <p class="text-lg">@Html.DisplayFor(model => model.Description)</p>
-                </div>
-
-                <div class="pt-10">
-                    <h2 class="text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
-
-                    <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Id">
-                        <div class="mb-4 w-full pt-4">
-                            <div class="input-group relative w-full">
-                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
-                                <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["DetailsLimitation"]</label>
-                            </div>
-                            <span for="Limitation" class="text-red-700"></span>
-                        </div>
-
-                        <div class="w-full flex justify-end">
-                            <input type="submit" value="@Localizer["DetailsAddLimitation"]" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
-                        </div>
-                    </form>
-
-                    <div class="w-full shadow-lg rounded-md mt-4 p-3">
-                        <h3 class="text-lg font-medium">Beperking</h3>
-                        <p>Dit is een beperking die bij het uitje past.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div>
+    <div class="px-2">
+        <nav class="border border-gray-300 rounded inline-flex overflow-hidden w-full">
+            <a asp-controller="Activity" asp-action="Index" class="breadcrumbs__item w-full is-done">Kies periode</a>
+            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model.startTime" class="breadcrumbs__item w-full is-active">Kies activiteit</a>
+            <a class="breadcrumbs__item w-full">Kies datum</a>
+        </nav>
     </div>
-</div> *@
+
+    <style>
+        .breadcrumbs {
+            border: 1px solid #cbd2d9;
+            border-radius: 0.3rem;
+            display: inline-flex;
+            overflow: hidden;
+        }
+
+        .breadcrumbs__item {
+            background: #fff;
+            color: #333;
+            outline: none;
+            padding: 0.75em 0.75em 0.75em 1.25em;
+            position: relative;
+            text-decoration: none;
+            transition: background 0.2s linear;
+        }
+
+        .breadcrumbs__item:hover:after,
+        .breadcrumbs__item:hover {
+            background: #edf1f5;
+        }
+
+        .breadcrumbs__item:focus:after,
+        .breadcrumbs__item:focus,
+        .breadcrumbs__item.is-active:focus {
+            background: #323f4a;
+            color: #fff;
+        }
+
+        .breadcrumbs__item:after,
+        .breadcrumbs__item:before {
+            background: white;
+            bottom: 0;
+            clip-path: polygon(50% 50%, -50% -50%, 0 100%);
+            content: "";
+            left: 100%;
+            position: absolute;
+            top: 0;
+            transition: background 0.2s linear;
+            width: 1em;
+            z-index: 1;
+        }
+
+        .breadcrumbs__item:before {
+            background: #cbd2d9;
+            margin-left: 1px;
+        }
+
+        .breadcrumbs__item:last-child {
+            border-right: none;
+        }
+
+        .breadcrumbs__item.is-active:after,
+        .breadcrumbs__item.is-active {
+            background: #edf1f5;
+        }
+
+        .breadcrumbs__item.is-done:after,
+        .breadcrumbs__item.is-done {
+            background: #808284;
+            color: white;
+        }
+    </style>
+
+    <div class="md:px-20">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <div class="px-2 md:px-20 pt-4">
+        <h1 class="text-4xl text-center font-bold pl-2 pt-10">Kies een van de activiteiten waarop u wilt stemmen</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-10">
+            @foreach (SuggestionViewModel suggestion in Model.Suggestions)
+            {
+                <a asp-controller="Vote" asp-action="Index" asp-route-activityId="@suggestion.Id" class="px-2 mb-4 relative flex flex-col items-center justify-center">
+                    <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" class="w-full object-cover h-full rounded-lg brightness-50" />
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
+                        <p class="text-white w-full text-center text-2xl pt-10">Votes: @suggestion.VoteCount</p>
+                    </div>
+                </a>
+            }
+        </div>
+
+        <style>
+            .scroll::-webkit-scrollbar {
+                display: none;
+            }
+
+            .scroll {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+    </div>
+</div>
 
 <style>
     .custom-input:focus,

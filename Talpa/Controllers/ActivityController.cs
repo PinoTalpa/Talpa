@@ -58,27 +58,49 @@ namespace Talpa.Controllers
         }
 
         // GET: ActivityController/Details/5
-        public async Task<ActionResult> Details(int activityId)
+        public async Task<ActionResult> Details(DateTime activityStartTime)
         {
-            Activity activity = null; // await _activityService.GetActivityByIdAsync(activityId);
+            List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
 
-            //if (activity.ErrorMessage == null)
-            //{
-            //    ActivityViewModel activityViewModel = new()
-            //    {
-            //        Id = activity.Id,
-            //        Name = activity.Name,
-            //        Description = activity.Description,
-            //        ImageUrl = activity.ImageUrl,
-            //        Date = activity.Date,
-            //        ActivityState = activity.ActivityState,
-            //    };
+            if (activities.Any(s => s.ErrorMessage != null))
+            {
+                foreach (Activity activity in activities)
+                {
+                    if (activity.ErrorMessage != null)
+                    {
+                        TempData["ErrorMessage"] = activity.ErrorMessage;
+                    }
+                }
 
-            //    return View(activityViewModel);
-            //}
+                return View(new List<ActivityViewModel>());
+            }
 
-            TempData["ErrorMessage"] = activity.ErrorMessage;
-            return RedirectToAction(nameof(Index));
+            Activity firstActivity = activities.FirstOrDefault(a => a.startTime == activityStartTime);
+
+            if (firstActivity != null)
+            {
+                ActivityViewModel activityViewModel = new ActivityViewModel
+                {
+                    Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel
+                    {
+                        Id = suggestion.Id,
+                        Name = suggestion.Name,
+                        Description = suggestion.Description,
+                        ImageUrl = suggestion.ImageUrl,
+                        Date = (DateTime?)suggestion.Date,
+                        ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+                        VoteCount = _voteService.GetVoteCountBySuggestionAsync(suggestion.Id),
+                    }).ToList(),
+                    startTime = firstActivity.startTime,
+                    endTime = firstActivity.endTime
+                };
+
+                return View(activityViewModel);
+            }
+            else
+            {
+                return View("NoMatchingActivityView");
+            }
         }
     }
 }
