@@ -1,10 +1,4 @@
 ﻿using ModelLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Talpa_DAL.Entities;
 
 namespace Talpa_DAL.Interfaces
 {
@@ -12,6 +6,7 @@ namespace Talpa_DAL.Interfaces
     {
         Task<bool> CreateVote(VoteDto vote);
         Task<List<VoteDto>> GetAllVotesBySuggestionId(int Id);
+        int GetVoteCountBySuggestionAsync(int Id);
         Task<VoteDto> GetVoteBySuggestionId(VoteDto vote);
     }
 }

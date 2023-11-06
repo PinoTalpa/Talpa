@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Talpa_DAL.Data;
-using Talpa_DAL.Entities;
 using Talpa_DAL.Interfaces;
 
 namespace Talpa_DAL.Repositories
@@ -40,6 +39,15 @@ namespace Talpa_DAL.Repositories
             List<VoteDto> foundVotes = _dbContext.Votes
                 .Where(v => v.SuggestionId == Id)
                 .ToList();
+
+            return foundVotes;
+        }
+
+        public int GetVoteCountBySuggestionAsync(int Id)
+        {
+            int foundVotes = _dbContext.Votes
+                .Where(v => v.SuggestionId == Id)
+                .Count();
 
             return foundVotes;
         }
