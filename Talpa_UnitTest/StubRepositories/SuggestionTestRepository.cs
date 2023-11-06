@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talpa_BLL.Models;
 using Talpa_DAL.Data;
 using Talpa_DAL.Entities;
 using Talpa_DAL.Interfaces;
@@ -91,6 +92,11 @@ namespace Talpa_UnitTest.StubRepositories
         public async Task<bool> SuggestionNameExistsAsync(string suggestionName)
         {
             return suggestions.Any(s => string.Equals(s.Name, suggestionName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task<List<LeaderboardDto>> GetExecutedSuggestionsAsync()
+        {
+            return null;
         }
     }
 }

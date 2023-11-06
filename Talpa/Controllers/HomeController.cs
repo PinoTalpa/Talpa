@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using ModelLayer.Models;
+using SampleMvcApp.ViewModels;
 using System.Diagnostics;
+using System.Net.Mail;
+using System.Security.Claims;
 using Talpa.Models;
+using Talpa_BLL.Interfaces;
 
 namespace Talpa.Controllers
 {
@@ -10,11 +15,13 @@ namespace Talpa.Controllers
     {
         private readonly IStringLocalizer<HomeController> _localizer;
         private readonly ILogger<HomeController> _logger;
+        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer)
+        public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer, IUserService userService)
         {
             _logger = logger;
             _localizer = localizer;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -25,6 +32,21 @@ namespace Talpa.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public async Task<ActionResult> MiniProfile()
+        {
+            string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            UserDto user = await _userService.GetUserAsync(userId);
+
+            return View(new UserProfileViewModel()
+            {
+                Name = user.Name,
+                EmailAddress = emailAddress,
+                ProfileImage = user.ProfileImage
+            });
         }
 
         [HttpPost]

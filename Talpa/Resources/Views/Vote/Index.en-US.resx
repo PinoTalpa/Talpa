@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BrilliantIdea" xml:space="preserve">
-    <value>Heb je een briljant idee voor ons volgende bedrijfsuitje?</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="EasySteps" xml:space="preserve">
-    <value>In een paar eenvoudige stappen maak je een suggestie met Talpa.</value>
+  <data name="ChooseActivityDates" xml:space="preserve">
+    <value>Choose the dates when you are available</value>
   </data>
-  <data name="Plan" xml:space="preserve">
-    <value>Plannen</value>
-  </data>
-  <data name="PlanOuting" xml:space="preserve">
-    <value>Plannen bedrijfsuitje?</value>
-  </data>
-  <data name="ShareCreate" xml:space="preserve">
-    <value>Deel het met ons en help ons om samen een onvergetelijke ervaring te creëren!</value>
-  </data>
-  <data name="Suggestion" xml:space="preserve">
-    <value>Suggestie</value>
-  </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>Welkom</value>
-  </data>
-  <data name="WithTalpa" xml:space="preserve">
-    <value>Met Talpa kun je snel en eenvoudig een suggestie suggeren voor het bedrijfsuitje!</value>
+  <data name="Vote" xml:space="preserve">
+    <value>Vote</value>
   </data>
 </root>

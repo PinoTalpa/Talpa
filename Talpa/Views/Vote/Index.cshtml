@@ -1,30 +1,33 @@
-﻿    @model List<ActivityDateViewModel>
+﻿@model List<ActivityDateViewModel>
 
+<div class="pt-20 mb-10 px-2 md:px-20 lg:px-40">
+    <h1 class="text-3xl font-medium modal-fullscreen-lg-down flex justify-center mb-6 ">@Localizer["ChooseActivityDates"]</h1>
     <form method="post" asp-controller="Vote" asp-action="Create">
         @foreach (ActivityDateViewModel activityDate in Model)
         {
-            <div class="flex gap-4 md:gap-40 shadow-lg p-4 justify-center w-full rounded-md">
-                <div class="flex flex-col justify-center">
-                    <div class="text-lg md:flex gap-1">
-                        <p class="pr-10">@activityDate.StartDate.ToString("yyyy-MM-dd")</p>
-                        <p>@activityDate.StartDate.ToString("HH:mm") -</p>
-                        <p>@activityDate.EndDate.ToString("HH:mm")</p>
+            <div class="flex gap-4 md:gap-40 justify-center w-full">
+                <div class="w-fit flex shadow-lg p-4 rounded-md gap-4 md:gap-40">
+                    <div class="flex flex-col justify-center">
+                        <div class="text-lg md:flex gap-1">
+                            <p class="pr-10">@activityDate.StartDate.ToString("yyyy-MM-dd")</p>
+                        </div>
                     </div>
-                </div>
-                <div class="flex flex-col justify-center">
-                    <input type="hidden" name="activityDateId" value="@activityDate.Id">
-                    <input hidden="hidden" value="@activityDate.SuggestionId" id="suggestionId" name="suggestionId" />
-                    <input name="selectedDates" type="checkbox" value="@activityDate.Id" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
-                    <input type="hidden" name="activityDateIsSelected" value="@activityDate.Id" />
+                    <div class="flex flex-col justify-center">
+                        <input type="hidden" name="activityDateId" value="@activityDate.Id">
+                        <input hidden="hidden" value="@activityDate.SuggestionId" id="suggestionId" name="suggestionId" />
+                        <input name="selectedDates" type="checkbox" value="@activityDate.Id" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
+                        <input type="hidden" name="activityDateIsSelected" value="@activityDate.Id" />
+                    </div>
                 </div>
             </div>
         }
-        <div class="px-10 flex gap-4">
+        <div class="flex gap-4 pt-10 lg:px-20">
             <div class="w-full flex justify-end">
-                <a asp-controller="Activity" asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">Annuleren</a>
+                <a asp-controller="Activity" asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">@Localizer["Cancel"]</a>
             </div>
             <div class="w-full flex justify-end">
-                <input type="submit" value="Vote" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
+                <input type="submit" value="@Localizer["Vote"]" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
             </div>
         </div>
     </form>
+</div>
