@@ -16,13 +16,49 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
-<body class="bg-[#E8E5F2]">
-    <div>
+<body>
+    <div>    
         <div class="flex h-screen overflow-hidden flex-col lg:flex-row">
             <div class="w-full lg:w-1/4">
                 <partial name="_ManageNav.cshtml" />
             </div>
             <div class="w-full">
+                <nav class="bg-white shadow-lg px-2 sm:px-4 py-4 w-full z-50">
+                    <div class="container lg:px-8 flex flex-wrap items-center justify-between mx-auto">
+                        <div class="flex justify-between w-full">
+                            <div class="flex flex-col md:flex-row justify-between w-full">
+                                <div class="flex justify-between">       
+                                    <div class="flex md:order-2 block md:hidden">
+                                        <button data-collapse-toggle="navbar-default" type="button" class="text-white inline-flex pt-5 p-2 ml-3 text-sm rounded-lg md:hidden" aria-controls="navbar-default" aria-expanded="false">
+                                            <span class="sr-only">Open main menu</span>
+                                            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between w-full lg:pl-6">
+
+                                    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-0" id="navbar-default">
+                                    </div>
+
+                                    <div class="hidden md:block">
+                                        <div class="flex">
+                                            <div class="block xl:hidden">
+                                            </div>
+
+                                            <div class="ml-7 xl:ml-10 flex gap-10">
+                                                @await Component.InvokeAsync("MiniProfile")
+
+                                                @await Html.PartialAsync("_SelectLanguagePartialAdmin")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
                 @RenderBody()
                 <div class="pt-10">
                 </div>

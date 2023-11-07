@@ -8,11 +8,11 @@ using Talpa_BLL.Interfaces;
 
 namespace Talpa.Components
 {
-    public class MiniProfileAdminViewComponent : ViewComponent
+    public class MiniProfileViewComponent : ViewComponent
     {
         private readonly IUserService _userService;
 
-        public MiniProfileAdminViewComponent(IUserService userService)
+        public MiniProfileViewComponent(IUserService userService)
         {
             _userService = userService;
         }
