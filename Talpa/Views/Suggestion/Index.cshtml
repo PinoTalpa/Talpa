@@ -44,39 +44,27 @@
         </div>
 
         <div class="w-full pt-10 flex flex-col">
-            @foreach (SuggestionViewModel suggestion in Model)
-            {
-                <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id">
-                    <div class="px-10 pb-6">
-                        <div class="w-full h-40 transition ease-in-out hover:scale-105 transform shadow hover:shadow-xl rounded-lg rounded-tr-xl">
-                            <div class="flex w-full bg-gray-200 rounded-lg rounded-tr-xl">
-                                <div class="flex flex-1 h-40 flex-col justify-center">
-                                    <div class="flex gap-10">
-                                        <div class="w-80 flex flex-col pl-10 justify-center">
-                                            <h1 class="text-blue-700 text-4xl text-left flex flex-col justify-center">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
-                                        </div>
-                                        <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" class="h-40 p-4" />
-                                    </div>
-                                </div>
-                                <div class="flex gap-20">
-                                    <div class="flex flex-col justify-center pr-20">
-                                        <span class="material-symbols-outlined text-blue-700" style="font-size: 60px;
-                                            color: @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
-                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
-                                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
-                                                "gray");">
-                                            @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
-                                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
-                                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
-                                                "")
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-4 px-8">
+                @foreach (SuggestionViewModel suggestion in Model)
+                {
+                    <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id" class="px-2 h-96 mb-4 relative flex flex-col items-center justify-center">
+                        <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" class="w-full object-cover h-full rounded-lg brightness-50" />
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
                         </div>
-                    </div>
-                </a>
-            }
+                        <span class="material-symbols-outlined text-blue-700 absolute top-2 right-4 brightness-200" style="font-size: 60px;
+                            color: @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
+                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
+                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
+                                "gray");">
+                            @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                                "")
+                        </span>
+                    </a>
+                }
+            </div>
         </div>
 
         <style>
