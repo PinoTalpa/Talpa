@@ -18,13 +18,15 @@ namespace Talpa.Areas.Admin.Controllers
         private readonly IActivityService _activityService;
         private readonly IQuarterService _quarterService;
         private readonly IActivityDateService _activityDateService;
+        private readonly IVoteService _voteService;
 
-        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IQuarterService quarterService, IActivityDateService activityDateService)
+        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IQuarterService quarterService, IActivityDateService activityDateService, IVoteService voteService)
         {
             _suggestionService = suggestionService;
             _activityService = activityService;
             _quarterService = quarterService;
             _activityDateService = activityDateService;
+            _voteService = voteService;
         }
 
         public async Task<ActionResult> Index()
@@ -46,7 +48,7 @@ namespace Talpa.Areas.Admin.Controllers
 
             List<AdminActivityViewModel> activityViewModels = activities.Select(activity => new AdminActivityViewModel
             {
-                Suggestions = activity.Suggestions?.Select(suggestion => new Suggestion
+                Suggestions = activity.Suggestions?.Select(suggestion => new SuggestionViewModel
                 {
                     Id = suggestion.Id,
                     Name = suggestion.Name,
@@ -85,6 +87,53 @@ namespace Talpa.Areas.Admin.Controllers
         //    TempData["ErrorMessage"] = activity.ErrorMessage;
         //    return RedirectToAction(nameof(Index));
         //}
+
+        public async Task<ActionResult> Details(DateTime activityStartTime)
+        {
+            DateTime activityStartDate = activityStartTime;
+
+            List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
+
+            if (activities.Any(s => s.ErrorMessage != null))
+            {
+                foreach (Activity activity in activities)
+                {
+                    if (activity.ErrorMessage != null)
+                    {
+                        TempData["ErrorMessage"] = activity.ErrorMessage;
+                    }
+                }
+
+                return View(new List<AdminActivityViewModel>());
+            }
+
+            Activity firstActivity = activities.FirstOrDefault(a => a.startTime.ToString("MM/dd/yyyy") == activityStartDate.ToString("MM/dd/yyyy"));
+
+            if (firstActivity != null)
+            {
+                AdminActivityViewModel activityViewModel = new AdminActivityViewModel
+                {
+                    Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel
+                    {
+                        Id = suggestion.Id,
+                        Name = suggestion.Name,
+                        Description = suggestion.Description,
+                        ImageUrl = suggestion.ImageUrl,
+                        Date = (DateTime?)suggestion.Date,
+                        ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+                        VoteCount = _voteService.GetVoteCountBySuggestionAsync(suggestion.Id),
+                    }).ToList(),
+                    startTime = firstActivity.startTime,
+                    endTime = firstActivity.endTime
+                };
+
+                return View(activityViewModel);
+            }
+            else
+            {
+                return Redirect(nameof(Index));
+            }
+        }
 
         // GET: ActivityController/Create
         public async Task<ActionResult> Create()
