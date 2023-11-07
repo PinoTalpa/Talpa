@@ -27,9 +27,9 @@ namespace Talpa.Areas.Admin.Controllers
             _activityDateService = activityDateService;
         }
 
-        public async Task<ActionResult> Index(string searchString)
+        public async Task<ActionResult> Index()
         {
-            List<Activity> activities = await _activityService.GetActivitiesAsync(searchString);
+            List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
 
             if (activities.Any(s => s.ErrorMessage != null))
             {
@@ -46,40 +46,45 @@ namespace Talpa.Areas.Admin.Controllers
 
             List<AdminActivityViewModel> activityViewModels = activities.Select(activity => new AdminActivityViewModel
             {
-                Id = activity.Id,
-                Name = activity.Name,
-                Description = activity.Description,
-                Date = activity.Date,
-                ImageUrl = activity.ImageUrl,
-                ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
+                Suggestions = activity.Suggestions?.Select(suggestion => new Suggestion
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = (DateTime?)suggestion.Date,
+                    ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+                }).ToList(),
+                startTime = activity.startTime,
+                endTime = activity.endTime
             }).ToList();
 
             return View(activityViewModels);
         }
 
         // GET: ActivityController/Details/5
-        public async Task<ActionResult> Details(int activityId)
-        {
-            Activity activity = await _activityService.GetActivityByIdAsync(activityId);
+        //public async Task<ActionResult> Details(int activityId)
+        //{
+        //    Activity activity = await _activityService.GetActivityByIdAsync(activityId);
 
-            if (activity.ErrorMessage == null)
-            {
-                AdminActivityViewModel activityViewModel = new()
-                {
-                    Id = activity.Id,
-                    Name = activity.Name,
-                    Description = activity.Description,
-                    ImageUrl = activity.ImageUrl,
-                    Date = activity.Date,
-                    ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
-                };
+        //    if (activity.ErrorMessage == null)
+        //    {
+        //        AdminActivityViewModel activityViewModel = new()
+        //        {
+        //            Id = activity.Id,
+        //            Name = activity.Name,
+        //            Description = activity.Description,
+        //            ImageUrl = activity.ImageUrl,
+        //            Date = activity.Date,
+        //            ActivityState = (ModelLayer.Enums.ActivityState)activity.ActivityState,
+        //        };
 
-                return View(activityViewModel);
-            }
+        //        return View(activityViewModel);
+        //    }
 
-            TempData["ErrorMessage"] = activity.ErrorMessage;
-            return RedirectToAction(nameof(Index));
-        }
+        //    TempData["ErrorMessage"] = activity.ErrorMessage;
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         // GET: ActivityController/Create
         public async Task<ActionResult> Create()
@@ -207,24 +212,18 @@ namespace Talpa.Areas.Admin.Controllers
             }
         }
 
-        // GET: ActivityController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Remove(int activityId, IFormCollection collection)
         {
-            Activity activity = await _activityService.GetActivityByIdAsync(activityId);
+            Suggestion activity = await _suggestionService.GetSuggestionByIdAsync(activityId);
 
             if (activity == null)
             {
                 return View();
             }
 
-            activity = await _activityService.RemoveActivityAsync(activity);
+            activity = await _suggestionService.DeclineSuggestionAsync(activity);
 
             if (activity.ErrorMessage != null)
             {

@@ -129,6 +129,9 @@
   <data name="Home" xml:space="preserve">
     <value>Hoofdmenu</value>
   </data>
+  <data name="Leaderboard" xml:space="preserve">
+    <value>Scoreboard</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Inloggen</value>
   </data>

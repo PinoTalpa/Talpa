@@ -91,6 +91,30 @@ namespace Talpa.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<ActionResult> Leaderboard()
+        {
+            List<Leaderboard> Leaderboards = await _suggestionService.GetExecutedSuggestionsAsync();
+            List<LeaderboardViewModel> LeaderboardViewModels = new();
+
+            foreach(var leaderboard in Leaderboards)
+            {
+                LeaderboardViewModel LeaderboardViewModel = new()
+                {
+                    UserId = leaderboard.UserName,
+                    ExecutedSuggestionCount = leaderboard.ExecutedSuggestionCount
+                };
+
+                LeaderboardViewModels.Add(LeaderboardViewModel);
+            }
+
+            SuggestionLeaderboardViewModel suggestionLeaderboardViewModel = new()
+            {
+                leaderboardViewModels = LeaderboardViewModels
+            };
+
+            return View(suggestionLeaderboardViewModel);
+        }
+
         public ActionResult Create()
         {
             return View();
@@ -117,6 +141,14 @@ namespace Talpa.Controllers
             }
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestionViewModel.Name);
+
+            if (isDuplicateName)
+            {
+                TempData["ErrorMessage"] = "De suggestie bestaat al!";
+                return View(suggestionViewModel);
+            }
 
             Suggestion suggestion = new()
             {

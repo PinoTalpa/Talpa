@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Talpa_BLL.Models;
 using Talpa_DAL.Data;
 using Talpa_DAL.Entities;
 using Talpa_DAL.Interfaces;
@@ -63,6 +65,21 @@ namespace Talpa_DAL.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<List<LeaderboardDto>> GetExecutedSuggestionsAsync()
+        {
+            IQueryable<LeaderboardDto> query = from user in _dbContext.Users
+                                               join suggestion in _dbContext.Suggestions on user.Id equals suggestion.UserId
+                                               where suggestion.Date != null
+                                               group user by user.Name into userGroup
+                                               select new LeaderboardDto
+                                               {
+                                                   UserName = userGroup.Key,
+                                                   ExecutedSuggestionCount = userGroup.Count()
+                                               };
+
+            return await query.ToListAsync();
+        }
+
         public async Task<SuggestionDto?> GetSuggestionByIdAsync(int id)
         {
             SuggestionDto? suggestionDto = await _dbContext.Suggestions.FindAsync(id);
@@ -107,6 +124,12 @@ namespace Talpa_DAL.Repositories
             }
 
             return true;
+        }
+
+        public async Task<bool> SuggestionNameExistsAsync(string suggestionName)
+        {
+            return await _dbContext.Suggestions
+                .AnyAsync(s => string.Equals(s.Name, suggestionName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

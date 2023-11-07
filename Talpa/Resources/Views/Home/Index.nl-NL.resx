@@ -123,6 +123,9 @@
   <data name="EasySteps" xml:space="preserve">
     <value>In een paar eenvoudige stappen maak je een suggestie met Talpa.</value>
   </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plannen</value>
+  </data>
   <data name="PlanOuting" xml:space="preserve">
     <value>Plannen bedrijfsuitje?</value>
   </data>

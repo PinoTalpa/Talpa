@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ActivityViewModel>
+﻿@using Talpa_BLL.Models;
+@model IEnumerable<ActivityViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,28 +22,45 @@
         }
     </div>
 
-    <div class="px-2 md:px-20 pt-10">
-        <h1 class="text-4xl text-center font-bold pl-2 pt-10">Activiteiten</h1>
+    <div class="px-10 md:px-20 pt-10">
+        <h1 class="text-4xl text-center font-bold pl-2 pt-10 mb-10">@Localizer["Activities"]</h1>
 
         @if (Model.Count() != 0)
         {
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-full pt-10 flex justify-center">
-                @foreach (ActivityViewModel activity in Model)
-                {
-                    <a asp-controller="Activity" asp-action="Details" asp-route-activityId="@activity.Id" class="px-2">
-                        <div class="flex flex-col w-full rounded-lg bg-[#E8E5F2] hover:bg-[#D4CEEA] p-3">
-                            <h1 class="text-[#5236AB] w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => activity.Name)</h1>
-                            <img src="@Url.Content("~/img/suggestion/" + activity.ImageUrl)" class="w-full object-cover h-60 pt-6" />
-                            <p class="text-[#5236AB] w-full text-center text-2xl pt-10">Votes: 9</p>
+            @foreach (ActivityViewModel activity in Model)
+            {
+                <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@activity.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="mb-10">
+                    <div class="flex w-full relative mt-10 hover:brightness-125">
+                        <h1 class="text-2xl text-white top-6 left-10 z-40 absolute font-bold mb-10">Periode: @activity.startTime.ToString("dd/M/yyyy") - @activity.endTime.ToString("dd/M/yyyy")</h1>
+                        <div class="flex-1">
+                            <img src="@Url.Content("~/img/suggestion/" + activity.Suggestions[0].ImageUrl)" class="w-full h-60 object-cover rounded-l-lg brightness-50" />
                         </div>
-                    </a>
-                }
-            </div>
+                        <img src="@Url.Content("~/img/suggestion/" + activity.Suggestions[1].ImageUrl)" class="w-60 sm:w-[300px] lg:w-[500px] xl:w-[700px] h-60 object-cover absolute flex justify-center clip-parallelogram-m brightness-50 z-30" style="left: 50%; transform: translateX(-50%);" />
+                        <div class="flex-1">
+                            <img src="@Url.Content("~/img/suggestion/" + activity.Suggestions[2].ImageUrl)" class="w-full h-60 object-cover rounded-r-lg brightness-50" />
+                        </div>
+                    </div>
+                </a>
+            }
         } else
         {
             <p class="text-2xl text-center mt-8">@Localizer["NoActivities"]</p>
             <p class="text-2xl text-center mt-4">@Localizer["ReturnSoon"]</p>
         }
+
+        <style>
+            .clip-parallelogram-l {
+                clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+            }
+
+            .clip-parallelogram-m {
+                clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+            }
+
+            .clip-parallelogram-r {
+                clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+            }
+        </style>
 
         <style>
             .scroll::-webkit-scrollbar {

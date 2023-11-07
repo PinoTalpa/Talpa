@@ -22,16 +22,24 @@ namespace Talpa
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseMySql(
                     connectionString,
                     new MySqlServerVersion(new Version(10, 4, 28)), // Edit this to your SQL server version.
-                    mySqlOptions => mySqlOptions.MigrationsAssembly("Talpa")
-                ));
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.MigrationsAssembly("Talpa");
+                        mySqlOptions.EnableStringComparisonTranslations(); // Enable string comparison translations
+                    });
+            });
 
             builder.Services.AddScoped<ApplicationDbContext>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            builder.Services.AddScoped<IVoteService, VoteService>();
+            builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
             builder.Services.AddScoped<ISuggestionService, SuggestionService>();
             builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
@@ -47,7 +55,7 @@ namespace Talpa
             builder.Services.AddScoped<ILimitationRepository, LimitationRepository>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
             builder.Services.AddAuth0WebAppAuthentication(options =>
             {
