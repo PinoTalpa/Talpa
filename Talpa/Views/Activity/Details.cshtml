@@ -9,7 +9,7 @@
     <div class="px-2">
         <nav class="border border-gray-300 rounded inline-flex overflow-hidden w-full">
             <a asp-controller="Activity" asp-action="Index" class="breadcrumbs__item w-full is-done">Kies periode</a>
-            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model.startTime" class="breadcrumbs__item w-full is-active">Kies activiteit</a>
+            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="breadcrumbs__item w-full is-active">Kies activiteit</a>
             <a class="breadcrumbs__item w-full">Kies datum</a>
         </nav>
     </div>

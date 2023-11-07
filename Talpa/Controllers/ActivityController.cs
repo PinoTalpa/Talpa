@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
@@ -60,6 +61,8 @@ namespace Talpa.Controllers
         // GET: ActivityController/Details/5
         public async Task<ActionResult> Details(DateTime activityStartTime)
         {
+            DateTime activityStartDate = activityStartTime;
+
             List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
 
             if (activities.Any(s => s.ErrorMessage != null))
@@ -75,7 +78,7 @@ namespace Talpa.Controllers
                 return View(new List<ActivityViewModel>());
             }
 
-            Activity firstActivity = activities.FirstOrDefault(a => a.startTime == activityStartTime);
+            Activity firstActivity = activities.FirstOrDefault(a => a.startTime.ToString("MM/dd/yyyy") == activityStartDate.ToString("MM/dd/yyyy"));
 
             if (firstActivity != null)
             {
@@ -99,7 +102,7 @@ namespace Talpa.Controllers
             }
             else
             {
-                return View("NoMatchingActivityView");
+                return Redirect(nameof(Index));
             }
         }
     }

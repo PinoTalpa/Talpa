@@ -29,9 +29,9 @@
         {
             @foreach (ActivityViewModel activity in Model)
             {
-                <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@activity.startTime" class="mb-10">
-                    <div class="flex w-full relative mt-10">
-                        <h1 class="text-2xl text-white top-6 left-10 z-40 absolute font-bold mb-10">Periode: @activity.startTime.ToShortDateString() - @activity.endTime.ToShortDateString()</h1>
+                <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@activity.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="mb-10">
+                    <div class="flex w-full relative mt-10 hover:brightness-125">
+                        <h1 class="text-2xl text-white top-6 left-10 z-40 absolute font-bold mb-10">Periode: @activity.startTime.ToString("dd/M/yyyy") - @activity.endTime.ToString("dd/M/yyyy")</h1>
                         <div class="flex-1">
                             <img src="@Url.Content("~/img/suggestion/" + activity.Suggestions[0].ImageUrl)" class="w-full h-60 object-cover rounded-l-lg brightness-50" />
                         </div>
