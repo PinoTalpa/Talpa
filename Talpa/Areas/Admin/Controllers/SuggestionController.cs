@@ -20,13 +20,15 @@ namespace Talpa.Areas.Admin.Controllers
         private readonly IActivityService _activityService;
         private readonly IQuarterService _quarterService;
         private readonly IActivityDateService _activityDateService;
+        private readonly ILimitationService _limitationService;
 
-        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService, IActivityService activityService)
+        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService, IActivityService activityService, ILimitationService limitationService)
         {
             _suggestionService = suggestionService;
             _quarterService = quarterService;
             _activityDateService = activityDateService;
             _activityService = activityService;
+            _limitationService = limitationService;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -144,6 +146,43 @@ namespace Talpa.Areas.Admin.Controllers
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
             return RedirectToAction(nameof(Index));
         }*/
+
+        public async Task<ActionResult> Details(int suggestionId)
+        {
+            Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
+
+            if (suggestion.ErrorMessage == null)
+            {
+                SuggestionViewModel suggestionViewModel = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = suggestion.Date,
+                    ActivityState = suggestion.ActivityState,
+                };
+
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
+            }
+
+            TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
