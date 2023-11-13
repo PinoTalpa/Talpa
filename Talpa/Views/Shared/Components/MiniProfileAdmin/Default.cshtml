@@ -22,7 +22,7 @@
                         </a>
                     </li>
                     <li>
-                        <a id="qsLogoutBtn" asp-controller="Account" asp-action="Logout" class="block px-4 text-start py-2 text-sm hover:bg-gray-100 w-full">
+                        <a id="qsLogoutBtn" asp-area="" asp-controller="Account" asp-action="Logout" class="block px-4 text-start py-2 text-sm hover:bg-gray-100 w-full">
                             @Localizer["Logout"]
                         </a>
                     </li>
@@ -32,7 +32,7 @@
         else
         {
             <div class="mt-2">
-                <a id="qsLoginBtn" asp-controller="Account" asp-action="Login" class="text-white">@Localizer["Login"]</a>
+                <a id="qsLoginBtn" asp-area="" asp-controller="Account" asp-action="Login" class="text-white">@Localizer["Login"]</a>
             </div>
         }
     </div>
