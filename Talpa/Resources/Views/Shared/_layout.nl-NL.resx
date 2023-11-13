@@ -141,6 +141,9 @@
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacybeleid</value>
   </data>
+  <data name="RightsReserved" xml:space="preserve">
+    <value>Alle Rechten Voorbehouden</value>
+  </data>
   <data name="Suggestions" xml:space="preserve">
     <value>Suggesties</value>
   </data>

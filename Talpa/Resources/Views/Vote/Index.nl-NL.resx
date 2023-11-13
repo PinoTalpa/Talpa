@@ -120,8 +120,17 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
+  <data name="ChooseActivity" xml:space="preserve">
+    <value>Kies activiteit</value>
+  </data>
   <data name="ChooseActivityDates" xml:space="preserve">
-    <value>Kies de datums wanneer u beschikbaar bent</value>
+    <value>Selecteer wanneer u beschikbaar bent</value>
+  </data>
+  <data name="ChooseDate" xml:space="preserve">
+    <value>Kies datum</value>
+  </data>
+  <data name="ChoosePeriod" xml:space="preserve">
+    <value>Kies periode</value>
   </data>
   <data name="Vote" xml:space="preserve">
     <value>Stemmen</value>
