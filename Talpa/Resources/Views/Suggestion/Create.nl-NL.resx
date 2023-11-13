@@ -124,13 +124,16 @@
     <value>Aanmaken</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Descriptie</value>
+    <value>Omschrijving</value>
   </data>
   <data name="MakeSuggestionBelow" xml:space="preserve">
     <value>Maak hieronder een suggestie aan</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Titel</value>
+  </data>
+  <data name="UploadImage" xml:space="preserve">
+    <value>Afbeelding Uploaden</value>
   </data>
   <data name="WhatIsTheTitleSuggestion" xml:space="preserve">
     <value>Wat is de titel van de suggestie?</value>

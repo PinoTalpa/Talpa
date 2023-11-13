@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChooseActivity" xml:space="preserve">
-    <value>Kies activiteit</value>
+  <data name="Activities" xml:space="preserve">
+    <value>Activities</value>
   </data>
-  <data name="ChooseDate" xml:space="preserve">
-    <value>Kies datum</value>
+  <data name="NoActivities" xml:space="preserve">
+    <value>No activities have been chosen by your manager yet!</value>
   </data>
-  <data name="ChoosePeriod" xml:space="preserve">
-    <value>Kies periode</value>
-  </data>
-  <data name="PickOneActivity" xml:space="preserve">
-    <value>Kies de activiteit waar u op wil stemmen!</value>
+  <data name="ReturnSoon" xml:space="preserve">
+    <value>Come back soon!</value>
   </data>
   <data name="Votes" xml:space="preserve">
-    <value>Stemmen</value>
+    <value>Votes</value>
   </data>
 </root>

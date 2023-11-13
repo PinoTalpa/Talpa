@@ -8,9 +8,9 @@
 <div>
     <div class="px-2">
         <nav class="border border-gray-300 rounded inline-flex overflow-hidden w-full">
-            <a asp-controller="Activity" asp-action="Index" class="breadcrumbs__item w-full is-done">Kies periode</a>
-            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="breadcrumbs__item w-full is-active">Kies activiteit</a>
-            <a class="breadcrumbs__item w-full">Kies datum</a>
+            <a asp-controller="Activity" asp-action="Index" class="breadcrumbs__item w-full is-done">@Localizer["ChoosePeriod"]</a>
+            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="breadcrumbs__item w-full is-active">@Localizer["ChooseActivity"]</a>
+            <a class="breadcrumbs__item w-full">@Localizer["ChooseDate"]</a>
         </nav>
     </div>
 
@@ -96,7 +96,7 @@
     </div>
 
     <div class="px-2 md:px-20 pt-4">
-        <h1 class="text-4xl text-center font-bold pl-2 pt-10">Kies een van de activiteiten waarop u wilt stemmen</h1>
+        <h1 class="text-4xl text-center font-bold pl-2 pt-10">@Localizer["PickOneActivity"]</h1>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-10">
             @foreach (SuggestionViewModel suggestion in Model.Suggestions)
@@ -105,7 +105,7 @@
                     <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" class="w-full object-cover h-full rounded-lg brightness-50" />
                     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
-                        <p class="text-white w-full text-center text-2xl pt-10">Votes: @suggestion.VoteCount</p>
+                        <p class="text-white w-full text-center text-2xl pt-10">@Localizer["Votes"]: @suggestion.VoteCount</p>
                     </div>
                 </a>
             }
