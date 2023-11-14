@@ -182,6 +182,12 @@ namespace Talpa.Areas.Admin.Controllers
 
         public ActionResult Times(string[] suggestions, DateTime eventStart, DateTime eventEnd)
         {
+            if (suggestions.Length != 3)
+            {
+                TempData["ErrorMessage"] = "You have to select 3 activities!";
+                return RedirectToAction(nameof(Index));
+            }
+
             List<int> selectedSuggestionIds = new List<int>();
 
             foreach (var suggestion in suggestions)
