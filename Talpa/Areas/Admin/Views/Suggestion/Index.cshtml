@@ -5,7 +5,7 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="h-screen">
+<div class="h-screen lg:overflow-auto">
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
@@ -27,9 +27,9 @@
             @using (Html.BeginForm("Index", "Suggestion", FormMethod.Get))
             {
                 <p>
-                    <div class="relative hidden xl:block px-10">
+                    <div class="relative px-4 md:px-10">
                         <input type="text" id="searchString" name="searchString" placeholder="@Localizer["Search"]" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
-                        <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-16">
+                        <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-10 md:mr-16">
                             <svg class="h-6 w-6 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
                             </svg>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="w-full pt-10 flex flex-col">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-4 px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-4 px-2 md:px-8">
                 @foreach (SuggestionViewModel suggestion in Model)
                 {
                     <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@suggestion.Id" class="px-2 h-96 mb-4 relative flex flex-col items-center justify-center">
