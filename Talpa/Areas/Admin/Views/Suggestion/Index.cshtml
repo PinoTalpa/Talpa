@@ -28,7 +28,7 @@
             {
                 <p>
                     <div class="relative hidden xl:block px-10">
-                        <input type="text" id="searchString" name="searchString" placeholder="Zoeken" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                        <input type="text" id="searchString" name="searchString" placeholder="@Localizer["Search"]" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
                         <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-16">
                             <svg class="h-6 w-6 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
@@ -53,16 +53,18 @@
                                 (int)suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
                                 (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
                                 "gray");">
-                            @((int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
-                                (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
-                                (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
-                                "")
+                            @(
+                            (int)suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                            (int)suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                            (int)suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                            ""
+                            )
                         </span>
 
                         <form asp-action="Decline" asp-route-suggestionId="@suggestion.Id" class="w-2/3 absolute bottom-2">
                             <input type="hidden" asp-for="@suggestion.Id" />
                             <div class="w-full">
-                                <input type="submit" value="Afwijzen" class="cursor-pointer bg-red-500 w-full hover:bg-red-600 text-white font-bold py-2 rounded" />
+                                <input type="submit" value="@Localizer["Reject"]" class="cursor-pointer bg-red-500 w-full hover:bg-red-600 text-white font-bold py-2 rounded" />
                             </div>
                         </form>
                     </a>

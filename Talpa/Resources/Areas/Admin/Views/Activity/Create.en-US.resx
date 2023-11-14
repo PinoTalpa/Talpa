@@ -117,25 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Activities" xml:space="preserve">
-    <value>Activiteiten</value>
+  <data name="AddPeriod" xml:space="preserve">
+    <value>Add Period</value>
   </data>
-  <data name="CreateActivity" xml:space="preserve">
-    <value>Activiteit aanmaken!</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="NoActivities" xml:space="preserve">
-    <value>Er zijn nog geen activiteiten gekozen door uw manager!</value>
+  <data name="CreateNewPeriod" xml:space="preserve">
+    <value>Create a new period!</value>
   </data>
-  <data name="Period" xml:space="preserve">
-    <value>Periode</value>
+  <data name="EndDate" xml:space="preserve">
+    <value>Enddate</value>
   </data>
-  <data name="ReturnSoon" xml:space="preserve">
-    <value>Kom binnenkort terug!</value>
+  <data name="PickActivities" xml:space="preserve">
+    <value>Pick 3 activities for this period</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Zoeken</value>
-  </data>
-  <data name="Votes" xml:space="preserve">
-    <value>Stemmen</value>
+  <data name="StartDate" xml:space="preserve">
+    <value>Startdate</value>
   </data>
 </root>
