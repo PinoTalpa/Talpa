@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Security.Claims;
 using Talpa.Models;
 using Talpa.Models.CreateModels;
@@ -16,12 +17,14 @@ namespace Talpa.Controllers
         private readonly ISuggestionService _suggestionService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILimitationService _limitationService;
+        private readonly IStringLocalizer<SuggestionController> _localizer;
 
-        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment, ILimitationService limitationService)
+        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment, ILimitationService limitationService, IStringLocalizer<SuggestionController> localizer)
         {
             _suggestionService = suggestionService;
             _webHostEnvironment = webHostEnvironment;
             _limitationService = limitationService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -146,7 +149,7 @@ namespace Talpa.Controllers
 
             if (isDuplicateName)
             {
-                TempData["ErrorMessage"] = "De suggestie bestaat al!";
+                TempData["ErrorMessage"] = _localizer["SuggestionExists"];
                 return View(suggestionViewModel);
             }
 
