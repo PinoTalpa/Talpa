@@ -29,7 +29,7 @@ namespace Talpa.Controllers
 
         public async Task<ActionResult> Index(string searchString)
         {
-            List<Suggestion> suggestions = await _suggestionService.GetSuggestionsAsync(searchString);
+            List<Suggestion> suggestions = await _suggestionService.GetPendingSuggestionsAsync(searchString);
 
             if (suggestions.Any(s => s.ErrorMessage != null))
             {
@@ -169,7 +169,7 @@ namespace Talpa.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully created!";
+            TempData["StatusMessage"] = _localizer["SuggestionCreated"].ToString();
             return RedirectToAction(nameof(Index));
         }
 

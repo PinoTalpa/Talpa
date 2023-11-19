@@ -80,6 +80,11 @@ namespace Talpa.Controllers
 
             if (firstActivity != null)
             {
+                foreach (Suggestion suggestion in firstActivity.Suggestions)
+                {
+
+                }
+
                 ActivityViewModel activityViewModel = new ActivityViewModel
                 {
                     Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel

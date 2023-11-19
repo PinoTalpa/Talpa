@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using ModelLayer.Models;
 using System;
 using System.Security.Claims;
@@ -16,11 +17,14 @@ namespace Talpa.Controllers
         private readonly IActivityService _activityService;
         private readonly IVoteService _voteService;
         private readonly IUserActivityDateService _userActivityDateService;
+        private readonly IStringLocalizer<VoteController> _localizer;
 
-        public VoteController(IActivityService activityService, IVoteService voteService)
+        public VoteController(IActivityService activityService, IVoteService voteService, IUserActivityDateService userActivityDateService, IStringLocalizer<VoteController> localizer)
         {
             _activityService = activityService;
             _voteService = voteService;
+            _userActivityDateService = userActivityDateService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(int activityId)
@@ -42,6 +46,7 @@ namespace Talpa.Controllers
                 StartDate = activityDate.StartDate,
                 EndDate = activityDate.EndDate,
             }).ToList();
+
             return View(activitieDates);
         }
 
@@ -90,9 +95,16 @@ namespace Talpa.Controllers
                         ActivityDateId = DateId,
                         IsAvailable = true,
                     };
-                    //await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
+
+
+                    if (_userActivityDateService != null)
+                    {
+                        userActivityDate = await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
+                    }
                 }
             }
+
+            TempData["StatusMessage"] =  _localizer["Voted"].ToString();
             return RedirectToAction(nameof(Index), "Activity");
         }
 

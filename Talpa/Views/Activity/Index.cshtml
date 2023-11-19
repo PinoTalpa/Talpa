@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div>
+<div class="pt-10">
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
@@ -22,7 +22,7 @@
         }
     </div>
 
-    <div class="px-10 md:px-20 pt-10">
+    <div class="px-10 md:px-20">
         <h1 class="text-4xl text-center font-bold pl-2 pt-10 mb-10">@Localizer["Activities"]</h1>
 
         @if (Model.Count() > 0)

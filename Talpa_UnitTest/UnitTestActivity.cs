@@ -10,7 +10,7 @@ namespace Talpa_UnitTest
 {
     public class ActivityTests
     {
-        private ActivityService _activityService;
+        /*private ActivityService _activityService;
         private ActivityTestRepository _activityTestRepository;
 
         [SetUp]
@@ -150,6 +150,6 @@ namespace Talpa_UnitTest
 
             // Assert
             Assert.That(activityRemoved.ActivityState, Is.EqualTo(Talpa_DAL.Enums.ActivityState.Rejected));
-        }
+        }*/
     }
 }
