@@ -21,24 +21,23 @@ namespace Talpa_BLL.Services
             _userActivityDateRepository = userActiryDateRepository;
         }
 
-        public async Task<bool> AddUserActivityDateAsync(Models.UserActivityDate userActivityDate)
+        public async Task<Models.UserActivityDate> AddUserActivityDateAsync(Models.UserActivityDate userActivityDate)
         {
-            UserActivityDateDto date = new()
+            UserActivityDateDto newUserActivityDate = new()
             {
                 UserId = userActivityDate.UserId,
                 ActivityDateId = userActivityDate.ActivityDateId,
                 IsAvailable = userActivityDate.IsAvailable
             };
 
-            bool created = await _userActivityDateRepository.CreateUserActivityDateAsync(date);
+            bool userCreated = await _userActivityDateRepository.CreateUserActivityDateAsync(newUserActivityDate);
 
-/*            Models.UserActivityDate user = new()
+            if (!userCreated)
             {
-                UserId = created.UserId,
-                ActivityDateId = created.ActivityDateId,
-                IsAvailable = created.IsAvailable
-            };*/
-            return created;
+                return userActivityDate;
+            }
+
+            return userActivityDate;
         }
     }
 }

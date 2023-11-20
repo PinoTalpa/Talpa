@@ -50,6 +50,9 @@ namespace Talpa
             builder.Services.AddScoped<IActivityDateService, ActivityDateService>();
             builder.Services.AddScoped<IActivityDateRepository, ActivityDateRepository>();
 
+            builder.Services.AddScoped<IUserActivityDateService, UserActivityDateService>();
+            builder.Services.AddScoped<IUserActivityDateRepository, UserActivityDateRepository>();
+
             builder.Services.AddScoped<IQuarterService, QuarterService>();
             builder.Services.AddScoped<ILimitationService, LimitationService>();
             builder.Services.AddScoped<ILimitationRepository, LimitationRepository>();

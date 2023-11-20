@@ -9,7 +9,7 @@ using Talpa_DAL.Interfaces;
 
 namespace Talpa_UnitTest.StubRepositories
 {
-    public class ActivityTestRepository : IActivityRepository
+   /* public class ActivityTestRepository : IActivityRepository
     {
         List<ActivityDto> activities;
         List<SuggestionDto> suggestions;
@@ -83,5 +83,5 @@ namespace Talpa_UnitTest.StubRepositories
 
             return false;
         }
-    }
+    }*/
 }

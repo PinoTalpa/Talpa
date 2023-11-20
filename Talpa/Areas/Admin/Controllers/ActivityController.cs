@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Talpa.Models;
 using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
@@ -19,14 +20,16 @@ namespace Talpa.Areas.Admin.Controllers
         private readonly IQuarterService _quarterService;
         private readonly IActivityDateService _activityDateService;
         private readonly IVoteService _voteService;
+        private readonly IStringLocalizer<ActivityController> _localizer;
 
-        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IQuarterService quarterService, IActivityDateService activityDateService, IVoteService voteService)
+        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IQuarterService quarterService, IActivityDateService activityDateService, IVoteService voteService, IStringLocalizer<ActivityController> localizer)
         {
             _suggestionService = suggestionService;
             _activityService = activityService;
             _quarterService = quarterService;
             _activityDateService = activityDateService;
             _voteService = voteService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index()
@@ -243,6 +246,12 @@ namespace Talpa.Areas.Admin.Controllers
 
         public ActionResult Times(string[] suggestions, DateTime eventStart, DateTime eventEnd)
         {
+            if (suggestions.Length != 3)
+            {
+                TempData["ErrorMessage"] = _localizer["SelectThreeActivities"].ToString();
+                return RedirectToAction(nameof(Index));
+            }
+
             List<int> selectedSuggestionIds = new List<int>();
 
             foreach (var suggestion in suggestions)
@@ -297,7 +306,7 @@ namespace Talpa.Areas.Admin.Controllers
             }
             
 
-            TempData["StatusMessage"] = "The activity was successfully made with the dates!";
+            TempData["StatusMessage"] = _localizer["ActivityMadeWithDates"].ToString();
             return RedirectToAction(nameof(Index));
         }
 
@@ -341,7 +350,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View();
             }
 
-            TempData["StatusMessage"] = "The activity was successfully removed!";
+            TempData["StatusMessage"] = _localizer["ActivityRemoved"].ToString();
             return RedirectToAction(nameof(Index));
         }
     }

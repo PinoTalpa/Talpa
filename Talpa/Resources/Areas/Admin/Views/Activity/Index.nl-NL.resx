@@ -120,11 +120,20 @@
   <data name="Activities" xml:space="preserve">
     <value>Activiteiten</value>
   </data>
+  <data name="CreateActivity" xml:space="preserve">
+    <value>Activiteit aanmaken!</value>
+  </data>
   <data name="NoActivities" xml:space="preserve">
     <value>Er zijn nog geen activiteiten gekozen door uw manager!</value>
   </data>
+  <data name="Period" xml:space="preserve">
+    <value>Periode</value>
+  </data>
   <data name="ReturnSoon" xml:space="preserve">
     <value>Kom binnenkort terug!</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Zoeken</value>
   </data>
   <data name="Votes" xml:space="preserve">
     <value>Stemmen</value>

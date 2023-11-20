@@ -129,6 +129,10 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.UserActivityDateDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("ActivityDateId")
                         .HasColumnType("int");
 
@@ -138,6 +142,8 @@ namespace Talpa.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ActivityDateId");
 
