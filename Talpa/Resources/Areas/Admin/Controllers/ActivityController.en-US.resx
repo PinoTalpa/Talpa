@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SuggestionCreated" xml:space="preserve">
-    <value>The suggestion was successfully created!</value>
+  <data name="ActivityMadeWithDates" xml:space="preserve">
+    <value>The activity was successfully made with the dates!</value>
   </data>
-  <data name="SuggestionExists" xml:space="preserve">
-    <value>The suggestion already exists!</value>
+  <data name="ActivityRemoved" xml:space="preserve">
+    <value>The activity was successfully removed!</value>
+  </data>
+  <data name="SelectThreeActivities" xml:space="preserve">
+    <value>You have to select 3 activities!</value>
   </data>
 </root>

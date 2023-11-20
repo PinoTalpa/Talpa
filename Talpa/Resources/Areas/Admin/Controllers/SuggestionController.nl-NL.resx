@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SuggestionCreated" xml:space="preserve">
-    <value>The suggestion was successfully created!</value>
+  <data name="ActivityMadeDates" xml:space="preserve">
+    <value>De activiteit is succesvol aangemaakt met de datums!</value>
   </data>
-  <data name="SuggestionExists" xml:space="preserve">
-    <value>The suggestion already exists!</value>
+  <data name="SelectOneOrMoreDays" xml:space="preserve">
+    <value>Selecteer 1 of meer dagen!</value>
+  </data>
+  <data name="SuggestionCreated" xml:space="preserve">
+    <value>De suggestie was succesvol aangemaakt!</value>
+  </data>
+  <data name="SuggestionRejected" xml:space="preserve">
+    <value>The suggestie was succesvol afgewezen!</value>
   </data>
 </root>

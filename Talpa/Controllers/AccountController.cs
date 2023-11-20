@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using Talpa.Models;
 using Talpa.Models.CreateModels;
 using ModelLayer.Models;
+using Microsoft.Extensions.Localization;
 
 namespace Talpa.Controllers
 {
@@ -24,12 +25,13 @@ namespace Talpa.Controllers
     {
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-
-        public AccountController(IUserService userService, IWebHostEnvironment webHostEnvironment)
+        public AccountController(IUserService userService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<AccountController> localizer)
         {
             _userService = userService;
             _webHostEnvironment = webHostEnvironment;
+            _localizer = localizer;
         }
 
         public async Task Login(string returnUrl = "/")
@@ -100,7 +102,7 @@ namespace Talpa.Controllers
                 return RedirectToAction("Profile", "Account");
             }
 
-            TempData["StatusMessage"] = "The profile was updated successfully!";
+            TempData["StatusMessage"] = _localizer["UpdatedProfile"].ToString();
 
             return RedirectToAction("Profile", "Account");
         }
