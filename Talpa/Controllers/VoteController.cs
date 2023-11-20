@@ -90,7 +90,7 @@ namespace Talpa.Controllers
                         ActivityDateId = DateId,
                         IsAvailable = true,
                     };
-                    //await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
+                    await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
                 }
             }
             return RedirectToAction(nameof(Index), "Activity");

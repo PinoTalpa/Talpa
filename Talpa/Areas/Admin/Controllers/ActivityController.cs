@@ -88,6 +88,10 @@ namespace Talpa.Areas.Admin.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
+        //public IActionResult Details()
+        //{
+        //    return View();
+        //}
         public async Task<ActionResult> Details(DateTime activityStartTime)
         {
             DateTime activityStartDate = activityStartTime;
@@ -111,7 +115,7 @@ namespace Talpa.Areas.Admin.Controllers
 
             if (firstActivity != null)
             {
-                AdminActivityViewModel activityViewModel = new AdminActivityViewModel
+                AdminActivityViewModel adminActivityViewModel = new AdminActivityViewModel
                 {
                     Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel
                     {
@@ -127,13 +131,70 @@ namespace Talpa.Areas.Admin.Controllers
                     endTime = firstActivity.endTime
                 };
 
-                return View(activityViewModel);
+                return View(adminActivityViewModel);
             }
             else
             {
                 return Redirect(nameof(Index));
             }
         }
+
+        [HttpPost]
+        public IActionResult CreateSelectedActivity(int selectedSuggestionId)
+        {
+            // Handle the selected suggestion ID as needed
+            // For example, you can use it to perform some logic or update data in the backend
+
+            // Redirect to a success page or return a response
+            return RedirectToAction("Index"); // Replace "Index" with the appropriate action
+        }
+
+        //public async Task<ActionResult> Details(DateTime activityStartTime)
+        //{
+        //    DateTime activityStartDate = activityStartTime;
+
+        //    List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
+
+        //    if (activities.Any(s => s.ErrorMessage != null))
+        //    {
+        //        foreach (Activity activity in activities)
+        //        {
+        //            if (activity.ErrorMessage != null)
+        //            {
+        //                TempData["ErrorMessage"] = activity.ErrorMessage;
+        //            }
+        //        }
+
+        //        return View(new List<AdminActivityViewModel>());
+        //    }
+
+        //    Activity firstActivity = activities.FirstOrDefault(a => a.startTime.ToString("MM/dd/yyyy") == activityStartDate.ToString("MM/dd/yyyy"));
+
+        //    if (firstActivity != null)
+        //    {
+        //        AdminActivityViewModel activityViewModel = new AdminActivityViewModel
+        //        {
+        //            Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel
+        //            {
+        //                Id = suggestion.Id,
+        //                Name = suggestion.Name,
+        //                Description = suggestion.Description,
+        //                ImageUrl = suggestion.ImageUrl,
+        //                Date = (DateTime?)suggestion.Date,
+        //                ActivityState = (Talpa_DAL.Enums.ActivityState)suggestion.ActivityState,
+        //                VoteCount = _voteService.GetVoteCountBySuggestionAsync(suggestion.Id),
+        //            }).ToList(),
+        //            startTime = firstActivity.startTime,
+        //            endTime = firstActivity.endTime
+        //        };
+
+        //        return View(activityViewModel);
+        //    }
+        //    else
+        //    {
+        //        return Redirect(nameof(Index));
+        //    }
+        //}
 
         // GET: ActivityController/Create
         public async Task<ActionResult> Create()
