@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActivityMadeDates" xml:space="preserve">
-    <value>The activity was successfully made with the dates!</value>
+    <value>The activity was successfully made with the dates</value>
   </data>
   <data name="SelectOneOrMoreDays" xml:space="preserve">
-    <value>Please select 1 or more days!</value>
+    <value>Please select 1 or more days</value>
   </data>
   <data name="SuggestionCreated" xml:space="preserve">
-    <value>The suggestion was successfully created!</value>
+    <value>The suggestion was successfully created</value>
   </data>
   <data name="SuggestionRejected" xml:space="preserve">
-    <value>The suggestion was successfully rejected!</value>
+    <value>The suggestion was successfully rejected</value>
   </data>
 </root>

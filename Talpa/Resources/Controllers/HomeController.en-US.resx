@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WithTalpa" xml:space="preserve">
-    <value>With Talpa, you can quickly and easily suggest an idea for the company outing!</value>
+    <value>With Talpa, you can quickly and easily suggest an idea for the company outing</value>
   </data>
 </root>

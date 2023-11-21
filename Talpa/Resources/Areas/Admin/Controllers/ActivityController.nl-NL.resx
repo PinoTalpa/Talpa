@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActivityMadeWithDates" xml:space="preserve">
-    <value>De activiteit is succesvol aangemaakt met de datums!</value>
+    <value>De activiteit is succesvol aangemaakt met de datums</value>
   </data>
   <data name="ActivityRemoved" xml:space="preserve">
-    <value>De activiteit was succesvol verwijderd!</value>
+    <value>De activiteit was succesvol verwijderd</value>
   </data>
   <data name="SelectThreeActivities" xml:space="preserve">
-    <value>Je moet 3 activiteiten selecteren!</value>
+    <value>Je moet 3 activiteiten selecteren</value>
   </data>
 </root>
