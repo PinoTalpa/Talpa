@@ -39,7 +39,7 @@ namespace Talpa_BLL.Services
         {
             if (string.IsNullOrEmpty(limitation.Name))
             {
-                return limitation;
+                throw new ArgumentException("Limitation name cannot be null or empty.");
             }
 
             LimitationDto limitationDto = new()
