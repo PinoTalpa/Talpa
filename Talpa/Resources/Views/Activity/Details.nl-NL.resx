@@ -127,7 +127,7 @@
     <value>Kies periode</value>
   </data>
   <data name="PickOneActivity" xml:space="preserve">
-    <value>Kies de activiteit waar u op wil stemmen!</value>
+    <value>Kies de activiteit waar u op wil stemmen</value>
   </data>
   <data name="Votes" xml:space="preserve">
     <value>Stemmen</value>
