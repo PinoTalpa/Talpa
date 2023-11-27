@@ -69,7 +69,37 @@ namespace Talpa_UnitTest
         }
 
         [Test]
-        public async Task CreateActivityLimitation_ShouldAddActiivtyLimitationToRepository()
+        public async Task CreateLimitation_ShouldNotAddLimitationToRepository()
+        {
+            // Arrange
+            List<LimitationDto> limitationDtos = new()
+            {
+                new LimitationDto { Id = 1, Name = "Niet vega" },
+                new LimitationDto { Id = 2, Name = "Niet berijkbaar met rolstoel" },
+            };
+
+            _limitationTestRepository.InitializeLimitations(limitationDtos);
+
+            Limitation limitation = new()
+            {
+                Id = 0,
+                Name = ""
+            };
+
+            // Act and Assert
+            try
+            {
+                Limitation limitationAdded = await _limitationService.CreateLimitationAsync(limitation);
+                Assert.Fail("Expected ArgumentException but no exception was thrown.");
+            }
+            catch (Exception ex)
+            {
+                Assert.That(ex.Message, Is.EqualTo("Limitation name cannot be null or empty."));
+            }
+        }
+
+        [Test]
+        public async Task CreateActivityLimitation_ShouldAddActivityLimitationToRepository()
         {
             // Arrange
             List<LimitationDto> limitationDtos = new()
@@ -83,6 +113,7 @@ namespace Talpa_UnitTest
                 new ActivityLimitationDto { Id = 1, SuggestionId = 1, LimitationId = 2 },
             };
 
+            _limitationTestRepository.InitializeActivityLimitations(activityLimitationDtos);
             _limitationTestRepository.InitializeLimitations(limitationDtos);
 
             Limitation limitation = new()
