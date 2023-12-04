@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActivityMadeWithDates" xml:space="preserve">
-    <value>The activity was successfully made with the dates</value>
+    <value>The activity, including the dates, has been succesfully created</value>
   </data>
   <data name="ActivityRemoved" xml:space="preserve">
     <value>The activity was successfully removed</value>

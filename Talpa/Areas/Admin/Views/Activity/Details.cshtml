@@ -67,15 +67,14 @@
     </script>
 
 
-    <form method="post" asp-area="admin" asp-controller="Activity" asp-action="GetActivityDateWithId" id="suggestionForm" >
+    <form method="post" asp-area="admin" asp-controller="Activity" asp-action="GetActivityDateWithId" id="suggestionForm">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-10">
-
 
             @foreach (SuggestionViewModel suggestion in Model.Suggestions)
             {
                 <button type="button" class="image-button px-2 mb-4 relative flex flex-col items-center justify-center" style="border: none; background: none;">
                     <div class="relative h-full w-full">
-                        <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" data-id="@suggestion.Id" class="w-full object-cover h-full rounded-lg brightness-100" />
+                        <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" data-id="@suggestion.Id" class="w-full object-cover h-full max-h-[400px] rounded-lg brightness-100" />
 
                         <div class="picked-activity custom-hidden absolute top-0 left-0 bg-purple-800 w-full h-full opacity-50 rounded-lg"></div>
 
