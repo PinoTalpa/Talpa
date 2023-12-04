@@ -22,7 +22,7 @@ namespace Talpa_DAL.Repositories
 
         public async Task<List<SuggestionDto>> GetActivitiesAsync(string searchString)
         {
-            IQueryable<SuggestionDto> query = _dbContext.Suggestions
+            IQueryable<SuggestionDto> query = _dbContext.ChosenSuggestions
                 .Where(s => s.Date != null)
                 .Select(s => new SuggestionDto
                 {
