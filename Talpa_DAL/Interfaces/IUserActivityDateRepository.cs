@@ -11,5 +11,7 @@ namespace Talpa_DAL.Interfaces
     {
         Task<bool> CreateUserActivityDateAsync(UserActivityDateDto userActivityDate);
 /*        Task<List<UserActivityDateDto>> GetAllUserActivityDateBySuggestionIdAsync(int Id);*/
+
+
     }
 }

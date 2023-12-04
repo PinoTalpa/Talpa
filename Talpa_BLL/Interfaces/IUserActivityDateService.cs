@@ -9,6 +9,6 @@ namespace Talpa_BLL.Interfaces
 {
     public interface IUserActivityDateService
     {
-        Task<bool> AddUserActivityDateAsync(UserActivityDate userActivityDate);
+        Task<UserActivityDate> AddUserActivityDateAsync(UserActivityDate userActivityDate);
     }
 }

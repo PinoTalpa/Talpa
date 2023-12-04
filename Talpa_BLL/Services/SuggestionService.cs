@@ -55,6 +55,21 @@ namespace Talpa_BLL.Services
             return suggestions;
         }
 
+        public async Task<List<ActivityDate>> ConvertActivityDateDtos(List<ActivityDateDto> activityDateDtos)
+        {
+            List<ActivityDate> activityDates = activityDateDtos.Select(activityDto => new ActivityDate
+            {
+                Id = activityDto.Id,
+                StartDate = activityDto.StartDate,
+                EndDate = activityDto.EndDate,
+                SuggestionId = activityDto.SuggestionId
+                // Add other properties as needed
+            }).ToList();
+
+            return activityDates;
+        }
+
+
         public async Task<List<Leaderboard>> GetExecutedSuggestionsAsync()
         {
             List<LeaderboardDto> leaderboardDtos = await _suggestionRepository.GetExecutedSuggestionsAsync();

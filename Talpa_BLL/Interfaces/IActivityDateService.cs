@@ -10,5 +10,6 @@ namespace Talpa_BLL.Interfaces
     public interface IActivityDateService
     {
         Task CreateActivityDates(List<ActivityDate> activityDates);
+        Task<List<ActivityDate>> GetActivityDatesWithId(int suggestionId);
     }
 }

@@ -21,7 +21,7 @@
             @TempData["ErrorMessage"]
         </div>
     }
-</div>
+</div>  
 
 <div class="px-2 md:px-20 pt-4">
     <h1 class="text-4xl text-center font-bold pl-2 pt-10">@Localizer["PickOneActivity"]</h1>
@@ -29,7 +29,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var buttons = document.querySelectorAll('.image-button');
-            var selectedSuggestionId = null;
 
             buttons.forEach(function (button) {
                 button.addEventListener('click', function () {
@@ -46,18 +45,32 @@
                     pickedActivity.classList.toggle('custom-hidden');
 
                     // Capture the selected suggestion ID
-                    selectedSuggestionId = button.querySelector('img').getAttribute('data-id');
+                    var selectedSuggestionId = button.querySelector('img').getAttribute('data-id');
 
                     // Update the hidden input value
                     document.getElementById('selectedSuggestionId').value = selectedSuggestionId;
+
+                    // Update the hidden inputs for the other two suggestions
+                    var otherSuggestionIds = [];
+                    buttons.forEach(function (otherButton) {
+                        if (otherButton !== button) {
+                            var otherSuggestionId = otherButton.querySelector('img').getAttribute('data-id');
+                            otherSuggestionIds.push(otherSuggestionId);
+                        }
+                    });
+
+                    document.getElementById('otherSuggestionId1').value = otherSuggestionIds[0] || '';
+                    document.getElementById('otherSuggestionId2').value = otherSuggestionIds[1] || '';
                 });
             });
         });
     </script>
 
 
-    <form method="post" asp-area="admin" asp-controller="Activity" asp-action="CreateSelectedActivity" id="suggestionForm">
+    <form method="post" asp-area="admin" asp-controller="Activity" asp-action="GetActivityDateWithId" id="suggestionForm" >
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-10">
+
+
             @foreach (SuggestionViewModel suggestion in Model.Suggestions)
             {
                 <button type="button" class="image-button px-2 mb-4 relative flex flex-col items-center justify-center" style="border: none; background: none;">
@@ -77,6 +90,10 @@
 
         <!-- Hidden input for selected suggestion ID -->
         <input type="hidden" id="selectedSuggestionId" name="selectedSuggestionId" />
+
+        <!-- Hidden inputs for the other two suggestion IDs -->
+        <input type="hidden" id="otherSuggestionId1" name="otherSuggestionId1" />
+        <input type="hidden" id="otherSuggestionId2" name="otherSuggestionId2" />
 
         <div class="px-2 w-full flex justify-end">
             <!-- Submit button -->
