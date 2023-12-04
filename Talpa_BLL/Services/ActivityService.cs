@@ -15,22 +15,22 @@ namespace Talpa_BLL.Services
             _activityRepository = activityRepository;
         }
 
-        //public async Task<List<Activity>> GetActivitiesAsync(string searchString)
-        //{
-        //    List<ActivityDto> activityDtos = await _activityRepository.GetActivitiesAsync(searchString);
-
-        //    List<Activity> activities = activityDtos.Select(activity => new Activity
-        //    {
-        //        Id = activity.Id,
-        //        Name = activity.Name,
-        //        Description = activity.Description,
-        //        ImageUrl = activity.ImageUrl,
-        //        Date = (DateTime?)activity.Date,
-        //        ActivityState = (Talpa_DAL.Enums.ActivityState)activity.ActivityState,
-        //    }).ToList();
-
-        //    return activities;
-        //}
+        public async Task<List<Suggestion>> GetActivitiesAsync(string searchString)
+        {
+            List<SuggestionDto> activityDtos = await _activityRepository.GetActivitiesAsync(searchString);
+        
+            List<Suggestion> activities = activityDtos.Select(activity => new Suggestion
+            {
+                Id = activity.Id,
+                Name = activity.Name,
+                Description = activity.Description,
+                ImageUrl = activity.ImageUrl,
+                Date = (DateTime?)activity.Date,
+                ActivityState = (Talpa_DAL.Enums.ActivityState)activity.ActivityState,
+            }).ToList();
+        
+            return activities;
+        }
 
         public async Task<List<Activity>> GetActivitiesWithSuggestionsAsync()
         {

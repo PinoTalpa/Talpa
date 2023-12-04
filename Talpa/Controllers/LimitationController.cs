@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.Models;
 using System.Security.Claims;
@@ -18,13 +19,12 @@ namespace Talpa.Controllers
         {
             _limitationService = limitationService;
         }
-
+        
         public ActionResult Create()
         {
             return View();
         }
-
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(IFormCollection collection, int suggestionId)

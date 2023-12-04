@@ -61,8 +61,13 @@
                                         <a asp-area="" asp-controller="Suggestion" asp-action="Index"
                                            class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
                                            @(currentController == "Suggestion" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
-                                           @Localizer["Suggestions"]
+                                            @Localizer["Suggestions"]
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Activity" asp-action="PlannedActivities" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "PlannedActivities" ? "text-[#A299C6]" : "text-white")">
+                                        @Localizer["PlannedActivities"]</a>
                                     </li>
                                     <li>
                                         <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
