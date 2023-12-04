@@ -15,6 +15,7 @@ namespace Talpa_BLL.Services
         {
             _voteRepository = voteRepository;
         }
+
         public async Task<Vote> CreateVoteAsync(Vote vote)
         {
             VoteDto voteDto = new()

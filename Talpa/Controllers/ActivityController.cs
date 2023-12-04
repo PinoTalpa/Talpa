@@ -20,6 +20,32 @@ namespace Talpa.Controllers
             _voteService = voteService;
         }
 
+        public async Task<ActionResult> PlannedActivities()
+        {
+            List<Suggestion> activities = await _activityService.GetActivitiesAsync("");
+
+            if (activities.Any(s => s.ErrorMessage != null))
+            {
+                foreach (var activity in activities.Where(activity => activity.ErrorMessage != null))
+                {
+                    TempData["ErrorMessage"] = activity.ErrorMessage;
+                }
+
+                return View(new List<PlannedActivityViewModel>());
+            }
+            
+            List<PlannedActivityViewModel> plannedActivityViewModel = activities.Select(activity => new PlannedActivityViewModel
+            {
+                Id = activity.Id,
+                Name = activity.Name,
+                Description = activity.Description,
+                ImageUrl = activity.ImageUrl,
+                Date = (DateTime)activity.Date,
+            }).ToList();
+
+            return View(plannedActivityViewModel);
+        }
+
         public async Task<ActionResult> Index()
         {
             List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
@@ -80,6 +106,11 @@ namespace Talpa.Controllers
 
             if (firstActivity != null)
             {
+                foreach (Suggestion suggestion in firstActivity.Suggestions)
+                {
+
+                }
+
                 ActivityViewModel activityViewModel = new ActivityViewModel
                 {
                     Suggestions = firstActivity.Suggestions?.Select(suggestion => new SuggestionViewModel

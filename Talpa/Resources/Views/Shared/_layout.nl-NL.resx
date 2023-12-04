@@ -147,4 +147,7 @@
   <data name="Suggestions" xml:space="preserve">
     <value>Suggesties</value>
   </data>
+  <data name="PlannedActivities" xml:space="preserve">
+    <value>Geplande activiteiten</value>
+  </data>
 </root>

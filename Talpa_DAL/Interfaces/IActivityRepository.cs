@@ -11,7 +11,7 @@ namespace Talpa_DAL.Interfaces
 {
     public interface IActivityRepository
     {
-        // Task<List<ActivityDto>> GetActivitiesAsync(string searchString);
+        Task<List<SuggestionDto>> GetActivitiesAsync(string searchString);
         Task<List<ActivityDateDto>> GetActivitiesWithSuggestionsAsync();
         Task<SuggestionDto?> GetActivityByIdAsync(int id);
         Task<bool> CreateActivityAsync(SuggestionDto suggestion);

@@ -62,6 +62,41 @@ namespace Talpa.Migrations
                     b.ToTable("ActivityLimitations");
                 });
 
+            modelBuilder.Entity("ModelLayer.Models.ChosenSuggestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChosenSuggestions");
+                });
+
             modelBuilder.Entity("ModelLayer.Models.LimitationDto", b =>
                 {
                     b.Property<int>("Id")
@@ -129,6 +164,10 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.UserActivityDateDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("ActivityDateId")
                         .HasColumnType("int");
 
@@ -138,6 +177,8 @@ namespace Talpa.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ActivityDateId");
 
@@ -232,6 +273,17 @@ namespace Talpa.Migrations
                     b.Navigation("Limitation");
 
                     b.Navigation("Suggestion");
+                });
+
+            modelBuilder.Entity("ModelLayer.Models.ChosenSuggestion", b =>
+                {
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ModelLayer.Models.SuggestionDto", b =>

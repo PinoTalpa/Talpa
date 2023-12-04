@@ -10,5 +10,7 @@ namespace Talpa_DAL.Interfaces
     public interface IActivityDateRepository
     {
         Task CreateActivityDates(List<ActivityDateDto> activityDates);
+
+        Task<List<ActivityDateDto>> GetActivitiesDateWithId(int selectedSuggestionId);
     }
 }

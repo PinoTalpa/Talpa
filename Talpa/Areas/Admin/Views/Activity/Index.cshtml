@@ -7,7 +7,7 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="h-screen overflow-y-auto">
+<div class="h-screen overflow-y-auto pb-20">
     <div class="md:px-20">
         @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
@@ -25,16 +25,16 @@
     </div>
 
     <div class="px-2 md:px-20 pt-10">
-        <div class="pb-2 px-10 w-full flex justify-end">
-            <a asp-area="Admin" asp-controller="Activity" asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">Create New</a>
+        <div class="pb-2 w-full flex justify-end">
+            <a asp-area="Admin" asp-controller="Activity" asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">@Localizer["CreateActivity"]</a>
         </div>
 
         <div>
             @using (Html.BeginForm("Index", "Activity", FormMethod.Get))
             {
                 <p>
-                    <div class="relative hidden xl:block px-10">
-                        <input type="text" id="searchString" name="searchString" placeholder="Zoeken" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                    <div class="relative hidden xl:block">
+                        <input type="text" id="searchString" name="searchString" placeholder="@Localizer["Search"]" class="w-full pl-2 py-3 bg-gray-50 border border-gray-500 rounded-md focus:border-blue-500 focus:ring-blue-500">
                         <button type="submit" value="Search" class="absolute right-0 top-0 mt-3 mr-16">
                             <svg class="h-6 w-6 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
@@ -51,7 +51,7 @@
             {
                 <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@activity.startTime.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="mb-10">
                     <div class="flex w-full relative mt-10 hover:brightness-125">
-                        <h1 class="text-2xl text-white top-6 left-10 z-40 absolute font-bold mb-10">Periode: @activity.startTime.ToString("dd/M/yyyy") - @activity.endTime.ToString("dd/M/yyyy")</h1>
+                        <h1 class="text-2xl text-white top-6 left-10 z-40 absolute font-bold mb-10">@Localizer["Period"]: @activity.startTime.ToString("dd/M/yyyy") - @activity.endTime.ToString("dd/M/yyyy")</h1>
                         <div class="flex-1">
                             <img src="@Url.Content("~/img/suggestion/" + activity.Suggestions[0].ImageUrl)" class="w-full h-60 object-cover rounded-l-lg brightness-50" />
                         </div>

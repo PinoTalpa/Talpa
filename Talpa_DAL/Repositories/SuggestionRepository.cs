@@ -110,7 +110,7 @@ namespace Talpa_DAL.Repositories
 
                 if (existingSuggestion != null)
                 {
-                    existingSuggestion.ActivityState = suggestion.ActivityState;
+                    _dbContext.Suggestions.Remove(existingSuggestion);
                     await _dbContext.SaveChangesAsync();
                 }
                 else

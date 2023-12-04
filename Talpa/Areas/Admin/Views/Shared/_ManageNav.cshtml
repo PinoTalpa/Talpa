@@ -6,35 +6,37 @@
     string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
 
-<aside id="default-sidebar" class="w-full h-full" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-white">
-@*        <img src="@Url.Content("~/Images/Main/TKDPLogo.png")" class="w-32 h-32" />*@
-        <ul class="space-y-2 font-medium">
+<aside id="default-sidebar" class="w-full h-full bg-black" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-black">
+        <a href="/" class="h-16 w-50 flex-none">
+            <p class="flex text-white flex-col justify-center text-3xl font-bold px-2">Talpa</p>
+        </a>
+        <ul class="space-y-2 font-medium pt-10">
             <li>
-                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                    @(currentController == "Admin" ? "bg-gray-100" : "bg-white")">
+                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
+                    @(currentController == "Admin" ? "bg-gray-800" : "bg-black")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         dashboard
                     </span>
-                    <span class="ml-3">Dashboard</span>
+                    <span class="ml-3">@Localizer["Dashboard"]</span>
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                    @(currentController == "Activity" ? "bg-gray-100" : "bg-white")">
+                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
+                    @(currentController == "Activity" ? "bg-gray-800" : "bg-black")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Activities</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">@Localizer["Activities"]</span>
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100
-                    @(currentController == "Suggestion" ? "bg-gray-100" : "bg-white")">
+                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
+                    @(currentController == "Suggestion" ? "bg-gray-800" : "bg-black")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Suggestions</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">@Localizer["Suggestions"]</span>
                 </a>
             </li>
         </ul>

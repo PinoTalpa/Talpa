@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Globalization;
 using System.Security.Claims;
 using Talpa.Models;
@@ -21,14 +22,16 @@ namespace Talpa.Areas.Admin.Controllers
         private readonly IQuarterService _quarterService;
         private readonly IActivityDateService _activityDateService;
         private readonly ILimitationService _limitationService;
+        private readonly IStringLocalizer<SuggestionController> _localizer;
 
-        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService, IActivityService activityService, ILimitationService limitationService)
+        public SuggestionController(ISuggestionService suggestionService, IQuarterService quarterService, IActivityDateService activityDateService, IActivityService activityService, ILimitationService limitationService, IStringLocalizer<SuggestionController> localizer)
         {
             _suggestionService = suggestionService;
             _quarterService = quarterService;
             _activityDateService = activityDateService;
             _activityService = activityService;
             _limitationService = limitationService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(string searchString)
@@ -79,7 +82,7 @@ namespace Talpa.Areas.Admin.Controllers
         {
             if (selectedDates == null)
             {
-                TempData["ErrorMessage"] = "Please select 1 or more days!";
+                TempData["ErrorMessage"] = _localizer["SelectOneOrMoreDays"].ToString();
                 return RedirectToAction("Dates", new { quarter = selectedQuarter, suggestionId = suggestionId });
             }
 
@@ -209,7 +212,7 @@ namespace Talpa.Areas.Admin.Controllers
             Suggestion suggestion = await _suggestionService.GetSuggestionByIdAsync(suggestionId);
             suggestion = await _activityService.CreateActivityAsync(suggestion);
 
-            TempData["StatusMessage"] = "The activity was successfully made with the dates!";
+            TempData["StatusMessage"] = _localizer["ActivityMadeDates"].ToString();
             return RedirectToAction(nameof(Index));
         }
 
@@ -240,7 +243,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully created!";
+            TempData["StatusMessage"] = _localizer["SuggestionCreated"].ToString();
             return RedirectToAction(nameof(Index));
         }
 
@@ -299,7 +302,7 @@ namespace Talpa.Areas.Admin.Controllers
                 return View();
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully removed!";
+            TempData["StatusMessage"] = _localizer["SuggestionRejected"].ToString();
             return RedirectToAction(nameof(Index));
         }
     }
