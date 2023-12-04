@@ -29,6 +29,80 @@ namespace Talpa.Areas.Admin.Controllers
             _voteService = voteService;
         }
 
+<<<<<<< Updated upstream
+=======
+        //public async Task<ActionResult> SaveChosenActivity(int SuggestionId, int OtherSuggestionId1, int OtherSuggestionId2, DateTime Date)
+        //{
+        //    // Assuming you have a DbContext named YourDbContext
+        //    using (var dbContext = new _dbContext.Suggestions())
+        //    {
+        //        // Find the suggestion by Id
+        //        var suggestion = await dbContext.Suggestions.FindAsync(SuggestionId);
+
+        //        if (suggestion != null)
+        //        {
+        //            // Create a new ChosenSuggestion based on the Suggestion
+        //            var chosenSuggestion = new ChosenSuggestion
+        //            {
+        //                SuggestionId = suggestion.Id,
+        //                // Copy other properties as needed...
+        //                Date = Date,
+        //                // Set OtherSuggestionId1 and OtherSuggestionId2 as needed...
+        //            };
+
+        //            // Add the new ChosenSuggestion to the ChosenSuggestions table
+        //            dbContext.ChosenSuggestions.Add(chosenSuggestion);
+
+        //            // Save changes to the database
+        //            await dbContext.SaveChangesAsync();
+        //        }
+        //    }
+
+        //    return RedirectToAction();
+        //}
+
+
+        public async Task<ActionResult> SaveChosenActivity(int SuggestionId, DateTime Date, int otherSuggestionId1, int otherSuggestionId2)
+        {
+            var suggestion = await _dbContext.Suggestions.FindAsync(SuggestionId);
+
+            if (suggestion != null)
+            {
+                var chosenSuggestion = new ChosenSuggestion
+                {
+                    UserId = suggestion.UserId,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = Date,
+                    ActivityState = suggestion.ActivityState
+                };
+
+                _dbContext.ChosenSuggestions.Add(chosenSuggestion);
+
+                await _dbContext.SaveChangesAsync();
+
+                ViewBag.Message = "ChosenSuggestion added successfully.";
+            }
+            else
+            {
+                ViewBag.Message = "Suggestion not found with the given ID.";
+            }
+
+            var suggestionIdsToDelete = new List<int> { SuggestionId, otherSuggestionId1, otherSuggestionId2 };
+
+            var activitiesToDelete = _dbContext.ActivityDates
+                .Where(a => suggestionIdsToDelete.Contains(a.SuggestionId))
+                .ToList();
+
+            _dbContext.ActivityDates.RemoveRange(activitiesToDelete);
+
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+>>>>>>> Stashed changes
         public async Task<ActionResult> Index()
         {
             List<Activity> activities = await _activityService.GetActivitiesWithSuggestionsAsync();
