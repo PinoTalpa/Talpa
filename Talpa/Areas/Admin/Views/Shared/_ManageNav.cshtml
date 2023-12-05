@@ -4,17 +4,21 @@
     string? currentArea = ViewContext.RouteData.Values["area"]?.ToString();
     string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
-<aside id="default-sidebar" class="w-full h-full bg-black" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-black">
+<aside id="default-sidebar" class="w-full h-full bg-[@primaryColor]" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-[@primaryColor]">
         <a href="/" class="h-16 w-50 flex-none">
             <p class="flex text-white flex-col justify-center text-3xl font-bold px-2">Talpa</p>
         </a>
         <ul class="space-y-2 font-medium pt-10">
             <li>
-                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
-                    @(currentController == "Admin" ? "bg-gray-800" : "bg-black")">
+                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[@primaryColor] hover:bg-[@primaryColor]
+                    @(currentController == "Admin" ? "bg-[" + @primaryColor + "] brightness-75" : "bg-[" + @primaryColor + "]")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         dashboard
                     </span>
@@ -22,8 +26,8 @@
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
-                    @(currentController == "Activity" ? "bg-gray-800" : "bg-black")">
+                <a asp-area="Admin" asp-controller="Activity" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[@primaryColor] hover:bg-[@primaryColor]
+                    @(currentController == "Activity" ? "bg-[" + @primaryColor + "] brightness-75" : "bg-[" + @primaryColor + "]")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>
@@ -31,12 +35,21 @@
                 </a>
             </li>
             <li>
-                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-black hover:bg-gray-800
-                    @(currentController == "Suggestion" ? "bg-gray-800" : "bg-black")">
+                <a asp-area="Admin" asp-controller="Suggestion" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[@primaryColor] hover:bg-[@primaryColor]
+                    @(currentController == "Suggestion" ? "bg-[" + @primaryColor + "] brightness-75" : "bg-[" + @primaryColor + "]")">
                     <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
                         menu_book
                     </span>
                     <span class="flex-1 ml-3 whitespace-nowrap">@Localizer["Suggestions"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-area="Admin" asp-controller="Setting" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[@primaryColor] hover:bg-[@primaryColor]
+                    @(currentController == "Setting" ? "bg-[" + @primaryColor + "] brightness-75" : "bg-[" + @primaryColor + "]")">
+                    <span class="material-symbols-outlined text-gray-400" style="font-size: 30px;">
+                        settings
+                    </span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">@Localizer["Settings"]</span>
                 </a>
             </li>
         </ul>

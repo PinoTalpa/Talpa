@@ -1,5 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div>
@@ -15,7 +19,7 @@
             </div>
 
             <div class="w-full flex justify-center mt-10">
-                <a asp-controller="Suggestion" asp-action="Create" class="text-center cursor-pointer bg-[#5236AB] w-3/6 hover:bg-[#300FA8] text-white font-bold py-2 rounded">@Localizer["Plan"]</a>
+                <a asp-controller="Suggestion" asp-action="Create" class="text-center cursor-pointer bg-[@secondaryColor] w-3/6 hover:bg-[@backgroundColor] text-white font-bold py-2 rounded">@Localizer["Plan"]</a>
             </div>
         </div>
     </div>

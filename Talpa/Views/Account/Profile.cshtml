@@ -1,6 +1,10 @@
 ﻿@model SampleMvcApp.ViewModels.UserProfileViewModel
 @{
     ViewData["Title"] = "Profile";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div class="md:px-20">
@@ -76,7 +80,7 @@
                         </div>
 *@
                         <div class="w-full flex justify-end">
-                            <button type="submit" class="cursor-pointer bg-[#5236AB] w-28 hover:bg-[#300FA8] text-white font-bold py-2 rounded">@Localizer["Save"]</button>
+                            <button type="submit" class="cursor-pointer bg-[@secondaryColor] w-28 hover:bg-[@backgroundColor] text-white font-bold py-2 rounded">@Localizer["Save"]</button>
                         </div>
                     </form>
                 </div>

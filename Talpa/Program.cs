@@ -57,6 +57,9 @@ namespace Talpa
             builder.Services.AddScoped<ILimitationService, LimitationService>();
             builder.Services.AddScoped<ILimitationRepository, LimitationRepository>();
 
+            builder.Services.AddScoped<ISettingsService, SettingsService>();
+            builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 

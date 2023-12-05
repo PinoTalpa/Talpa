@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div class="h-screen py-10 px-2 md:px-20 overflow-auto">
@@ -45,14 +49,14 @@
                     <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Suggestion.Id">
                         <div class="mb-4 w-full pt-4">
                             <div class="input-group relative w-full">
-                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-blue-500">
+                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[@secondaryColor] focus:ring-[@secondaryColor]">
                                 <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["DetailsLimitation"]</label>
                             </div>
                             <span for="Limitation" class="text-red-700"></span>
                         </div>
 
                         <div class="w-full flex justify-end">
-                            <input type="submit" value="@Localizer["DetailsAddLimitation"]" class="cursor-pointer bg-blue-500 px-4 hover:bg-blue-600 text-white font-bold py-2 rounded" />
+                            <input type="submit" value="@Localizer["DetailsAddLimitation"]" class="cursor-pointer bg-[@secondaryColor] px-4 hover:bg-[@backgroundColor] text-white font-bold py-2 rounded" />
                         </div>
                     </form>
 
@@ -78,7 +82,7 @@
     .custom-input:focus,
     .custom-input:valid {
         outline: none;
-        border: 1.5px solid #1a73e8;
+        border: 1.5px solid @secondaryColor;
     }
 
         .custom-input:focus ~ .custom-label,
@@ -86,6 +90,6 @@
             transform: translateY(-50%) scale(0.8);
             background-color: white;
             padding: 0 .2em;
-            color: #2196f3;
+            color: @secondaryColor;
         }
 </style>
