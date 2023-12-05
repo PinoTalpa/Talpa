@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlreadyVoted" xml:space="preserve">
-    <value>A vote has already been registered in your name.</value>
+  <data name="DetailsBack" xml:space="preserve">
+    <value>Terug</value>
   </data>
-  <data name="SelectOne" xml:space="preserve">
-    <value>Select at least one date before voting.</value>
+  <data name="DetailsDescription" xml:space="preserve">
+    <value>Beschrijving</value>
   </data>
-  <data name="Voted" xml:space="preserve">
-    <value>You have succesfully voted</value>
+  <data name="DetailsLimitation" xml:space="preserve">
+    <value>Beperking</value>
+  </data>
+  <data name="DetailsVote" xml:space="preserve">
+    <value>Stem</value>
   </data>
 </root>

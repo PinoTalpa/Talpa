@@ -65,6 +65,13 @@ namespace Talpa_DAL.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<ChosenSuggestion?> GetChosenSuggestionByIdAsync(int id)
+        {
+            ChosenSuggestion? suggestionDto = await _dbContext.ChosenSuggestions.FindAsync(id);
+
+            return suggestionDto;
+        }
+
         public async Task<List<LeaderboardDto>> GetExecutedSuggestionsAsync()
         {
             IQueryable<LeaderboardDto> query = from user in _dbContext.Users

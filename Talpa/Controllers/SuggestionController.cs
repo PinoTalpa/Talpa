@@ -94,6 +94,43 @@ namespace Talpa.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<ActionResult> ChosenSuggestionDetails(int suggestionId)
+        {
+            Suggestion? suggestion = await _suggestionService.GetChosenSuggestionByIdAsync(suggestionId);
+
+            if (suggestion != null && suggestion.ErrorMessage == null)
+            {
+                SuggestionViewModel suggestionViewModel = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = suggestion.Date,
+                    ActivityState = suggestion.ActivityState,
+                };
+
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
+            }
+
+            TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<ActionResult> Leaderboard()
         {
             List<Leaderboard> Leaderboards = await _suggestionService.GetExecutedSuggestionsAsync();

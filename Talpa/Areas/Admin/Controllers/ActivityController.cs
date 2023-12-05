@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using ModelLayer.Models;
-using MySqlConnector;
-using System.Collections.Immutable;
 using System.Data;
 using Talpa.Models;
 using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_BLL.Services;
 using Talpa_DAL.Data;
 
 namespace Talpa.Areas.Admin.Controllers
@@ -75,7 +70,7 @@ namespace Talpa.Areas.Admin.Controllers
         {
             var suggestion = await _dbContext.Suggestions.FindAsync(SuggestionId);
 
-            if (suggestion != null)
+            if (suggestion != null && Date != DateTime.MinValue)
             {
                 var chosenSuggestion = new ChosenSuggestion
                 {
@@ -92,25 +87,31 @@ namespace Talpa.Areas.Admin.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 ViewBag.Message = "ChosenSuggestion added successfully.";
+
+                var suggestionIdsToDelete = new List<int> { SuggestionId, otherSuggestionId1, otherSuggestionId2 };
+
+                var activitiesToDelete = _dbContext.ActivityDates
+                    .Where(a => suggestionIdsToDelete.Contains(a.SuggestionId))
+                    .ToList();
+
+                _dbContext.ActivityDates.RemoveRange(activitiesToDelete);
+
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
             }
             else
             {
                 ViewBag.Message = "Suggestion not found with the given ID.";
             }
 
-            var suggestionIdsToDelete = new List<int> { SuggestionId, otherSuggestionId1, otherSuggestionId2 };
+            if (Date == DateTime.MinValue)
+            {
+                TempData["Message"] = "Please select a date.";
+            }
 
-            var activitiesToDelete = _dbContext.ActivityDates
-                .Where(a => suggestionIdsToDelete.Contains(a.SuggestionId))
-                .ToList();
-
-            _dbContext.ActivityDates.RemoveRange(activitiesToDelete);
-
-            await _dbContext.SaveChangesAsync();
-
-            return View();
+            return RedirectToAction("GetActivityDateWithId", new { selectedSuggestionId = SuggestionId, otherSuggestionId1 = otherSuggestionId1, otherSuggestionId2 =  otherSuggestionId2 });
         }
-
 
         public async Task<ActionResult> Index()
         {
