@@ -7,41 +7,39 @@
 <div class="h-full py-10 px-2 md:px-20">
     <div class="w-full shadow-lg p-10">
         <div class="w-full">
-            <div>
-                <div class="flex justify-between">
-                    <div>
-                        <p class="text-2xl sm:text-3xl md:text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
-                    </div>
+            <div class="flex justify-between">
+                <div>
+                    <p class="text-2xl sm:text-3xl md:text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
                 </div>
+            </div>
 
-                <div class="pt-10 flex justify-between">
-                    <div class="">
-                        <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
-                        <p class="text-sm sm:text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
-                    </div>
-                    <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="hidden sm:flex h-60" />
+            <div class="pt-10 flex justify-between">
+                <div class="">
+                    <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
+                    <p class="text-sm sm:text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
                 </div>
+                <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="hidden sm:flex h-60" />
+            </div>
 
-                <div class="pt-10">
+            <div class="pt-10">
                     
 
-                    <div class="w-full mt-4">
+                <div class="w-full mt-4">
 
-                        @if (Model.limitations.Count > 0) 
+                    @if (Model.limitations.Count > 0) 
+                    {
+                        <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
+                        foreach (var limitation in Model.limitations)
                         {
-                            <h2 class="text-xl sm:text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
-                            foreach (var limitation in Model.limitations)
-                            {
-                                <div class="flex gap-4 md:gap-40 shadow-lg p-4 bg-white mb-4 w-full rounded-md">
-                                    <div class="">
-                                        <div class="text-xl text-left gap-1">
-                                            @limitation.Name
-                                        </div>
+                            <div class="flex gap-4 md:gap-40 shadow-lg p-4 bg-white mb-4 w-full rounded-md">
+                                <div class="">
+                                    <div class="text-xl text-left gap-1">
+                                        @limitation.Name
                                     </div>
                                 </div>
-                            }
-                        } 
-                    </div>
+                            </div>
+                        }
+                    } 
                 </div>
             </div>
         </div>

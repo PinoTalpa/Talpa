@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlreadyVoted" xml:space="preserve">
+    <value>Er is al een stem geregistreerd op uw naam.</value>
+  </data>
+  <data name="SelectOne" xml:space="preserve">
+    <value>Selecteer minimaal één datum voor u stemt.</value>
+  </data>
   <data name="Voted" xml:space="preserve">
     <value>Je hebt succesvol gestemd</value>
   </data>
