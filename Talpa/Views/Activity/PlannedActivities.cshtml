@@ -26,7 +26,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-4 px-8">
                 @foreach (PlannedActivityViewModel plannedActivity in Model)
                 {
-                    <a asp-controller="Suggestion" asp-action="Details" asp-route-suggestionId="@plannedActivity.Id" class="px-2 h-96 mb-4 relative flex flex-col items-center justify-center">
+                    <a asp-controller="Suggestion" asp-action="ChosenSuggestionDetails" asp-route-suggestionId="@plannedActivity.Id" class="px-2 h-96 mb-4 relative flex flex-col items-center justify-center">
                         <img src="@Url.Content("~/img/suggestion/" + plannedActivity.ImageUrl)" class="w-full object-cover h-full rounded-lg brightness-50" />
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                             <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => plannedActivity.Name)</h1>

@@ -72,7 +72,8 @@ namespace Talpa.Controllers
 
             if (selectedDates.Count == 0 || suggestionId == null)
             {
-                return RedirectToAction("Index", "Activity");
+                TempData["ErrorMessage"] = _localizer["SelectOne"].ToString();
+                return RedirectToAction("Index", new { activityId = suggestionId });
             }
 
             Vote vote = new()
@@ -83,24 +84,27 @@ namespace Talpa.Controllers
 
             Vote existingVote = await _voteService.getExistingVoteAsync(vote);
 
-            if(existingVote.Id == 0)
+            if(existingVote.Id != 0)
             {
-                vote = await _voteService.CreateVoteAsync(vote);
+                TempData["ErrorMessage"] = _localizer["AlreadyVoted"].ToString();
+                return RedirectToAction(nameof(Index), "Activity");
+            }
 
-                foreach (int DateId in selectedDates)
+            vote = await _voteService.CreateVoteAsync(vote);
+
+            foreach (int DateId in selectedDates)
+            {
+                UserActivityDate userActivityDate = new()
                 {
-                    UserActivityDate userActivityDate = new()
-                    {
-                        UserId = userId,
-                        ActivityDateId = DateId,
-                        IsAvailable = true,
-                    };
+                    UserId = userId,
+                    ActivityDateId = DateId,
+                    IsAvailable = true,
+                };
 
 
-                    if (_userActivityDateService != null)
-                    {
-                        userActivityDate = await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
-                    }
+                if (_userActivityDateService != null)
+                {
+                    userActivityDate = await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
                 }
             }
 

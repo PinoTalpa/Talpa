@@ -1,4 +1,4 @@
-﻿@model EventViewModel
+@model EventViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,8 +11,8 @@
 
 <div class="h-screen px-2 md:px-10 pt-10 overflow-auto">
     <div class="flex justify-center">
-        <form method="post" asp-controller="Activity" asp-action="Times">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        <form method="post" asp-controller="Activity" asp-action="Times" class="mg-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mb-20">
                 @for (var index = 0; index < Model.AllDatesInRange.Count; index++)
                 {
                     var dateTime = Model.AllDatesInRange[index].Date;
@@ -28,6 +28,10 @@
                         </div>
                     </div>
                 }
+
+                <div class="flex w-full mt-4 mb-4">
+                    <input type="submit" value="Aanmaken" class="bg-white bg-[#5236AB] w-96 hover:bg-[#300FA8] font-bold rounded py-2 text-white cursor-pointer">
+                </div>
             </div>
 
             @for (var index = 0; index < Model.SelectedSuggestionIds.Count; index++)
