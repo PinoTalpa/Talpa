@@ -10,6 +10,7 @@ namespace Talpa_DAL.Interfaces
         Task<List<LeaderboardDto>> GetExecutedSuggestionsAsync();
         Task<bool> CreateSuggestionAsync(SuggestionDto suggestion);
         Task<SuggestionDto?> GetSuggestionByIdAsync(int id);
+        Task<ChosenSuggestion?> GetChosenSuggestionByIdAsync(int id);
         Task<bool> DeclineSuggestionAsync(SuggestionDto suggestion);
         Task<bool> SuggestionNameExistsAsync(string suggestionName);
     }
