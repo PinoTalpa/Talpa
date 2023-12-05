@@ -2,6 +2,10 @@
     string? currentArea = ViewContext.RouteData.Values["area"]?.ToString();
     string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <!DOCTYPE html>
@@ -22,10 +26,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        fetch('/Home/GetSettings')
+            .then(response => response.json())
+            .catch(error => console.error('Error fetching settings:', error));
+    </script>
 </head>
 <body class="flex flex-col">
     <header>
-        <nav class="bg-black px-2 sm:px-4 py-2 fixed w-full z-50">
+        <nav class="bg-[@primaryColor] px-2 sm:px-4 py-2 fixed w-full z-50">
             <div class="container lg:px-8 flex flex-wrap items-center justify-between mx-auto">
                 <div class="flex justify-between w-full">
                     <div class="flex flex-col md:flex-row justify-between w-full">
@@ -50,33 +60,32 @@
                                     </div>
                                     <input type="text" id="search-navbar" class="block w-full p-2 pl-10 bg-gray-50 border border-gray-500 rounded-sm focus:border-[#E95783] focus:ring-[#E95783]" placeholder="Search...">
                                 </div>
-                                <ul class="flex flex-col mt-4 bg-black p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+                                <ul class="flex flex-col mt-4 bg-[@primaryColor] p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
                                     <li>
-                                        <a href="/" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
-                                        @(currentController == "Home" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        <a href="/" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
+                                        @(currentController == "Home" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                         @Localizer["Home"]
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index"
-                                           class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                           @(currentController == "Suggestion" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                           @(currentController == "Suggestion" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                             @Localizer["Suggestions"]
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Activity" asp-action="PlannedActivities" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                        @(currentController == "Activity" && currentAction == "PlannedActivities" ? "text-[#A299C6]" : "text-white")">
+                                        <a asp-area="" asp-controller="Activity" asp-action="PlannedActivities" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "PlannedActivities" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                         @Localizer["PlannedActivities"]</a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                        @(currentController == "Activity" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                         @Localizer["Activities"]</a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Suggestion" asp-action="Leaderboard" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                        @(currentController == "Suggestion" && currentAction == "Leaderboard" ? "text-[#A299C6]" : "text-white")">
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Leaderboard" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Suggestion" && currentAction == "Leaderboard" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                             @Localizer["Leaderboard"]
                                         </a>
                                     </li>
@@ -119,7 +128,7 @@
         </main>
     </div>
 
-    <footer class="bg-black shadow mt-20 px-2 md:px-20">
+    <footer class="bg-[#@primaryColor] shadow mt-20 px-2 md:px-20">
         <div class="w-full max-w-screen-2xl mb-4 md:mb-0 mx-auto md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <a href="" class="flex items-center mb-4 sm:mb-0">

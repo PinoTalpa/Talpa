@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div>
@@ -24,7 +28,7 @@
     <div class="px-2 md:px-20 pt-10">
 
         <div class="pb-2 px-10 w-full flex justify-end">
-            <a asp-action="Create" class="inline-block bg-[#5236AB] hover:bg-[#300FA8] text-white font-bold py-2 px-4 rounded">@Localizer["CreateNew"]</a>
+            <a asp-action="Create" class="inline-block bg-[@secondaryColor] hover:bg-[@backgroundColor] text-white font-bold py-2 px-4 rounded">@Localizer["CreateNew"]</a>
         </div>
 
         <div>

@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
+using Talpa_DAL.Data;
 
 namespace Talpa.Controllers
 {
@@ -16,17 +17,31 @@ namespace Talpa.Controllers
         private readonly IStringLocalizer<HomeController> _localizer;
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer, IUserService userService)
+        public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer, IUserService userService, ApplicationDbContext dbContext)
         {
             _logger = logger;
             _localizer = localizer;
             _userService = userService;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetSettings()
+        {
+            var settings = _dbContext.Settings.FirstOrDefault();
+
+            Response.Cookies.Append("PrimaryColor", settings.PrimaryColor);
+            Response.Cookies.Append("SecondaryColor", settings.SecondaryColor);
+            Response.Cookies.Append("BackgroundColor", settings.BackgroundColor);
+
+            return Json(settings);
         }
 
         public IActionResult Privacy()

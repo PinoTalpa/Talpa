@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Vote Details";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div class="pt-6">
@@ -121,10 +125,10 @@
             </div>
             <div class="flex gap-4 pt-10 lg:px-20">
                 <div class="w-full flex justify-end">
-                    <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model[0].StartDate" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">@Localizer["Cancel"]</a>
+                    <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model[0].StartDate" class="bg-white border border-[@secondaryColor] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[@secondaryColor]">@Localizer["Cancel"]</a>
                 </div>
                 <div class="w-full flex justify-end">
-                    <input type="submit" value="@Localizer["Vote"]" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
+                    <input type="submit" value="@Localizer["Vote"]" class="cursor-pointer bg-[@secondaryColor] w-full hover:bg-[#@backgroundColor] text-white font-bold py-2 rounded" />
                 </div>
             </div>
         </form>

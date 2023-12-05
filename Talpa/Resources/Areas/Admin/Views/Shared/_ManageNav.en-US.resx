@@ -123,6 +123,9 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Suggestions" xml:space="preserve">
     <value>Suggestions</value>
   </data>

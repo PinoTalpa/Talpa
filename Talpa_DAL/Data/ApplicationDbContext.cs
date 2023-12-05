@@ -23,5 +23,6 @@ namespace Talpa_DAL.Data
         public DbSet<ActivityLimitationDto> ActivityLimitations { get; set; }
         public DbSet<ActivityDateDto> ActivityDates { get; set; }
         public DbSet<UserActivityDateDto> UserActivityDates { get; set; }
+        public DbSet<SettingsDto> Settings { get; set; }
     }
 }

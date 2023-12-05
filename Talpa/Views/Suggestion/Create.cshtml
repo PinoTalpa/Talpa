@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Create";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div class="h-full">
@@ -36,7 +40,7 @@
 
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
-                            <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]">
+                            <input required="" type="text" name="Name" id="Name" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[@secondaryColor] focus:ring-[@secondaryColor]">
                             <label for="Name" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["Title"]</label>
                         </div>
                         <span asp-validation-for="Name" class="text-red-700"></span>
@@ -44,7 +48,7 @@
 
                     <div class="mb-4 w-full">
                         <div class="input-group relative w-full">
-                            <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[#5236AB]" style="min-height: 100px;"></textarea>
+                            <textarea required="" type="text" name="Description" id="Description" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[@secondaryColor] focus:ring-[@secondaryColor]" style="min-height: 100px;"></textarea>
                             <label for="Description" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["Description"]</label>
                         </div>
                         <span asp-validation-for="Description" class="text-red-700"></span>
@@ -63,10 +67,10 @@
 
                     <div class="px-10 flex gap-4">
                         <div class="w-full flex justify-end">
-                            <a asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">@Localizer["Cancel"]</a>
+                            <a asp-action="Index" class="bg-white border border-[@secondaryColor] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[@secondaryColor]">@Localizer["Cancel"]</a>
                         </div>
                         <div class="w-full flex justify-end">
-                            <input type="submit" value="@Localizer["Create"]" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
+                            <input type="submit" value="@Localizer["Create"]" class="cursor-pointer bg-[#@secondaryColor] w-full hover:bg-[@backgroundColor] text-white font-bold py-2 rounded" />
                         </div>
                     </div>
                 </form>
@@ -78,7 +82,7 @@
         .custom-input:focus,
         .custom-input:valid {
             outline: none;
-            border: 1.5px solid #5236AB;
+            border: 1.5px solid @secondaryColor;
         }
 
         .custom-input:focus ~ .custom-label,
@@ -86,7 +90,7 @@
             transform: translateY(-50%) scale(0.8);
             background-color: white;
             padding: 0 .2em;
-                color: #5236AB;
+                color: @secondaryColor;
         }
     </style>
 
