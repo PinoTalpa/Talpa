@@ -5,19 +5,23 @@
 @{
     ViewData["Title"] = "Activity Details";
     Layout = "../Shared/_Layout.cshtml";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <div class="md:px-20">
     @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
     {
-        <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+        <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full">
             @TempData["StatusMessage"]
         </div>
     }
 
     @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
     {
-        <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+        <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full">
             @TempData["ErrorMessage"]
         </div>
     }
@@ -76,7 +80,7 @@
                     <div class="relative h-full w-full">
                         <img src="@Url.Content("~/img/suggestion/" + suggestion.ImageUrl)" data-id="@suggestion.Id" class="w-full object-cover h-full max-h-[400px] rounded-lg brightness-100" />
 
-                        <div class="picked-activity custom-hidden absolute top-0 left-0 bg-purple-800 w-full h-full opacity-50 rounded-lg"></div>
+                        <div class="picked-activity custom-hidden absolute top-0 left-0 bg-[@secondaryColor] w-full h-full opacity-50 rounded-lg"></div>
 
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                             <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => suggestion.Name)</h1>
@@ -93,10 +97,11 @@
         <!-- Hidden inputs for the other two suggestion IDs -->
         <input type="hidden" id="otherSuggestionId1" name="otherSuggestionId1" />
         <input type="hidden" id="otherSuggestionId2" name="otherSuggestionId2" />
+        <input type="hidden" id="startTimeSuggestion" name="startTimeSuggestion" value="@Model.startTime" />
 
         <div class="px-2 w-full flex justify-end">
             <!-- Submit button -->
-            <button type="submit" class="rounded-md text-white bg-purple-500 w-60 py-2.5 px-4 hover:bg-purple-700">@Localizer["Continue"]</button>
+            <button type="submit" class="rounded-md text-white bg-[@secondaryColor] w-60 py-2.5 px-4 hover:bg-[@backgroundColor]">@Localizer["Continue"]</button>
         </div>
     </form>
 
@@ -107,7 +112,7 @@
     .custom-input:focus,
     .custom-input:valid {
         outline: none;
-        border: 1.5px solid #1a73e8;
+        border: 1.5px solid @secondaryColor;
     }
 
         .custom-input:focus ~ .custom-label,
@@ -115,7 +120,7 @@
             transform: translateY(-50%) scale(0.8);
             background-color: white;
             padding: 0 .2em;
-            color: #2196f3;
+            color: @secondaryColor;
         }
 
     .custom-hidden {

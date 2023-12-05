@@ -226,7 +226,7 @@ namespace Talpa.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> GetActivityDateWithId(int selectedSuggestionId, int otherSuggestionId1, int otherSuggestionId2)
+        public async Task<IActionResult> GetActivityDateWithId(int selectedSuggestionId, int otherSuggestionId1, int otherSuggestionId2, DateTime startTimeSuggestion)
         {
             // Assuming _activityService.GetActivitiesDateWithId returns a Task<List<ActivityDateDto>>
             var activitiesDateDto = await _activityDateService.GetActivityDatesWithId(selectedSuggestionId);
@@ -266,6 +266,11 @@ namespace Talpa.Areas.Admin.Controllers
                 // Add other properties as needed
             }).ToList();
 
+            if (activityViewModels.Count == 0)
+            {
+                TempData["ErrorMessage"] = _localizer["ZeroVotes"].ToString();
+                return RedirectToAction("Details", new { activityStartTime = startTimeSuggestion });
+            }
 
             return View("ActivityDateViewModel", activityViewModels);
         }

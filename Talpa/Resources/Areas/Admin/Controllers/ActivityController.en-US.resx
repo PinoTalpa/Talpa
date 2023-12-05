@@ -126,4 +126,7 @@
   <data name="SelectThreeActivities" xml:space="preserve">
     <value>You have to select 3 activities</value>
   </data>
+  <data name="ZeroVotes" xml:space="preserve">
+    <value>You can't select an activity with 0 votes</value>
+  </data>
 </root>
