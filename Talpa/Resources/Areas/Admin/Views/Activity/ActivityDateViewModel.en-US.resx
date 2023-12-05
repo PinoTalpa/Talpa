@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Continue" xml:space="preserve">
-    <value>Continue</value>
+  <data name="HowOften" xml:space="preserve">
+    <value>How often this date has been selected:</value>
   </data>
-  <data name="PickActivity" xml:space="preserve">
-    <value>Select an activity</value>
+  <data name="SelectDate" xml:space="preserve">
+    <value>Select a date:</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
   </data>
 </root>

@@ -117,22 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DetailsAddLimitation" xml:space="preserve">
-    <value>Beperking toevoegen</value>
+  <data name="Continue" xml:space="preserve">
+    <value>Verder</value>
   </data>
-  <data name="DetailsBack" xml:space="preserve">
-    <value>Terug</value>
-  </data>
-  <data name="DetailsDescription" xml:space="preserve">
-    <value>Beschrijving</value>
-  </data>
-  <data name="DetailsLimitation" xml:space="preserve">
-    <value>Beperking</value>
-  </data>
-  <data name="DetailsLimitations" xml:space="preserve">
-    <value>Beperkingen</value>
-  </data>
-  <data name="DetailsVote" xml:space="preserve">
-    <value>Stem</value>
+  <data name="PickActivity" xml:space="preserve">
+    <value>Selecteer een activiteit </value>
   </data>
 </root>

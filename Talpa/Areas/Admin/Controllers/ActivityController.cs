@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using ModelLayer.Models;
-using MySqlConnector;
-using System.Collections.Immutable;
 using System.Data;
 using Talpa.Models;
 using Talpa.Models.AdminModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
-using Talpa_BLL.Services;
 using Talpa_DAL.Data;
 
 namespace Talpa.Areas.Admin.Controllers
