@@ -69,8 +69,6 @@ namespace Talpa_DAL.Repositories
         }
 
 
-
-
         public async Task<List<ActivityDateDto>> GetActivityDates(int activityId)
         {
             List<ActivityDateDto> activityDates = _dbContext.ActivityDates

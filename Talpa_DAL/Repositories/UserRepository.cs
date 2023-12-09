@@ -78,7 +78,5 @@ namespace Talpa_DAL.Repositories
 
             return await query.FirstOrDefaultAsync();
         }
-
-
     }
 }

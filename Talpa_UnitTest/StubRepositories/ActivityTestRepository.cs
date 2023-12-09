@@ -9,79 +9,68 @@ using Talpa_DAL.Interfaces;
 
 namespace Talpa_UnitTest.StubRepositories
 {
-   /* public class ActivityTestRepository : IActivityRepository
+    public class ActivityTestRepository : IActivityRepository
     {
-        List<ActivityDto> activities;
-        List<SuggestionDto> suggestions;
+        List<SuggestionDto> activities;
         List<ActivityDateDto> activityDates;
 
-        public void InitializeActivities(List<ActivityDto> activityDtos)
+        public void InitializeActivities(List<SuggestionDto> activityDtos)
         {
             activities = activityDtos;
         }
 
-        public void InitializeActivityDates(List<ActivityDateDto> activityDatesDtos)
+        public void InitializeActivitiesDates(List<ActivityDateDto> activityDatesDtos)
         {
             activityDates = activityDatesDtos;
         }
 
-        public void InitializeSuggestions(List<SuggestionDto> suggestionDtos)
-        {
-            suggestions = suggestionDtos;
-        }
-
-        public async Task<List<ActivityDto>> GetActivitiesAsync(string searchString)
+        public async Task<List<SuggestionDto>> GetActivitiesAsync(string searchString)
         {
             return activities;
         }
 
-        public async Task<List<ActivityDateDto>> GetActivityDates(int activityId)
+        public async Task<List<ActivityDateDto>> GetActivitiesWithSuggestionsAsync()
         {
-            return activityDates.Where(date => date.SuggestionId == activityId).ToList();
-        }
-
-        public async Task<bool> CreateActivityAsync(SuggestionDto suggestion)
-        {
-            foreach (var item in suggestions)
-            {
-                if (suggestion.Id == item.Id)
-                {
-                    item.ActivityState = suggestion.ActivityState;
-                    return true;
-                }
-            }
-
-            return false;
+            return activityDates;
         }
 
         public async Task<SuggestionDto?> GetActivityByIdAsync(int id)
         {
-            SuggestionDto suggestion = new();
+            SuggestionDto activity = new();
 
-            foreach (var item in suggestions)
+            foreach (var item in activities)
             {
                 if (item.Id == id)
                 {
-                    suggestion = item;
+                    activity = item;
                     break;
                 }
             }
 
-            return suggestion;
+            return activity;
         }
 
-        public async Task<bool> RemoveActivityAsync(ActivityDto activity)
+        public async Task<bool> CreateActivityAsync(SuggestionDto activity)
         {
             foreach (var item in activities)
             {
                 if (activity.Id == item.Id)
                 {
-                    item.ActivityState = activity.ActivityState;
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            activities.Add(activity);
+            return true;
         }
-    }*/
+
+        public async Task<List<ActivityDateDto>> GetActivityDates(int activityId)
+        {
+            var result = activityDates
+            .Where(activityDate => activityDate.SuggestionId == activityId)
+            .ToList();
+
+            return result;
+        }
+    }
 }

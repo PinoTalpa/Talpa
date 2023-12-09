@@ -19,20 +19,31 @@ namespace Talpa
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-/*            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");*/
-            var connectionString = "Server=studmysql01.fhict.local;Database=dbi528128;Uid=dbi528128;Pwd=Talpa!@#1;";
+            var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql(
                     connectionString,
-                    new MySqlServerVersion(new Version(5, 7, 26)), // Edit this to your SQL server version.
+                    new MySqlServerVersion(new Version(8, 0, 0)), // Edit this to your SQL server version.
                     mySqlOptions =>
                     {
                         mySqlOptions.MigrationsAssembly("Talpa");
                         mySqlOptions.EnableStringComparisonTranslations(); // Enable string comparison translations
                     });
             });
+
+            var services = builder.Services.BuildServiceProvider();
+            var dbContext = services.GetService<ApplicationDbContext>();
+
+            if (dbContext?.Database.CanConnect() ?? false)
+            {
+                Console.WriteLine("Connection to the database is established successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Failed to establish a connection to the database.");
+            }
 
             builder.Services.AddScoped<ApplicationDbContext>();
 

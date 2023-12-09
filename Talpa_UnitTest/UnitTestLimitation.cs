@@ -25,7 +25,7 @@ namespace Talpa_UnitTest
             List<LimitationDto> limitationDtos = new()
             {
                 new LimitationDto { Id = 1, Name = "Niet vega" },
-                new LimitationDto { Id = 2, Name = "Niet berijkbaar met rolstoel" },
+                new LimitationDto { Id = 2, Name = "Niet bereikbaar met rolstoel" },
             };
 
             List<ActivityLimitationDto> activityLimitationDtos = new()
@@ -50,7 +50,7 @@ namespace Talpa_UnitTest
             List<LimitationDto> limitationDtos = new()
             {
                 new LimitationDto { Id = 1, Name = "Niet vega" },
-                new LimitationDto { Id = 2, Name = "Niet berijkbaar met rolstoel" },
+                new LimitationDto { Id = 2, Name = "Niet bereikbaar met rolstoel" },
             };
 
             _limitationTestRepository.InitializeLimitations(limitationDtos);
@@ -75,7 +75,7 @@ namespace Talpa_UnitTest
             List<LimitationDto> limitationDtos = new()
             {
                 new LimitationDto { Id = 1, Name = "Niet vega" },
-                new LimitationDto { Id = 2, Name = "Niet berijkbaar met rolstoel" },
+                new LimitationDto { Id = 2, Name = "Niet bereikbaar met rolstoel" },
             };
 
             _limitationTestRepository.InitializeLimitations(limitationDtos);
@@ -105,7 +105,7 @@ namespace Talpa_UnitTest
             List<LimitationDto> limitationDtos = new()
             {
                 new LimitationDto { Id = 1, Name = "Niet vega" },
-                new LimitationDto { Id = 2, Name = "Niet berijkbaar met rolstoel" },
+                new LimitationDto { Id = 2, Name = "Niet bereikbaar met rolstoel" },
             };
 
             List<ActivityLimitationDto> activityLimitationDtos = new()
