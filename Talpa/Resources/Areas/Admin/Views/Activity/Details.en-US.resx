@@ -123,4 +123,7 @@
   <data name="PickActivity" xml:space="preserve">
     <value>Select an activity</value>
   </data>
+  <data name="Votes" xml:space="preserve">
+    <value>Votes</value>
+  </data>
 </root>

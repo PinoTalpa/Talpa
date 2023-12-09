@@ -6,7 +6,7 @@ using Talpa_BLL.Models;
 
 namespace Talpa.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Employee")]
     public class ActivityController : Controller
     {
         private readonly ISuggestionService _suggestionService;

@@ -86,7 +86,7 @@ namespace Talpa.Areas.Admin.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
-                ViewBag.Message = "ChosenSuggestion added successfully.";
+                ViewBag.Message = _localizer["ActivityAdded"].ToString();
 
                 var suggestionIdsToDelete = new List<int> { SuggestionId, otherSuggestionId1, otherSuggestionId2 };
 
@@ -102,12 +102,12 @@ namespace Talpa.Areas.Admin.Controllers
             }
             else
             {
-                ViewBag.Message = "Suggestion not found with the given ID.";
+                ViewBag.Message = _localizer["ActivityNotFoundWithId"].ToString(); ;
             }
 
             if (Date == DateTime.MinValue)
             {
-                TempData["Message"] = "Please select a date.";
+                TempData["Message"] = _localizer["SelectDate"].ToString();
             }
 
             return RedirectToAction("GetActivityDateWithId", new { selectedSuggestionId = SuggestionId, otherSuggestionId1 = otherSuggestionId1, otherSuggestionId2 =  otherSuggestionId2 });

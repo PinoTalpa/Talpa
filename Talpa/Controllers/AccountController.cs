@@ -170,7 +170,15 @@ namespace Talpa.Controllers
                         string responseBody = await response.Content.ReadAsStringAsync();
 
                         var userClaims = (User.Identity as ClaimsIdentity);
-                        userClaims.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                        var roles = JsonConvert.DeserializeObject<List<Role>>(responseBody);
+
+                        foreach (var role in roles)
+                        {
+                            if (role != null && !string.IsNullOrEmpty(role.Name))
+                            {
+                                userClaims.AddClaim(new Claim(ClaimTypes.Role, role.Name));
+                            }
+                        }
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(userClaims));
                     }

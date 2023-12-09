@@ -1,4 +1,5 @@
 ﻿@model SampleMvcApp.ViewModels.UserProfileViewModel
+@using Microsoft.AspNetCore.Identity
 
 <div class="lg:text-sm lg:font-medium">
     <div class="nav navbar-nav navbar-right">
@@ -16,6 +17,12 @@
                     <span class="block text-sm">@Model.Name</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a class="block px-4 py-2 text-sm hover:bg-gray-100" asp-area="Admin" asp-controller="Admin" asp-action="Index">Administration</a>
+                        </li>
+                    }
                     <li>
                         <a class="block px-4 py-2 text-sm hover:bg-gray-100" asp-area="" asp-controller="Account" asp-action="Profile">
                             Account

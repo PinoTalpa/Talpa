@@ -11,8 +11,8 @@ using Talpa_DAL.Data;
 namespace Talpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231204135005_Fourth")]
-    partial class Fourth
+    [Migration("20231207123023_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,17 +130,13 @@ namespace Talpa.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("ModelLayer.Models.Settings", b =>
+            modelBuilder.Entity("ModelLayer.Models.SettingsDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("BackgroundColor")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 

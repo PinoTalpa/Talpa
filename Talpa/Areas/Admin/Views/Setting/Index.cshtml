@@ -31,17 +31,17 @@
     <form asp-controller="Setting" asp-action="Update" method="post">
         <input type="hidden" asp-for="Id" value="@Model.Id" />
 
-        <p class="text-xl font-medium">Primary colour</p>
+        <p class="text-xl font-medium">@Localizer["Primarycolour"]</p>
         <input type="color" class="w-full h-10 mt-2" asp-for="PrimaryColor" value="@Model.PrimaryColor" />
 
-        <p class="text-xl font-medium pt-4">Secondary colour</p>
+        <p class="text-xl font-medium pt-4">@Localizer["Secondarycolour"]</p>
         <input type="color" class="w-full h-10 mt-2" asp-for="SecondaryColor" value="@Model.SecondaryColor" />
 
-        <p class="text-xl font-medium pt-4">Background colour</p>
+        <p class="text-xl font-medium pt-4">@Localizer["Accentcolour"]</p>
         <input type="color" class="w-full h-10 mt-2" asp-for="BackgroundColor" value="@Model.BackgroundColor" />
 
         <div class="flex justify-end w-full mt-10 mb-4">
-            <input type="submit" value="Change colour" class="bg-[@Model.SecondaryColor] w-96 hover:bg-[@Model.BackgroundColor] font-bold rounded py-2 text-white cursor-pointer">
+            <input type="submit" value="@Localizer["Changecolour"]" class="bg-[@Model.SecondaryColor] w-96 hover:bg-[@Model.BackgroundColor] font-bold rounded py-2 text-white cursor-pointer">
         </div>
     </form>
 </div>

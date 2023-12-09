@@ -12,9 +12,14 @@
 
 <aside id="default-sidebar" class="w-full h-full bg-[@primaryColor]" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-[@primaryColor]">
-        <a href="/" class="h-16 w-50 flex-none">
-            <p class="flex text-white flex-col justify-center text-3xl font-bold px-2">Talpa</p>
-        </a>
+        <div class="w-full flex justify-between">
+            <a href="/" class="h-16 w-50 flex-none">
+                <p class="flex text-white flex-col justify-center text-3xl font-bold px-2">Talpa</p>
+            </a>
+            <div class="block md:hidden">
+                @await Component.InvokeAsync("MiniProfileAdmin")
+            </div>
+        </div>
         <ul class="space-y-2 font-medium pt-10">
             <li>
                 <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[@primaryColor] hover:bg-[@primaryColor]

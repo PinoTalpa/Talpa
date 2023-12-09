@@ -24,11 +24,11 @@
 </div>
 <div class="pt-10 px-2 md:px-20 lg:px-40">
     <h1 class="text-4xl font-medium pt-2 pb-10">@Localizer["Profile"]</h1>
-    <div class="grid grid-cols-4 w-full">
+    <div class="grid grid-cols-1 md:grid-cols-4 w-full">
         <div class="col">
             <div class="w-full mb-20">
                 <div class="w-full">
-                    <img class="w-full h-72 shadow-lg" src="@Url.Content("~/img/profile/" + Model.ProfileImage)" alt="user photo">
+                    <img class="w-40 h-40 md:w-full md:h-72 shadow-lg" src="@Url.Content("~/img/profile/" + Model.ProfileImage)" alt="user photo">
                 </div>
                 <div class="w-full">
                     <h2 class="text-2xl font-medium pt-6">@Model.Name</h2>
@@ -36,8 +36,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-start-2 col-span-3 px-10 w-full">
-            <div class="rounded-lg px-8 mb-8">
+        <div class="col-start-1 md:col-start-2 md:col-span-3 px-0 md:px-10 w-full">
+            <div class="rounded-lg md:px-8 mb-8">
                 <div>
                     <h1 class="text-2xl font-medium">@Localizer["EditProfile"]</h1>
 

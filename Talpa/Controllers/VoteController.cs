@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -12,6 +13,7 @@ using Talpa_BLL.Models;
 
 namespace Talpa.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class VoteController : Controller
     {
         private readonly IActivityService _activityService;

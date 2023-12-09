@@ -7,10 +7,12 @@ using Talpa.Models;
 using Talpa.Models.CreateModels;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Talpa.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class LimitationController : Controller
     {
         private readonly ILimitationService _limitationService;

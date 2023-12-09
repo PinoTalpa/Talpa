@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Continue" xml:space="preserve">
-    <value>Verdergaan</value>
-  </data>
-  <data name="PickActivity" xml:space="preserve">
-    <value>Selecteer een activiteit </value>
-  </data>
-  <data name="Votes" xml:space="preserve">
-    <value>Stemmen</value>
+  <data name="CreateActivities" xml:space="preserve">
+    <value>Activiteiten aanmaken</value>
   </data>
 </root>

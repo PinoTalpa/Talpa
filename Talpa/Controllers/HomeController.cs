@@ -29,6 +29,12 @@ namespace Talpa.Controllers
 
         public IActionResult Index()
         {
+            var settings = _dbContext.Settings.FirstOrDefault();
+
+            Response.Cookies.Append("PrimaryColor", settings.PrimaryColor);
+            Response.Cookies.Append("SecondaryColor", settings.SecondaryColor);
+            Response.Cookies.Append("BackgroundColor", settings.BackgroundColor);
+
             return View();
         }
 

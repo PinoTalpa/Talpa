@@ -75,8 +75,8 @@ namespace Talpa_DAL.Repositories
         public async Task<List<LeaderboardDto>> GetExecutedSuggestionsAsync()
         {
             IQueryable<LeaderboardDto> query = from user in _dbContext.Users
-                                               join suggestion in _dbContext.Suggestions on user.Id equals suggestion.UserId
-                                               where suggestion.Date != null
+                                               join chosenSuggestion in _dbContext.ChosenSuggestions on user.Id equals chosenSuggestion.UserId
+                                               where chosenSuggestion.Date != null
                                                group user by user.Name into userGroup
                                                select new LeaderboardDto
                                                {

@@ -127,17 +127,13 @@ namespace Talpa.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("ModelLayer.Models.Settings", b =>
+            modelBuilder.Entity("ModelLayer.Models.SettingsDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("BackgroundColor")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Continue" xml:space="preserve">
-    <value>Verdergaan</value>
+  <data name="Accentcolour" xml:space="preserve">
+    <value>Accent colour</value>
   </data>
-  <data name="PickActivity" xml:space="preserve">
-    <value>Selecteer een activiteit </value>
+  <data name="Changecolour" xml:space="preserve">
+    <value>Change colour</value>
   </data>
-  <data name="Votes" xml:space="preserve">
-    <value>Stemmen</value>
+  <data name="Primarycolour" xml:space="preserve">
+    <value>Primary colour</value>
+  </data>
+  <data name="Secondarycolour" xml:space="preserve">
+    <value>Secondary colour</value>
   </data>
 </root>

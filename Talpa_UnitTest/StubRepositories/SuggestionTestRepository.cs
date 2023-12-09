@@ -98,5 +98,10 @@ namespace Talpa_UnitTest.StubRepositories
         {
             return null;
         }
+
+        public Task<ChosenSuggestion?> GetChosenSuggestionByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
