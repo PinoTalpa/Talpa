@@ -3,9 +3,9 @@
     string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
-    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
-    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "";
 }
 
 <!DOCTYPE html>
@@ -31,6 +31,10 @@
         fetch('/Home/GetSettings')
             .then(response => response.json())
             .catch(error => console.error('Error fetching settings:', error));
+
+        if ('@primaryColor' === '' || '@secondaryColor' === '' || '@backgroundColor' === '') {
+            location.reload();
+        }
     </script>
 </head>
 <body class="flex flex-col justify-between min-h-screen">

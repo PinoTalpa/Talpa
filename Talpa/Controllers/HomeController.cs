@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using ModelLayer.Models;
@@ -12,6 +13,7 @@ using Talpa_DAL.Data;
 
 namespace Talpa.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;
