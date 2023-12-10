@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 using Talpa.Models;
 using Talpa_BLL.Interfaces;
 using Talpa_BLL.Models;
@@ -12,12 +14,14 @@ namespace Talpa.Controllers
         private readonly ISuggestionService _suggestionService;
         private readonly IActivityService _activityService;
         private readonly IVoteService _voteService;
+        private readonly IStringLocalizer<VoteController> _localizer;
 
-        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IVoteService voteService)
+        public ActivityController(ISuggestionService suggestionService, IActivityService activityService, IVoteService voteService, IStringLocalizer<VoteController> localizer)
         {
             _suggestionService = suggestionService;
             _activityService = activityService;
             _voteService = voteService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> PlannedActivities()
@@ -108,7 +112,21 @@ namespace Talpa.Controllers
             {
                 foreach (Suggestion suggestion in firstActivity.Suggestions)
                 {
+                    string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                    Vote vote = new()
+                    {
+                        UserId = userId,
+                        SuggestionId = suggestion.Id,
+                    };
+
+                    Vote existingVote = await _voteService.getExistingVoteAsync(vote);
+
+                    if (existingVote.Id != 0)
+                    {
+                        TempData["ErrorMessage"] = _localizer["AlreadyVoted"].ToString();
+                        return RedirectToAction(nameof(Index), "Activity");
+                    }
                 }
 
                 ActivityViewModel activityViewModel = new ActivityViewModel

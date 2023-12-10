@@ -98,16 +98,23 @@ namespace Talpa.Areas.Admin.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
+
+                // Remove suggestions
+                var suggestionsToDelete = _dbContext.Suggestions.Where(s => suggestionIdsToDelete.Contains(s.Id)).ToList();
+                _dbContext.Suggestions.RemoveRange(suggestionsToDelete);
+                _dbContext.SaveChanges();
+
+                TempData["StatusMessage"] = _localizer["ActivityAdded"].ToString();
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.Message = _localizer["ActivityNotFoundWithId"].ToString(); ;
+                TempData["ErrorMessage"] = _localizer["ActivityNotFoundWithId"].ToString(); ;
             }
 
             if (Date == DateTime.MinValue)
             {
-                TempData["Message"] = _localizer["SelectDate"].ToString();
+                TempData["ErrorMessage"] = _localizer["SelectDate"].ToString();
             }
 
             return RedirectToAction("GetActivityDateWithId", new { selectedSuggestionId = SuggestionId, otherSuggestionId1 = otherSuggestionId1, otherSuggestionId2 =  otherSuggestionId2 });
