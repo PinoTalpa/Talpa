@@ -2,6 +2,10 @@
     string? currentArea = ViewContext.RouteData.Values["area"]?.ToString();
     string? currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     string? currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "";
 }
 
 <!DOCTYPE html>
@@ -17,13 +21,26 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        fetch('/Home/GetSettings')
+            .then(response => response.json())
+            .catch(error => console.error('Error fetching settings:', error));
+
+        if ('@primaryColor' === '' || '@secondaryColor' === '' || '@backgroundColor' === '') {
+            location.reload();
+        }
+    </script>
 </head>
-<body class="flex flex-col">
+<body class="flex flex-col justify-between min-h-screen">
+    <div>
     <header>
-        <nav class="bg-black px-2 sm:px-4 py-2 fixed w-full z-50">
+        <nav class="bg-[@primaryColor] px-2 sm:px-4 py-2 fixed w-full z-50">
             <div class="container lg:px-8 flex flex-wrap items-center justify-between mx-auto">
                 <div class="flex justify-between w-full">
                     <div class="flex flex-col md:flex-row justify-between w-full">
@@ -32,7 +49,10 @@
                                 <p class="h-16 w-48 mr-8 min-w-48 flex text-white flex-col justify-center text-3xl font-bold">Talpa</p>
                             </a>
                             <div class="flex md:order-2 block md:hidden">
-                                <button data-collapse-toggle="navbar-default" type="button" class="inline-flex pt-5 p-2 ml-3 text-sm rounded-lg md:hidden" aria-controls="navbar-default" aria-expanded="false">
+                                <div class="mt-3">
+                                    @await Component.InvokeAsync("MiniProfileAdmin")
+                                </div>
+                                <button data-collapse-toggle="navbar-default" type="button" class="text-white inline-flex pt-5 p-2 ml-3 text-sm rounded-lg md:hidden" aria-controls="navbar-default" aria-expanded="false">
                                     <span class="sr-only">Open main menu</span>
                                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                                 </button>
@@ -48,28 +68,34 @@
                                     </div>
                                     <input type="text" id="search-navbar" class="block w-full p-2 pl-10 bg-gray-50 border border-gray-500 rounded-sm focus:border-[#E95783] focus:ring-[#E95783]" placeholder="Search...">
                                 </div>
-                                <ul class="flex flex-col mt-4 bg-black p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+                                <ul class="flex flex-col mt-4 bg-[@primaryColor] p-6 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
                                     <li>
-                                        <a href="/" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
-                                        @(currentController == "Home" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
-                                        Home
+                                        <a href="/" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:bg-transparent md:p-0
+                                        @(currentController == "Home" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
+                                        @Localizer["Home"]
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index"
-                                           class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                           @(currentController == "Suggestion" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
-                                           @Localizer["Suggestions"]
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Index" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                           @(currentController == "Suggestion" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
+                                            @Localizer["Suggestions"]
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[#D4CEEA] block py-2 pl-3 pr-4 text-lg rounded md:p-0
-                                        @(currentController == "Activity" && currentAction == "Index" ? "text-[#A299C6]" : "text-white")">
+                                        <a asp-area="" asp-controller="Activity" asp-action="PlannedActivities" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "PlannedActivities" ? "text-[" + @secondaryColor + "]" : "text-white")">
+                                        @Localizer["PlannedActivities"]</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Activity" asp-action="Index" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Activity" && currentAction == "Index" ? "text-[" + @secondaryColor + "]" : "text-white")">
                                         @Localizer["Activities"]</a>
                                     </li>
-
-                                    <li class="block md:hidden flex pt-5 text-[#D4CEEA]">
-                                        <a class="block py-2 pl-3 pr-4 text-[#D4CEEA] text-lg rounded md:p-0">Account</a>
+                                    <li>
+                                        <a asp-area="" asp-controller="Suggestion" asp-action="Leaderboard" class="hover:text-[@secondaryColor] block py-2 pl-3 pr-4 text-lg rounded md:p-0
+                                        @(currentController == "Suggestion" && currentAction == "Leaderboard" ? "text-[" + @secondaryColor + "]" : "text-white")">
+                                            @Localizer["Leaderboard"]
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -85,19 +111,7 @@
                                     </div>
 
                                     <div class="ml-7 xl:ml-10 flex gap-10 pt-1">
-                                        <div class="lg:text-sm lg:font-medium">
-                                            <ul class="nav navbar-nav navbar-right text-white">
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
-                                                    <li><a asp-controller="Account" asp-action="Profile">Hello @User.Identity.Name!</a></li>
-                                                    <li><a id="qsLogoutBtn" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                                }
-                                                else
-                                                {
-                                                    <li><a id="qsLoginBtn" asp-controller="Account" asp-action="Login">Login</a></li>
-                                                }
-                                            </ul>
-                                        </div>
+                                        @await Component.InvokeAsync("MiniProfile")
 
                                         @await Html.PartialAsync("_SelectLanguagePartial")
                                     </div>
@@ -117,19 +131,20 @@
             @RenderBody()
         </main>
     </div>
+    </div>
 
-    <footer class="bg-black shadow mt-20 px-20">
-        <div class="w-full max-w-screen-2xl mx-auto md:py-8">
+    <footer class="bg-[@primaryColor] shadow mt-20 px-2 md:px-20">
+        <div class="w-full max-w-screen-2xl mb-4 md:mb-0 mx-auto md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <a href="" class="flex items-center mb-4 sm:mb-0">
                     <p class="h-16 w-48 mr-8 min-w-48 flex flex-col justify-center text-3xl font-bold text-white">Talpa</p>
                 </a>
                 <ul class="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0 text-white">
                     <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">@Localizer["About"]</a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">@Localizer["PrivacyPolicy"]</a>
                     </li>
                     <li>
                         <a href="#" class="hover:underline">Contact</a>
@@ -137,7 +152,7 @@
                 </ul>
             </div>
             <hr class="my-6 border-white sm:mx-auto lg:my-8" />
-            <span class="block text-sm sm:text-center text-white">© 2023 <a href="" class="hover:underline">Talpa</a>. All Rights Reserved.</span>
+            <span class="block text-sm sm:text-center text-white">© 2023 <a href="" class="hover:underline">Talpa</a>. @Localizer["RightsReserved"].</span>
         </div>
     </footer>
 

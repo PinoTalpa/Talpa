@@ -17,10 +17,12 @@ namespace Talpa_DAL.Data
         public DbSet<RoleDto> Roles { get; set; }
         public DbSet<UserRoleDto> UserRoles { get; set; }
         public DbSet<SuggestionDto> Suggestions { get; set; }
+        public DbSet<ChosenSuggestion> ChosenSuggestions { get; set; }
         public DbSet<VoteDto> Votes { get; set; }
         public DbSet<LimitationDto> Limitations { get; set; }
         public DbSet<ActivityLimitationDto> ActivityLimitations { get; set; }
         public DbSet<ActivityDateDto> ActivityDates { get; set; }
         public DbSet<UserActivityDateDto> UserActivityDates { get; set; }
+        public DbSet<SettingsDto> Settings { get; set; }
     }
 }

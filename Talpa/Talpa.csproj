@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Areas\Admin\Views\NewFolder\**" />
+    <Content Remove="Resources\Areas\Admin\Views\NewFolder\**" />
+    <EmbeddedResource Remove="Resources\Areas\Admin\Views\NewFolder\**" />
+    <None Remove="Resources\Areas\Admin\Views\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.3.1" />
     <PackageReference Include="Auth0.AuthenticationApi" Version="7.22.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
@@ -15,7 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
   </ItemGroup>
@@ -28,7 +35,16 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Models\UpdateModels\" />
+    <Folder Include="wwwroot\img\profile\" />
+    <Folder Include="Humanizer\" />
     <Folder Include="wwwroot\img\suggestion\" />
+    <Folder Include="wwwroot\img\suggestion\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.en-US.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

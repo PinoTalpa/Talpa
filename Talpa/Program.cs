@@ -19,14 +19,31 @@ namespace Talpa
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseMySql(
                     connectionString,
-                    new MySqlServerVersion(new Version(10, 4, 28)), // Edit this to your SQL server version.
-                    mySqlOptions => mySqlOptions.MigrationsAssembly("Talpa")
-                ));
+                    new MySqlServerVersion(new Version(8, 0, 0)), // Edit this to your SQL server version.
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.MigrationsAssembly("Talpa");
+                        mySqlOptions.EnableStringComparisonTranslations(); // Enable string comparison translations
+                    });
+            });
+
+            var services = builder.Services.BuildServiceProvider();
+            var dbContext = services.GetService<ApplicationDbContext>();
+
+            if (dbContext?.Database.CanConnect() ?? false)
+            {
+                Console.WriteLine("Connection to the database is established successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Failed to establish a connection to the database.");
+            }
 
             builder.Services.AddScoped<ApplicationDbContext>();
 
@@ -45,10 +62,18 @@ namespace Talpa
             builder.Services.AddScoped<IActivityDateService, ActivityDateService>();
             builder.Services.AddScoped<IActivityDateRepository, ActivityDateRepository>();
 
+            builder.Services.AddScoped<IUserActivityDateService, UserActivityDateService>();
+            builder.Services.AddScoped<IUserActivityDateRepository, UserActivityDateRepository>();
+
             builder.Services.AddScoped<IQuarterService, QuarterService>();
+            builder.Services.AddScoped<ILimitationService, LimitationService>();
+            builder.Services.AddScoped<ILimitationRepository, LimitationRepository>();
+
+            builder.Services.AddScoped<ISettingsService, SettingsService>();
+            builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
             builder.Services.AddAuth0WebAppAuthentication(options =>
             {

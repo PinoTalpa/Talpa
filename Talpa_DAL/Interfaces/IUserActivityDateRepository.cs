@@ -10,6 +10,8 @@ namespace Talpa_DAL.Interfaces
     public interface IUserActivityDateRepository
     {
         Task<bool> CreateUserActivityDateAsync(UserActivityDateDto userActivityDate);
-        Task<List<UserActivityDateDto>> GetAllUserActivityDateBySuggestionIdAsync(int Id);
+/*        Task<List<UserActivityDateDto>> GetAllUserActivityDateBySuggestionIdAsync(int Id);*/
+
+
     }
 }

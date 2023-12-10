@@ -1,30 +1,136 @@
-﻿    @model List<ActivityDateViewModel>
+﻿@model List<ActivityDateViewModel>
 
-    <form method="post" asp-controller="Vote" asp-action="Create">
-        @foreach (ActivityDateViewModel activityDate in Model)
+@{
+    ViewData["Title"] = "Vote Details";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
+}
+
+<div class="pt-6">
+    <div class="px-2">
+        <nav class="border border-gray-300 rounded inline-flex overflow-hidden w-full">
+            <a asp-controller="Activity" asp-action="Index" class="is-done breadcrumbs__item w-full">@Localizer["ChoosePeriod"]</a>
+            <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model[0].StartDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)" class="is-done breadcrumbs__item w-full">@Localizer["ChooseActivity"]</a>
+            <a href="#checkout" class="breadcrumbs__item w-full is-active">@Localizer["ChooseDate"]</a>
+        </nav>
+    </div>
+
+    <style>
+        .breadcrumbs {
+            border: 1px solid #cbd2d9;
+            border-radius: 0.3rem;
+            display: inline-flex;
+            overflow: hidden;
+        }
+
+        .breadcrumbs__item {
+            background: #fff;
+            color: #333;
+            outline: none;
+            padding: 0.75em 0.75em 0.75em 1.25em;
+            position: relative;
+            text-decoration: none;
+            transition: background 0.2s linear;
+        }
+
+        .breadcrumbs__item:hover:after,
+        .breadcrumbs__item:hover {
+            background: #edf1f5;
+        }
+
+        .breadcrumbs__item:focus:after,
+        .breadcrumbs__item:focus,
+        .breadcrumbs__item.is-active:focus {
+            background: #323f4a;
+            color: #fff;
+        }
+
+        .breadcrumbs__item:after,
+        .breadcrumbs__item:before {
+            background: white;
+            bottom: 0;
+            clip-path: polygon(50% 50%, -50% -50%, 0 100%);
+            content: "";
+            left: 100%;
+            position: absolute;
+            top: 0;
+            transition: background 0.2s linear;
+            width: 1em;
+            z-index: 1;
+        }
+
+        .breadcrumbs__item:before {
+            background: #cbd2d9;
+            margin-left: 1px;
+        }
+
+        .breadcrumbs__item:last-child {
+            border-right: none;
+        }
+
+        .breadcrumbs__item.is-active:after,
+        .breadcrumbs__item.is-active {
+            background: #edf1f5;
+        }
+
+        .breadcrumbs__item.is-done:after,
+        .breadcrumbs__item.is-done {
+            background: #808284;
+            color: white;
+        }
+    </style>
+
+    <div class="md:px-20 mt-5">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
         {
-            <div class="flex gap-4 md:gap-40 shadow-lg p-4 justify-center w-full rounded-md">
-                <div class="flex flex-col justify-center">
-                    <div class="text-lg md:flex gap-1">
-                        <p class="pr-10">@activityDate.StartDate.ToString("yyyy-MM-dd")</p>
-                        <p>@activityDate.StartDate.ToString("HH:mm") -</p>
-                        <p>@activityDate.EndDate.ToString("HH:mm")</p>
-                    </div>
-                </div>
-                <div class="flex flex-col justify-center">
-                    <input type="hidden" name="activityDateId" value="@activityDate.Id">
-                    <input hidden="hidden" value="@activityDate.SuggestionId" id="suggestionId" name="suggestionId" />
-                    <input name="selectedDates" type="checkbox" value="@activityDate.Id" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
-                    <input type="hidden" name="activityDateIsSelected" value="@activityDate.Id" />
-                </div>
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
             </div>
         }
-        <div class="px-10 flex gap-4">
-            <div class="w-full flex justify-end">
-                <a asp-controller="Activity" asp-action="Index" class="bg-white border border-[#5236AB] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[#5236AB]">Annuleren</a>
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
             </div>
-            <div class="w-full flex justify-end">
-                <input type="submit" value="Vote" class="cursor-pointer bg-[#5236AB] w-full hover:bg-[#300FA8] text-white font-bold py-2 rounded" />
+        }
+    </div>
+
+    <div class="pt-10 mb-10 px-2 md:px-20 lg:px-40">
+        <h1 class="text-3xl font-medium modal-fullscreen-lg-down flex justify-center mb-6 ">@Localizer["ChooseActivityDates"]</h1>
+        <form method="post" asp-controller="Vote" asp-action="Create">
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            @foreach (ActivityDateViewModel activityDate in Model)
+            {
+                <div class="px-4">
+                        <div class="flex gap-4 md:gap-40 justify-center w-full shadow-lg bg-white mb-4 rounded-md">
+                            <div class="w-fit flex p-4 gap-4 md:gap-20">
+                                <div class="flex flex-col justify-center">
+                                    <div class="text-lg md:flex gap-1">
+                                        <p class="pr-10">@activityDate.StartDate.ToString("d MMMM yyyy")</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-center">
+                                    <input type="hidden" name="activityDateId" value="@activityDate.Id">
+                                    <input hidden="hidden" value="@activityDate.SuggestionId" id="suggestionId" name="suggestionId" />
+                                    <input name="selectedDates" type="checkbox" value="@activityDate.Id" id="checkbox_@activityDate.StartDate" class="checkbox h-10 w-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" checked="@activityDate.IsSelected">
+                                    <input type="hidden" name="activityDateIsSelected" value="@activityDate.Id" />
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            }
             </div>
-        </div>
-    </form>
+            <div class="flex gap-4 pt-10 lg:px-20">
+                <div class="w-full flex justify-end">
+                    <a asp-controller="Activity" asp-action="Details" asp-route-activityStartTime="@Model[0].StartDate" class="bg-white border border-[@secondaryColor] w-full hover:bg-gray-100 text-center flex flex-col justify-center font-bold rounded py-2 text-[@secondaryColor]">@Localizer["Cancel"]</a>
+                </div>
+                <div class="w-full flex justify-end">
+                    <input type="submit" value="@Localizer["Vote"]" class="cursor-pointer bg-[@secondaryColor] w-full hover:bg-[#@backgroundColor] text-white font-bold py-2 rounded" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

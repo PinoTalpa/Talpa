@@ -1,59 +1,95 @@
-﻿@model SuggestionQuarterViewModel
+﻿@model SuggestionLimitationViewModel
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "../Shared/_Layout.cshtml";
+    ViewData["Title"] = "Details";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
-<div class="px-2 md:px-20 pb-10 lg:px-32 overflow-y-scroll h-screen">
-    <div class="bg-white p-4 mt-10">
-        <h3 class="text-4xl font-semibold text-gray-900 pt-5">
-            Maak een nieuwe activiteit aan
-        </h3>
+<div class="h-screen py-10 px-2 md:px-20 overflow-auto">
+    <div class="w-full shadow-lg p-10">
+        <div class="w-full">
+            <div>
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-4xl font-bold">@Html.DisplayFor(model => model.Suggestion.Name)</p>
+                    </div>
 
-        <p class="text-3xl font-semibold pt-10">Activiteit keuze:</p>
+                    <div>
+                        <div class="flex justify-end">
+                            <div class="flex flex-col justify-center">
+                                <span class="material-symbols-outlined" style="font-size: 60px;
+                                    color: @((int)Model.Suggestion.ActivityState == (int)ActivityState.Rejected ? "red" :
+                                            (int)Model.Suggestion.ActivityState == (int)ActivityState.Pending ? "orange" :
+                                            (int)Model.Suggestion.ActivityState == (int)ActivityState.Accepted ? "green" :
+                                            "gray");">
+                                    @((int)Model.Suggestion.ActivityState == (int)ActivityState.Rejected ? "dangerous" :
+                                        (int)Model.Suggestion.ActivityState == (int)ActivityState.Pending ? "pending_actions" :
+                                        (int)Model.Suggestion.ActivityState == (int)ActivityState.Accepted ? "check_circle" :
+                                        "")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="bg-[#E8E5F2] p-4 rounded-md mt-4">
-            <p class="text-4xl font-bold text-[#200A58] pt-4">@Model.Suggestion.Name</p>
+                <div class="pt-10 flex justify-between">
+                    <div class="">
+                        <h2 class="text-2xl font-medium">@Localizer["DetailsDescription"]:</h2>
+                        <p class="text-lg">@Html.DisplayFor(model => model.Suggestion.Description)</p>
+                    </div>
+                    <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-60" />
+                </div>
 
-            <div class="pt-10">
-                <p class="text-xl text-[#200A58]">Beschrijving:</p>
-                <p class="pt-2 text-[#200A58]">@Model.Suggestion.Description</p>
-            </div>
+                <div class="pt-10">
+                    <h2 class="text-2xl font-medium">@Localizer["DetailsLimitations"]:</h2>
 
-            <img src="@Url.Content("~/img/suggestion/" + @Model.Suggestion.ImageUrl)" class="h-40 mt-4" />
-        </div>
+                    <form asp-controller="Limitation" asp-action="Create" asp-route-suggestionId="@Model.Suggestion.Id">
+                        <div class="mb-4 w-full pt-4">
+                            <div class="input-group relative w-full">
+                                <input required="" type="text" name="Limitation" id="Limitation" autocomplete="off" class="border-gray-300 w-full custom-input input border rounded-lg p-4 transition duration-150 ease-in-out focus:border-[@secondaryColor] focus:ring-[@secondaryColor]">
+                                <label for="Limitation" class="custom-label user-label absolute left-4 translate-y-4 transition duration-150 ease-in-out text-gray-400 pointer-events-none">@Localizer["DetailsLimitation"]</label>
+                            </div>
+                            <span for="Limitation" class="text-red-700"></span>
+                        </div>
 
-        <form method="get" asp-area="Admin" asp-action="Dates" asp-controller="Suggestion">
-        <div class="flex justify-center w-full">
-            <div class="w-96">
-                <p class="text-2xl pt-10">Kwartaal keuze:</p>
-                <div class="mb-4 mt-4">
-                    <select id="quarter" name="quarter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach (var quarter in Model.Quarters)
+                        <div class="w-full flex justify-end">
+                            <input type="submit" value="@Localizer["DetailsAddLimitation"]" class="cursor-pointer bg-[@secondaryColor] px-4 hover:bg-[@backgroundColor] text-white font-bold py-2 rounded" />
+                        </div>
+                    </form>
+
+                    <div class="w-full mt-4">
+                        @foreach (var limitation in Model.limitations)
                         {
-                            <option value="@quarter.Quarters.FirstOrDefault()">@quarter.Name</option>
+                            <div class="flex gap-4 md:gap-40 shadow-lg p-4 bg-white mb-4 w-full rounded-md">
+                                <div class="">
+                                    <div class="text-xl text-left gap-1">
+                                        @limitation.Name
+                                    </div>
+                                </div>
+                            </div>
                         }
-                    </select>
-                </div>
-
-                <input type="hidden" name="suggestionId" value="@Model.Suggestion.Id" />
-            </div>
-        </div>
-
-        <div class="md:px-10 flex flex-col h-full justify-end">
-            <div class="flex flex-col flex-col-reverse sm:flex-row gap-2 md:gap-4">
-                <div class="w-full flex justify-end">
-                    <a asp-action="Index"
-                           class="bg-white text-center border border-[#5236AB] w-full hover:bg-gray-100 font-bold rounded py-2 text-[#5236AB]">
-                        Annuleer
-                    </a>
-                </div>
-                <div class="w-full flex justify-end">
-                    <button type="submit" class="cursor-pointer bg-[#5236AB] hover:bg-[#300FA8] w-full text-center text-white font-bold py-2 rounded">Datum toevoegen</button>
+                    </div>
                 </div>
             </div>
         </div>
-        </form>
     </div>
 </div>
+
+<style>
+    .custom-input:focus,
+    .custom-input:valid {
+        outline: none;
+        border: 1.5px solid @secondaryColor;
+    }
+
+        .custom-input:focus ~ .custom-label,
+        .custom-input:valid ~ .custom-label {
+            transform: translateY(-50%) scale(0.8);
+            background-color: white;
+            padding: 0 .2em;
+            color: @secondaryColor;
+        }
+</style>

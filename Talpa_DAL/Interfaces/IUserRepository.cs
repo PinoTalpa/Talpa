@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModelLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,14 @@ namespace Talpa_DAL.Interfaces
     public interface IUserRepository
     {
         Task Login(string userId, string name, string email);
+        //Task<List<UserDto>> GetSuggestionsAsync(string searchString);
+        Task<bool> UpdateUserAsync(UserDto user);
+        Task<UserDto> GetUserAsync(string userId);
+
+
+
+
+
+
     }
 }

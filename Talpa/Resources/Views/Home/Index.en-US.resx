@@ -123,6 +123,9 @@
   <data name="EasySteps" xml:space="preserve">
     <value>In just a few simple steps, you can make a suggestion with Talpa.</value>
   </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
   <data name="PlanOuting" xml:space="preserve">
     <value>Planning a company outing?</value>
   </data>

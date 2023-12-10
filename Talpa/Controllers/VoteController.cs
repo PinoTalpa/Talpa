@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using ModelLayer.Models;
 using System;
 using System.Security.Claims;
@@ -11,16 +13,20 @@ using Talpa_BLL.Models;
 
 namespace Talpa.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class VoteController : Controller
     {
         private readonly IActivityService _activityService;
         private readonly IVoteService _voteService;
         private readonly IUserActivityDateService _userActivityDateService;
+        private readonly IStringLocalizer<VoteController> _localizer;
 
-        public VoteController(IActivityService activityService, IVoteService voteService)
+        public VoteController(IActivityService activityService, IVoteService voteService, IUserActivityDateService userActivityDateService, IStringLocalizer<VoteController> localizer)
         {
             _activityService = activityService;
             _voteService = voteService;
+            _userActivityDateService = userActivityDateService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(int activityId)
@@ -42,6 +48,7 @@ namespace Talpa.Controllers
                 StartDate = activityDate.StartDate,
                 EndDate = activityDate.EndDate,
             }).ToList();
+
             return View(activitieDates);
         }
 
@@ -67,7 +74,8 @@ namespace Talpa.Controllers
 
             if (selectedDates.Count == 0 || suggestionId == null)
             {
-                return RedirectToAction("Index", "Activity");
+                TempData["ErrorMessage"] = _localizer["SelectOne"].ToString();
+                return RedirectToAction("Index", new { activityId = suggestionId });
             }
 
             Vote vote = new()
@@ -78,21 +86,31 @@ namespace Talpa.Controllers
 
             Vote existingVote = await _voteService.getExistingVoteAsync(vote);
 
-            if(existingVote.Id == 0)
+            if(existingVote.Id != 0)
             {
-                vote = await _voteService.CreateVoteAsync(vote);
+                TempData["ErrorMessage"] = _localizer["AlreadyVoted"].ToString();
+                return RedirectToAction(nameof(Index), "Activity");
+            }
 
-                foreach (int DateId in selectedDates)
+            vote = await _voteService.CreateVoteAsync(vote);
+
+            foreach (int DateId in selectedDates)
+            {
+                UserActivityDate userActivityDate = new()
                 {
-                    UserActivityDate userActivityDate = new()
-                    {
-                        UserId = userId,
-                        ActivityDateId = DateId,
-                        IsAvailable = true,
-                    };
-                    //await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
+                    UserId = userId,
+                    ActivityDateId = DateId,
+                    IsAvailable = true,
+                };
+
+
+                if (_userActivityDateService != null)
+                {
+                    userActivityDate = await _userActivityDateService.AddUserActivityDateAsync(userActivityDate);
                 }
             }
+
+            TempData["StatusMessage"] =  _localizer["Voted"].ToString();
             return RedirectToAction(nameof(Index), "Activity");
         }
 

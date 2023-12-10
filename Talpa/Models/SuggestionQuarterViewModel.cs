@@ -2,7 +2,7 @@
 {
     public class SuggestionQuarterViewModel
     {
-        public SuggestionViewModel Suggestion { get; set; }
+        public List<SuggestionViewModel> Suggestions { get; set; }
         public List<QuarterViewModel> Quarters { get; set; }
     }
 }

@@ -10,10 +10,11 @@ namespace Talpa_BLL.Interfaces
 {
     public interface IActivityService
     {
-        Task<List<Activity>> GetActivitiesAsync(string searchString);
-        Task<Activity> GetActivityByIdAsync(int id);
+        Task<List<Suggestion>> GetActivitiesAsync(string searchString);
+        Task<List<Activity>> GetActivitiesWithSuggestionsAsync();
+        // Task<Activity> GetActivityByIdAsync(int id);
         Task<Suggestion> CreateActivityAsync(Suggestion suggestion);
-        Task<Activity> RemoveActivityAsync(Activity activity);
+        // Task<Activity> RemoveActivityAsync(Activity activity);
 
         Task<List<ActivityDate>> GetActivityDates(int activityId);
     }

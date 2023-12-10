@@ -1,0 +1,59 @@
+﻿@model List<Talpa.Models.AdminModels.AdminActivityViewModel>
+
+@{
+    ViewData["Title"] = "ActivityDateViewModel";
+}
+
+<div class="md:px-20">
+    @if (TempData.ContainsKey("Message") && TempData["Message"] != null)
+    {
+        <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+            @TempData["Message"]
+        </div>
+    }
+</div>
+
+<div>
+    <div class="text-center">
+        <h1 class="text-3xl mt-5 mb-5">@Localizer["SelectDate"]</h1>
+    </div>
+    
+    <form asp-action="SaveChosenActivity">
+        <div class="flex justify-center">
+            <div class="grid">
+                @{
+                    var groupedStartTimes = Model.GroupBy(x => x.startTime);
+                    var maxCount = groupedStartTimes.Max(group => group.Count());
+                    var groupsWithMaxCount = groupedStartTimes.Where(group => group.Count() == maxCount);
+                }
+                @foreach (var group in groupsWithMaxCount)
+                {
+                    <div class="flex gap-4 md:gap-40 shadow-lg p-4 bg-white mb-4 justify-center rounded-md">
+                        <div class="flex flex-col justify-center text-center">
+                            <div class="text-lg md:flex">
+                                <p class="pr-10">@group.Key.ToString("ddd dd-MM-yyyy")</p>
+                                <input type="radio" name="selectedStartTime" value="@group.Key" onclick="updateDate('@group.Key')" />
+                            </div>
+                            <p>@Localizer["HowOften"] @group.Count()</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <input type="hidden" name="SuggestionId" value="@Model[0].SuggestionId" />
+
+        <input type="hidden" name="Date" id="Date" value="" />
+        <input type="hidden" name="otherSuggestionId1" value="@Model[0].OtherSuggestionId1" />
+        <input type="hidden" name="otherSuggestionId2" value="@Model[0].OtherSuggestionId2" />
+        <div class="flex justify-center">
+            <button type="submit" class="rounded-md text-white bg-purple-500 w-60 py-2.5 px-4 hover:bg-purple-700">@Localizer["Submit"]</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updateDate(startTime) {
+        document.getElementById('Date').value = startTime;
+    }
+</script>

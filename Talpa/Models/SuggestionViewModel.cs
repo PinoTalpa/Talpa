@@ -1,4 +1,4 @@
-﻿using Talpa_DAL.Entities;
+﻿using Talpa_BLL.Models;
 using Talpa_DAL.Enums;
 
 namespace Talpa.Models
@@ -11,6 +11,7 @@ namespace Talpa.Models
         public string ImageUrl { get; set; }
         public DateTime? Date { get; set; }
         public ActivityState ActivityState { get; set; }
+        public int? VoteCount { get; set; }
 
         public string? ErrorMessage { get; set; }
     }

@@ -1,0 +1,52 @@
+﻿@model SuggestionQuarterViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
+}
+
+<div class="px-2 md:px-20 pb-10 lg:px-32 overflow-y-scroll h-screen">
+    <div class="bg-white p-4 mt-10">
+        <h3 class="text-4xl font-semibold text-gray-900 pt-5 mb-20">@Localizer["CreateNewPeriod"]</h3>
+
+        <form method="get" asp-area="Admin" asp-action="Times" asp-controller="Activity">
+            <div class="bg-[#E8E5F2] p-4 rounded-md mt-4 flex justify-center w-full">
+                <div>
+                    <p class="text-2xl" for="suggestions">@Localizer["PickActivities"]:</p>
+                    <select class="flex justify-center w-full mt-2" name="suggestions" id="suggestions" multiple>
+                        @foreach (var suggestion in Model.Suggestions)
+                        {
+                            <option value="@suggestion.Id">@suggestion.Name</option>
+                        }
+                    </select>
+
+                    <div class="mt-4">
+                        <label for="start">@Localizer["StartDate"]:</label>
+                        <input type="date" id="start" name="eventStart" />
+
+                        <label for="end">@Localizer["EndDate"]:</label>
+                        <input type="date" id="end" name="eventEnd" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:px-10 flex flex-col h-full justify-end mt-20">
+                <div class="flex flex-col flex-col-reverse sm:flex-row gap-2 md:gap-4">
+                    <div class="w-full flex justify-end">
+                        <a asp-action="Index"
+                            class="bg-white text-center border border-[@secondaryColor] w-full hover:bg-gray-100 font-bold rounded py-2 text-[@secondaryColor]">
+                            @Localizer["Cancel"]
+                        </a>
+                    </div>
+                    <div class="w-full flex justify-end">
+                        <button type="submit" class="cursor-pointer bg-[@secondaryColor] hover:bg-[@backgroundColor] w-full text-center text-white font-bold py-2 rounded">@Localizer["AddPeriod"]</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

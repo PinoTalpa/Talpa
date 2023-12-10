@@ -43,11 +43,17 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.ActivityLimitationDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("LimitationId")
                         .HasColumnType("int");
 
                     b.Property<int>("SuggestionId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("LimitationId");
 
@@ -56,15 +62,46 @@ namespace Talpa.Migrations
                     b.ToTable("ActivityLimitations");
                 });
 
-            modelBuilder.Entity("ModelLayer.Models.LimitationDto", b =>
+            modelBuilder.Entity("ModelLayer.Models.ChosenSuggestion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("ActivityState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChosenSuggestions");
+                });
+
+            modelBuilder.Entity("ModelLayer.Models.LimitationDto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -88,6 +125,29 @@ namespace Talpa.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("ModelLayer.Models.SettingsDto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BackgroundColor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PrimaryColor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SecondaryColor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("ModelLayer.Models.SuggestionDto", b =>
@@ -127,6 +187,10 @@ namespace Talpa.Migrations
 
             modelBuilder.Entity("ModelLayer.Models.UserActivityDateDto", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
                     b.Property<int>("ActivityDateId")
                         .HasColumnType("int");
 
@@ -136,6 +200,8 @@ namespace Talpa.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ActivityDateId");
 
@@ -154,6 +220,9 @@ namespace Talpa.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -227,6 +296,17 @@ namespace Talpa.Migrations
                     b.Navigation("Limitation");
 
                     b.Navigation("Suggestion");
+                });
+
+            modelBuilder.Entity("ModelLayer.Models.ChosenSuggestion", b =>
+                {
+                    b.HasOne("ModelLayer.Models.UserDto", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ModelLayer.Models.SuggestionDto", b =>

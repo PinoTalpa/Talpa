@@ -1,0 +1,108 @@
+﻿@model SuggestionLeaderboardViewModel
+
+@{
+    ViewData["Title"] = "Leaderboard";
+    var leaderboardViewModels = Model.leaderboardViewModels.OrderByDescending(vm => vm.ExecutedSuggestionCount);
+    var skippedLeaderboardViewModels = leaderboardViewModels.Skip(3);
+    var top3LeaderboardViewModels = Model.leaderboardViewModels
+    .OrderByDescending(vm => vm.ExecutedSuggestionCount)
+    .TakeWhile((vm, index) => index < 3)
+    .ToList();
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
+}
+
+<div>
+    <div>
+        <div class="text-center flex justify-center">
+            <div class="mb-10">
+                <div class="pt-10">
+                    <div class="w-full grid grid-cols-3">
+                        <div class="flex flex-col justify-end px-1">
+                            <div class="h-72 w-24 px-2 md:px-0 md:w-40 text-white bg-[@secondaryColor] rounded-t-md shadow-lg shadow-black">
+                                <div class="flex justify-center mt-2">
+                                    <img class="h-28 object-contain" src="@Url.Content("~/img/main/second.png")">
+                                </div>
+                                @if (top3LeaderboardViewModels.Count >= 2)
+                                {
+                                    <p class="font-bold">@top3LeaderboardViewModels[1]?.UserId</p>
+                                    <p>@top3LeaderboardViewModels[1]?.ExecutedSuggestionCount</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col justify-end px-1">
+                            <div class="h-96 w-24 px-2 md:px-0 md:w-40 text-white bg-[@secondaryColor] rounded-t-md shadow-lg shadow-black">
+                                <div class="flex justify-center mt-2">
+                                    <img class="h-28 object-contain" src="@Url.Content("~/img/main/first.png")">
+                                </div>
+                                @if (top3LeaderboardViewModels.Count >= 1)
+                                {
+                                    <p class="font-bold">@top3LeaderboardViewModels[0]?.UserId</p>
+                                    <p>@top3LeaderboardViewModels[0]?.ExecutedSuggestionCount</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col justify-end px-1">
+                            <div class="h-52 w-24 px-2 md:px-0 md:w-40 text-white bg-[@secondaryColor] rounded-t-md shadow-lg shadow-black">
+                                <div class="flex justify-center mt-2">
+                                    <img class="h-28 object-contain" src="@Url.Content("~/img/main/third.png")">
+                                </div>
+                                @if (top3LeaderboardViewModels.Count >= 3)
+                                {
+                                    <p class="font-bold">@top3LeaderboardViewModels[2]?.UserId</p>
+                                    <p>@top3LeaderboardViewModels[2]?.ExecutedSuggestionCount</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="px-4 md:px-40">
+            <div class="bg-black text-white flex justify-between mb-2 p-4 rounded-md">
+                <div class="w-full">
+                    <p class="px-4 py-2">@Localizer["Rank"]</p>
+                </div>
+                <div class="w-full">
+                    <p class="px-4 py-2">@Localizer["Name"]</p>
+                </div>
+                <div class="w-full">
+                    <p class="px-4 py-2">@Localizer["ExecutedSuggestions"]</p>
+                </div>
+            </div>
+
+
+            @{
+                var rank = 4;
+            }
+            <div class="w-full mt-4">
+
+                @foreach (var leaderboardViewModel in skippedLeaderboardViewModels)
+                {
+                    <div class="bg-[#3D287F] text-white flex justify-between mb-2 p-4 rounded-md">
+                        <div class="w-full">
+                            <p class="px-4 py-2">#@rank</p>
+                        </div>
+                        <div class="w-full">
+                            <p class="px-4 py-2">@leaderboardViewModel.UserId</p>
+                        </div>
+                        <div class="w-full">
+                            <p class="px-4 py-2">@leaderboardViewModel.ExecutedSuggestionCount</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        @{
+                            rank++;
+                        }
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>

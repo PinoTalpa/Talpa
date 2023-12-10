@@ -19,6 +19,21 @@ namespace Talpa_BLL.Services
             _activityDateRepository = activityDateRepository;
         }
 
+        public async Task<List<ActivityDate>> GetActivityDatesWithId(int suggestionId)
+        {
+            List<ActivityDateDto> activityDateDto = await _activityDateRepository.GetActivitiesDateWithId(suggestionId);
+            List<ActivityDate> activityDate = activityDateDto.Select(ad => new ActivityDate
+            {
+                Id = ad.Id,
+                SuggestionId = ad.SuggestionId,
+                StartDate = ad.StartDate,
+                EndDate = ad.EndDate,
+            }).ToList();
+
+            return activityDate;
+
+        }
+
         public async Task CreateActivityDates(List<ActivityDate> activityDates)
         {
             List<ActivityDateDto> activityDateDtos = activityDates.Select(ad => new ActivityDateDto

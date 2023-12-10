@@ -7,22 +7,31 @@ using SampleMvcApp.ViewModels;
 using System.Linq;
 using System.Security.Claims;
 using Auth0.AspNetCore.Authentication;
-using Talpa_DAL.Entities;
 using Talpa_BLL.Interfaces;
 using System.Net.Mail;
 using System.Text;
 using Newtonsoft.Json;
 using Auth0.AuthenticationApi.Models;
+using Talpa_BLL.Models;
+using Microsoft.AspNetCore.Hosting;
+using Talpa.Models;
+using Talpa.Models.CreateModels;
+using ModelLayer.Models;
+using Microsoft.Extensions.Localization;
 
 namespace Talpa.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<AccountController> localizer)
         {
             _userService = userService;
+            _webHostEnvironment = webHostEnvironment;
+            _localizer = localizer;
         }
 
         public async Task Login(string returnUrl = "/")
@@ -50,14 +59,74 @@ namespace Talpa.Controllers
         {
             string name = User.Identity.Name;
             string emailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            UserDto user = await _userService.GetUserAsync(userId);
+
 
             return View(new UserProfileViewModel()
             {
-                Name = User.Identity.Name,
+                Name = user.Name,
                 EmailAddress = emailAddress,
-                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
+                ProfileImage = user.ProfileImage
             });
         }
+
+        // TODO: maak een index voor het ophalen van de gebruiker
+        [Authorize]
+/*        public async Task<ActionResult> Index()
+        {
+
+        }*/
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> Update(UserProfileViewModel userProfileViewModel, IFormFile image)
+        {
+            string? fileName = await SaveImageAsync(image, _webHostEnvironment, userProfileViewModel.ProfileImage);
+            userProfileViewModel.ProfileImage = fileName;
+
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            User userProfile = new()
+            {
+                Id = userId,
+                Name = userProfileViewModel.Name,
+                ProfileImage = userProfileViewModel.ProfileImage,
+            };
+
+            userProfile = await _userService.UpdateUserAsync(userProfile);
+
+            if (userProfile.ErrorMessage != null) {
+                TempData["ErrorMessage"] = userProfile.ErrorMessage;
+                return RedirectToAction("Profile", "Account");
+            }
+
+            TempData["StatusMessage"] = _localizer["UpdatedProfile"].ToString();
+
+            return RedirectToAction("Profile", "Account");
+        }
+
+        public async Task<string?> SaveImageAsync(IFormFile image, IWebHostEnvironment webHostEnvironment, string? existingImageUrl)
+        {
+            if (image != null && image.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                string webRootPath = webHostEnvironment.WebRootPath;
+                string imagePath = Path.Combine(webRootPath, "img/profile", fileName);
+
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                return fileName;
+            }
+
+            return existingImageUrl;
+        }
+
+
 
         [Authorize]
         public async Task<ActionResult> StoreUser()
@@ -101,7 +170,15 @@ namespace Talpa.Controllers
                         string responseBody = await response.Content.ReadAsStringAsync();
 
                         var userClaims = (User.Identity as ClaimsIdentity);
-                        userClaims.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                        var roles = JsonConvert.DeserializeObject<List<Role>>(responseBody);
+
+                        foreach (var role in roles)
+                        {
+                            if (role != null && !string.IsNullOrEmpty(role.Name))
+                            {
+                                userClaims.AddClaim(new Claim(ClaimTypes.Role, role.Name));
+                            }
+                        }
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(userClaims));
                     }

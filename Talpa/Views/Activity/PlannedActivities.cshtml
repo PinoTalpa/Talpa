@@ -1,0 +1,40 @@
+@model IEnumerable<PlannedActivityViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <div class="md:px-20">
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="mt-10 text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="mt-10 text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <div class="px-2 md:px-20 pt-10">
+        <div class="w-full pt-10 flex flex-col">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full pt-4 px-8">
+                @foreach (PlannedActivityViewModel plannedActivity in Model)
+                {
+                    <a asp-controller="Suggestion" asp-action="ChosenSuggestionDetails" asp-route-suggestionId="@plannedActivity.Id" class="px-2 h-96 mb-4 relative flex flex-col items-center justify-center">
+                        <img src="@Url.Content("~/img/suggestion/" + plannedActivity.ImageUrl)" class="w-full object-cover h-full rounded-lg brightness-50" />
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <h1 class="text-white w-full text-center text-4xl font-medium">@Html.DisplayFor(modelItem => plannedActivity.Name)</h1>
+                            <h2 class="text-white w-full text-center text-2xl mt-2">@plannedActivity.Date.ToString("d MMMM yyyy")</h2>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

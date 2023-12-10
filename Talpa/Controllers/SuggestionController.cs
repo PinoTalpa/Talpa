@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Security.Claims;
 using Talpa.Models;
 using Talpa.Models.CreateModels;
@@ -10,21 +11,25 @@ using Talpa_BLL.Models;
 
 namespace Talpa.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Employee")]
     public class SuggestionController : Controller
     {
         private readonly ISuggestionService _suggestionService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILimitationService _limitationService;
+        private readonly IStringLocalizer<SuggestionController> _localizer;
 
-        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment)
+        public SuggestionController(ISuggestionService suggestionService, IWebHostEnvironment webHostEnvironment, ILimitationService limitationService, IStringLocalizer<SuggestionController> localizer)
         {
             _suggestionService = suggestionService;
             _webHostEnvironment = webHostEnvironment;
+            _limitationService = limitationService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Index(string searchString)
         {
-            List<Suggestion> suggestions = await _suggestionService.GetSuggestionsAsync(searchString);
+            List<Suggestion> suggestions = await _suggestionService.GetPendingSuggestionsAsync(searchString);
 
             if (suggestions.Any(s => s.ErrorMessage != null))
             {
@@ -68,11 +73,86 @@ namespace Talpa.Controllers
                     ActivityState = suggestion.ActivityState,
                 };
 
-                return View(suggestionViewModel);
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
             }
 
             TempData["ErrorMessage"] = suggestion.ErrorMessage;
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> ChosenSuggestionDetails(int suggestionId)
+        {
+            Suggestion? suggestion = await _suggestionService.GetChosenSuggestionByIdAsync(suggestionId);
+
+            if (suggestion != null && suggestion.ErrorMessage == null)
+            {
+                SuggestionViewModel suggestionViewModel = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Description = suggestion.Description,
+                    ImageUrl = suggestion.ImageUrl,
+                    Date = suggestion.Date,
+                    ActivityState = suggestion.ActivityState,
+                };
+
+                List<Limitation> limitations = await _limitationService.GetLimitationsBySuggestionId(suggestionViewModel.Id);
+
+                List<LimitationViewModel> limitationViewModels = limitations.Select(limitation => new LimitationViewModel
+                {
+                    Id = limitation.Id,
+                    Name = limitation.Name,
+                }).ToList();
+
+                SuggestionLimitationViewModel suggestionLimitationViewModel = new()
+                {
+                    Suggestion = suggestionViewModel,
+                    limitations = limitationViewModels,
+                };
+
+                return View(suggestionLimitationViewModel);
+            }
+
+            TempData["ErrorMessage"] = suggestion.ErrorMessage;
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> Leaderboard()
+        {
+            List<Leaderboard> Leaderboards = await _suggestionService.GetExecutedSuggestionsAsync();
+            List<LeaderboardViewModel> LeaderboardViewModels = new();
+
+            foreach(var leaderboard in Leaderboards)
+            {
+                LeaderboardViewModel LeaderboardViewModel = new()
+                {
+                    UserId = leaderboard.UserName,
+                    ExecutedSuggestionCount = leaderboard.ExecutedSuggestionCount
+                };
+
+                LeaderboardViewModels.Add(LeaderboardViewModel);
+            }
+
+            SuggestionLeaderboardViewModel suggestionLeaderboardViewModel = new()
+            {
+                leaderboardViewModels = LeaderboardViewModels
+            };
+
+            return View(suggestionLeaderboardViewModel);
         }
 
         public ActionResult Create()
@@ -102,6 +182,14 @@ namespace Talpa.Controllers
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            bool isDuplicateName = await _suggestionService.SuggestionNameExistsAsync(suggestionViewModel.Name);
+
+            if (isDuplicateName)
+            {
+                TempData["ErrorMessage"] = _localizer["SuggestionExists"];
+                return View(suggestionViewModel);
+            }
+
             Suggestion suggestion = new()
             {
                 UserId = userId,
@@ -118,7 +206,7 @@ namespace Talpa.Controllers
                 return View(suggestionViewModel);
             }
 
-            TempData["StatusMessage"] = "The suggestion was successfully created!";
+            TempData["StatusMessage"] = _localizer["SuggestionCreated"].ToString();
             return RedirectToAction(nameof(Index));
         }
 

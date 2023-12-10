@@ -1,0 +1,47 @@
+﻿@using Talpa.Models.AdminModels;
+@using Talpa_BLL.Models;
+@model SettingsViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "../Shared/_Layout.cshtml";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
+}
+
+<div class="pt-10 w-full px-2 md:px-20">
+    <div>
+        @if (TempData.ContainsKey("StatusMessage") && TempData["StatusMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-green-500 w-full mb-10">
+                @TempData["StatusMessage"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorMessage") && TempData["ErrorMessage"] != null)
+        {
+            <div class="text-white text-xl text-center py-4 rounded-lg shadow-md bg-red-500 w-full mb-10">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <form asp-controller="Setting" asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+        <p class="text-xl font-medium">@Localizer["Primarycolour"]</p>
+        <input type="color" class="w-full h-10 mt-2" asp-for="PrimaryColor" value="@Model.PrimaryColor" />
+
+        <p class="text-xl font-medium pt-4">@Localizer["Secondarycolour"]</p>
+        <input type="color" class="w-full h-10 mt-2" asp-for="SecondaryColor" value="@Model.SecondaryColor" />
+
+        <p class="text-xl font-medium pt-4">@Localizer["Accentcolour"]</p>
+        <input type="color" class="w-full h-10 mt-2" asp-for="BackgroundColor" value="@Model.BackgroundColor" />
+
+        <div class="flex justify-end w-full mt-10 mb-4">
+            <input type="submit" value="@Localizer["Changecolour"]" class="bg-[@Model.SecondaryColor] w-96 hover:bg-[@Model.BackgroundColor] font-bold rounded py-2 text-white cursor-pointer">
+        </div>
+    </form>
+</div>

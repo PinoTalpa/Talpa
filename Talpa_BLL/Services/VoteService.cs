@@ -15,6 +15,7 @@ namespace Talpa_BLL.Services
         {
             _voteRepository = voteRepository;
         }
+
         public async Task<Vote> CreateVoteAsync(Vote vote)
         {
             VoteDto voteDto = new()
@@ -60,6 +61,13 @@ namespace Talpa_BLL.Services
                 results.Add(result);
             }
             return results;
+        }
+
+        public int GetVoteCountBySuggestionAsync(int Id)
+        {
+            int voteCount = _voteRepository.GetVoteCountBySuggestionAsync(Id);
+            
+            return voteCount;
         }
 
         public async Task<Vote> getExistingVoteAsync(Vote vote)
