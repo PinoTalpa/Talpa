@@ -24,6 +24,7 @@ namespace Talpa_BLL.Services
         {
             await _userRepository.Login(userId, name, email );
         }
+
         public async Task<UserDto> GetUserAsync(string userId)
         {
             UserDto user = await _userRepository.GetUserAsync(userId);
