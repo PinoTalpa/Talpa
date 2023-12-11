@@ -1,8 +1,23 @@
 @{
     ViewData["Title"] = "Access Denied";
+
+    var primaryColor = Context.Request.Cookies["PrimaryColor"] ?? "000000";
+    var secondaryColor = Context.Request.Cookies["SecondaryColor"] ?? "5236AB";
+    var backgroundColor = Context.Request.Cookies["BackgroundColor"] ?? "000000";
 }
 
 <header>
-    <h1 class="text-danger">Access Denied.</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
+    <div class="min-h-screen bg-white md:flex">
+        <div class="w-full md:w-1/2 flex items-center justify-center bg-white">
+            <div class="max-w-sm m-8 mb-28">
+                <div class="text-black text-5xl md:text-16xl font-black">403</div>
+                <div class="w-16 h-1 bg-blue-dark"></div>
+                <p class="text-grey-darker text-2xl md:text-3xl font-light mb-8 leading-normal">@Localizer["NoPermission"]</p>
+                <a href="/" class="bg-[@secondaryColor] hover:bg-[@backgroundColor] text-white py-3 px-6 rounded-md">@Localizer["GoHome"]</a>
+            </div>
+        </div>
+        <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2">
+            <img src="@Url.Content("~/img/main/cgi.jpg")" class="absolute inset-0 bg-cover px-2 md:px-0 pt-6 bg-no-repeat md:bg-right lg:bg-center"/>
+        </div>
+    </div>
 </header>
